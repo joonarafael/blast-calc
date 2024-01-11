@@ -1,5 +1,7 @@
 "use client";
 
+// Client view for Home Page
+
 import Container from "./components/container";
 import { Button } from "./components/ui/button";
 

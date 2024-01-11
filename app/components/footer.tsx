@@ -1,6 +1,7 @@
 "use client";
 
-import { AiOutlineCopyright } from "react-icons/ai";
+// site footer
+
 import { DiMitlicence } from "react-icons/di";
 
 const Footer = () => {

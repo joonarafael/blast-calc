@@ -1,9 +1,10 @@
+// APPLICATION ROOT LAYOUT
+
 import type { Metadata } from "next";
 import "./globals.css";
 
 import { Inter } from "next/font/google";
 
-import ClientOnly from "./components/clientonly";
 import Footer from "./components/footer";
 import { Toaster } from "./components/ui/sonner";
 

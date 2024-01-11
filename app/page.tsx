@@ -1,3 +1,5 @@
+// HOME PAGE
+
 import ClientOnly from "./components/clientonly";
 import HomeClient from "./homeclient";
 

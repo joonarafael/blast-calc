@@ -1,3 +1,6 @@
+// function to validate width and height of the field
+// required as the URL can be altered by the user
+
 export function fieldSizeValidation(size: any) {
 	if (!size) {
 		return "No size specified.";
