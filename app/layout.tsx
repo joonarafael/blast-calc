@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 
 import ClientOnly from "./components/clientonly";
 import Footer from "./components/footer";
+import { Toaster } from "./components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
 			<body className={inter.className}>
 				<div className="py-4">{children}</div>
 				<Footer />
+				<Toaster />
 			</body>
 		</html>
 	);

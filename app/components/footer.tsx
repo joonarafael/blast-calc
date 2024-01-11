@@ -1,6 +1,7 @@
 "use client";
 
 import { AiOutlineCopyright } from "react-icons/ai";
+import { DiMitlicence } from "react-icons/di";
 
 const Footer = () => {
 	return (
@@ -8,7 +9,7 @@ const Footer = () => {
 			className="
                 flex
                 flex-col
-                gap-3
+                gap-2
                 items-center
                 justify-center
                 max-w-[2520px]
@@ -21,13 +22,11 @@ const Footer = () => {
                 xl:px-20
             "
 		>
-			<div>Blast Calc</div>
+			<div className="font-bold">BLAST CALC</div>
+			<div className="font-light">by Joona Kettunen</div>
 			<div className="flex flex-row text-neutral-500 items-center align-center gap-2">
+				<DiMitlicence size={16} />
 				<span>MIT Licence</span>
-			</div>
-			<div className="flex flex-row text-neutral-500 items-center align-center gap-2">
-				<AiOutlineCopyright size={16} />
-				<span>2024 Joona Rafael Kettunen</span>
 			</div>
 		</div>
 	);
