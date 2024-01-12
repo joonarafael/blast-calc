@@ -34,8 +34,8 @@ const NewPlanSettingsClient = () => {
 		try {
 			const asNumber = parseInt(value, 10);
 
-			if (asNumber < 0) {
-				setFieldWidth(0);
+			if (asNumber < 1) {
+				setFieldWidth(1);
 			} else if (asNumber > 32) {
 				setFieldWidth(32);
 			} else {
@@ -50,8 +50,8 @@ const NewPlanSettingsClient = () => {
 		try {
 			const asNumber = parseInt(value, 10);
 
-			if (asNumber < 0) {
-				setFieldHeight(0);
+			if (asNumber < 1) {
+				setFieldHeight(1);
 			} else if (asNumber > 32) {
 				setFieldHeight(32);
 			} else {
@@ -64,34 +64,41 @@ const NewPlanSettingsClient = () => {
 
 	return (
 		<Container>
-			<div className="w-full flex flex-col gap-4 text-center">
-				<div className="font-bold text-4xl">CREATE A NEW PLAN</div>
-				<div className="font-light text-neutral-500">
-					Start by giving the field size and other global variables.
-				</div>
-				<hr />
-				<div className="flex flex-row gap-4 w-full">
-					<div className="flex flex-col gap-2 p-4 border w-1/2">
-						<div>FIELD WIDTH</div>
-						<div className="font-light text-neutral-500">{`1 - 32`}</div>
-						<Input
-							value={fieldWidth}
-							type="number"
-							onChange={(e) => handleFieldWidthChange(e.target.value)}
-						/>
+			<div className="w-full flex justify-center">
+				<div className="max-w-screen-md items-center">
+					<div className="w-full flex flex-col gap-4 text-center">
+						<div className="font-bold text-4xl">CREATE A NEW PLAN</div>
+						<div className="font-light text-neutral-500">
+							Start by giving the field size and other global variables.
+						</div>
+						<hr />
+						<div>Enter values between 1 and 32.</div>
+						<div className="flex flex-row gap-4 w-full">
+							<div className="flex flex-col gap-2 p-4 border w-1/2">
+								<label htmlFor="fieldWidth">FIELD WIDTH</label>
+								<Input
+									value={fieldWidth}
+									type="number"
+									id="fieldWidth"
+									placeholder="Field Width"
+									onChange={(e) => handleFieldWidthChange(e.target.value)}
+								/>
+							</div>
+							<div className="flex flex-col gap-2 p-4 border w-1/2">
+								<label htmlFor="fieldHeight">FIELD HEIGHT</label>
+								<Input
+									value={fieldHeight}
+									type="number"
+									id="fieldHeight"
+									placeholder="Field Height"
+									onChange={(e) => handleFieldHeightChange(e.target.value)}
+								/>
+							</div>
+						</div>
+						<hr />
+						<Button onClick={handleNewPlan}>CREATE</Button>
 					</div>
-					<div className="flex flex-col gap-2 p-4 border w-1/2">
-						<div>FIELD HEIGHT</div>
-						<div className="font-light text-neutral-500">{`1 - 32`}</div>
-						<Input
-							value={fieldHeight}
-							type="number"
-							onChange={(e) => handleFieldHeightChange(e.target.value)}
-						/>
-					</div>
 				</div>
-				<hr />
-				<Button onClick={handleNewPlan}>CREATE</Button>
 			</div>
 		</Container>
 	);

@@ -1,9 +1,63 @@
 "use client";
 
-const ToolBar = () => {
+import {
+	Menubar,
+	MenubarContent,
+	MenubarItem,
+	MenubarMenu,
+	MenubarSeparator,
+	MenubarShortcut,
+	MenubarTrigger,
+} from "@/app/components/ui/menubar";
+
+interface ToolBarProps {
+	zoom: number;
+	setZoom: (value: number) => void;
+}
+
+const ToolBar: React.FC<ToolBarProps> = ({ zoom, setZoom }) => {
+	const zoomIn = () => {
+		if (zoom < 6) {
+			setZoom(zoom + 1);
+		}
+	};
+
+	const zoomOut = () => {
+		if (zoom > 1) {
+			setZoom(zoom - 1);
+		}
+	};
+
 	return (
-		<div className="border rounded-lg p-4 flex flex-row gap-4">
-			<div>This is the toolbar</div>
+		<div>
+			<Menubar>
+				<MenubarMenu>
+					<MenubarTrigger>File</MenubarTrigger>
+					<MenubarContent>
+						<MenubarItem
+							onClick={() => {
+								console.log("Clicked");
+							}}
+						>
+							New Plan
+						</MenubarItem>
+						<MenubarSeparator />
+						<MenubarItem>Share</MenubarItem>
+						<MenubarItem>Print</MenubarItem>
+						<MenubarSeparator />
+						<MenubarItem onClick={() => window.open("/", "_self")}>
+							Exit to front page
+						</MenubarItem>
+					</MenubarContent>
+				</MenubarMenu>
+				<MenubarMenu>
+					<MenubarTrigger>View</MenubarTrigger>
+					<MenubarContent>
+						<MenubarItem onClick={zoomIn}>Zoom In</MenubarItem>
+						<MenubarItem onClick={zoomOut}>Zoom Out</MenubarItem>
+					</MenubarContent>
+				</MenubarMenu>
+			</Menubar>
 		</div>
 	);
 };

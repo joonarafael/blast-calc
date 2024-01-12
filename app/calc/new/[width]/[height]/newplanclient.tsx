@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+
 import Calculator from "@/app/calc/calculator";
 import Container from "@/app/components/container";
 

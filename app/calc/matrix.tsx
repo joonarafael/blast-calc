@@ -5,27 +5,22 @@ import BoreHole from "./borehole";
 interface MatrixProps {
 	width: number;
 	height: number;
-	field: number[];
+	field: number[][];
+	zoom: number;
 }
 
-const Matrix: React.FC<MatrixProps> = ({ width, height, field }) => {
+const Matrix: React.FC<MatrixProps> = ({ width, height, field, zoom }) => {
 	return (
 		<div className="flex flex-col p-2">
-			<div
-				className={`
-                    grid
-                    gap-6
-                    grid-cols-${width}
-                `}
-			>
-				{field.map((item, i) => {
-					return (
-						<div key={i} className="col-span-1">
-							<BoreHole index={item} />
+			{field.map((row, rowIndex) => (
+				<div key={rowIndex} className="flex">
+					{row.map((item, colIndex) => (
+						<div key={colIndex}>
+							<BoreHole index={item} zoom={zoom} />
 						</div>
-					);
-				})}
-			</div>
+					))}
+				</div>
+			))}
 		</div>
 	);
 };
