@@ -1,63 +1,47 @@
 "use client";
 
-import {
-	Menubar,
-	MenubarContent,
-	MenubarItem,
-	MenubarMenu,
-	MenubarSeparator,
-	MenubarShortcut,
-	MenubarTrigger,
-} from "@/app/components/ui/menubar";
-
 interface ToolBarProps {
-	zoom: number;
-	setZoom: (value: number) => void;
+	tool: string;
+	setTool: (tool: string) => void;
 }
 
-const ToolBar: React.FC<ToolBarProps> = ({ zoom, setZoom }) => {
-	const zoomIn = () => {
-		if (zoom < 6) {
-			setZoom(zoom + 1);
-		}
+const ToolBar: React.FC<ToolBarProps> = ({ tool, setTool }) => {
+	const handleToolChange = (tool: string) => {
+		setTool(tool);
 	};
 
-	const zoomOut = () => {
-		if (zoom > 1) {
-			setZoom(zoom - 1);
-		}
-	};
+	const commonCSS = `cursor-pointer text-lg hover:pl-4 hover:underline rounded border p-2`;
 
 	return (
-		<div>
-			<Menubar>
-				<MenubarMenu>
-					<MenubarTrigger>File</MenubarTrigger>
-					<MenubarContent>
-						<MenubarItem
-							onClick={() => {
-								console.log("Clicked");
-							}}
-						>
-							New Plan
-						</MenubarItem>
-						<MenubarSeparator />
-						<MenubarItem>Share</MenubarItem>
-						<MenubarItem>Print</MenubarItem>
-						<MenubarSeparator />
-						<MenubarItem onClick={() => window.open("/", "_self")}>
-							Exit to front page
-						</MenubarItem>
-					</MenubarContent>
-				</MenubarMenu>
-				<MenubarMenu>
-					<MenubarTrigger>View</MenubarTrigger>
-					<MenubarContent>
-						<MenubarItem onClick={zoomIn}>Zoom In</MenubarItem>
-						<MenubarItem onClick={zoomOut}>Zoom Out</MenubarItem>
-					</MenubarContent>
-				</MenubarMenu>
-			</Menubar>
+		<div className="flex flex-col p-2 gap-2 w-full">
+			<div className="font-light text-neutral-500 text-xs">SELECTED TOOL</div>
+			<div className="font-bold text-2xl">{tool}</div>
+			<hr />
+			<div className="font-light text-neutral-500 text-xs">TOOL SELECTION</div>
+			<div className={commonCSS} onClick={() => handleToolChange("entry")}>
+				Entry
+			</div>
+			<div className={commonCSS} onClick={() => handleToolChange("0")}>
+				0 ms
+			</div>
+			<div className={commonCSS} onClick={() => handleToolChange("9")}>
+				9 ms
+			</div>
+			<div className={commonCSS} onClick={() => handleToolChange("17")}>
+				17 ms
+			</div>
+			<div className={commonCSS} onClick={() => handleToolChange("25")}>
+				25 ms
+			</div>
+			<div className={commonCSS} onClick={() => handleToolChange("42")}>
+				42 ms
+			</div>
+			<div className={commonCSS} onClick={() => handleToolChange("67")}>
+				67 ms
+			</div>
+			<div className={commonCSS} onClick={() => handleToolChange("109")}>
+				109 ms
+			</div>
 		</div>
 	);
 };
