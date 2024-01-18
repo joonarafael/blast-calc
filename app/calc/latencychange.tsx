@@ -36,6 +36,10 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 		}
 	};
 
+	const handleResetDefaults = () => {
+		setLatencySelection([0, 9, 17, 25, 42, 67, 109]);
+	};
+
 	const handleSort = () => {
 		const tmp = [...latencySelection];
 		tmp.sort((a, b) => a - b);
@@ -53,10 +57,15 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 	};
 
 	const handleRemove = (index: number) => {
-		const tmp = [...latencySelection];
-		tmp.splice(index, 1);
+		if (latencySelection.length > 1) {
+			const tmp = [...latencySelection];
+			tmp.splice(index, 1);
 
-		setLatencySelection(tmp);
+			setLatencySelection(tmp);
+			return;
+		}
+
+		toast("At least one latency should be available.");
 	};
 
 	const handleSaveChanges = () => {
@@ -88,16 +97,32 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 	}
 
 	return (
-		<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 border rounded-lg p-4">
+		<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-4 border rounded-lg p-4">
+			<div className="flex flex-col gap-2 border rounded p-2 border-emerald-500">
+				<Button onClick={handleResetDefaults} className="h-full">
+					<p className="font-bold text-lg">RESET DEFAULTS</p>
+				</Button>
+			</div>
 			<div className="flex flex-col gap-2 border rounded p-2 border-sky-500">
 				<Button onClick={handleSort} className="h-full">
-					<p className="font-bold text-lg">SORT</p>
+					<p className="font-bold text-lg">SORT LIST</p>
+				</Button>
+			</div>
+
+			<div className="flex flex-col gap-2 border rounded p-2 border-fuchsia-500 h-full">
+				<Button onClick={handleAddNew} className="h-full">
+					<p className="font-bold text-lg">ADD NEW</p>
+				</Button>
+			</div>
+			<div className="flex flex-col gap-2 border rounded p-2 border-green-500 h-full">
+				<Button onClick={handleSaveChanges} className="h-full">
+					<p className="font-bold text-lg">SAVE CHANGES</p>
 				</Button>
 			</div>
 			{latencySelection.map((item, i) => (
 				<div
 					key={i}
-					className={`flex flex-col gap-2 border rounded p-2 ${
+					className={`h-full flex flex-col gap-2 border rounded p-2 ${
 						counts[item] > 1 ? "border-red-500" : "border-neutral-500"
 					}`}
 				>
@@ -121,20 +146,6 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 					</Button>
 				</div>
 			))}
-			<div className="flex flex-col gap-2 border rounded p-2 border-yellow-500">
-				<Button onClick={handleAddNew} className="h-full">
-					<p className="font-bold text-lg">ADD NEW</p>
-				</Button>
-			</div>
-			<div className="flex flex-col gap-2 border rounded p-2 border-green-500">
-				<Button onClick={handleSaveChanges} className="h-full">
-					<p className="font-bold text-lg">
-						SAVE
-						<br />
-						SELECTION
-					</p>
-				</Button>
-			</div>
 		</div>
 	);
 };

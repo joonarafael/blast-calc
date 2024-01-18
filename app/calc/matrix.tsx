@@ -11,6 +11,7 @@ interface MatrixProps {
 	zoom: number;
 	selectedBoreHole?: number | null;
 	boreHoleClick: (coords: number[]) => void;
+	connectionClick: (coords: number[]) => void;
 }
 
 const Matrix: React.FC<MatrixProps> = ({
@@ -21,6 +22,7 @@ const Matrix: React.FC<MatrixProps> = ({
 	zoom,
 	selectedBoreHole,
 	boreHoleClick,
+	connectionClick,
 }) => {
 	return (
 		<div className="flex flex-col p-2">
@@ -40,11 +42,23 @@ const Matrix: React.FC<MatrixProps> = ({
 											boreHoleClick={boreHoleClick}
 										/>
 									) : (
-										<Connection index={item} zoom={zoom} />
+										<Connection
+											index={item}
+											coords={[rowIndex, colIndex]}
+											zoom={zoom}
+											status={fieldStatus[rowIndex][colIndex]}
+											connectionClick={connectionClick}
+										/>
 									)}
 								</>
 							) : (
-								<Connection index={item} zoom={zoom} />
+								<Connection
+									index={item}
+									coords={[rowIndex, colIndex]}
+									zoom={zoom}
+									status={fieldStatus[rowIndex][colIndex]}
+									connectionClick={connectionClick}
+								/>
 							)}
 						</div>
 					))}

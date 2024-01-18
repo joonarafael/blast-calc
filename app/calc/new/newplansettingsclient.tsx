@@ -95,6 +95,7 @@ const NewPlanSettingsClient = () => {
 								/>
 							</div>
 						</div>
+						<div>THE FIELD WIDTH & HEIGHT CANNOT BE ALTERED AFTERWARDS.</div>
 						<hr />
 						<Button onClick={handleNewPlan}>CREATE</Button>
 					</div>

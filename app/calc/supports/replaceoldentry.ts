@@ -1,3 +1,5 @@
+"use client";
+
 export default function replaceOldEntry(
 	fieldStatus: number[][],
 	setFieldStatus: (arr: number[][]) => void

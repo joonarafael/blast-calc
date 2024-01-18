@@ -2,10 +2,23 @@
 
 interface ConnectionProps {
 	index: number;
+	coords: number[];
 	zoom: number;
+	status: number;
+	connectionClick: (coords: number[]) => void;
 }
 
-const Connection: React.FC<ConnectionProps> = ({ index, zoom }) => {
+const Connection: React.FC<ConnectionProps> = ({
+	index,
+	zoom,
+	status,
+	connectionClick,
+	coords,
+}) => {
+	const handleClick = () => {
+		connectionClick(coords);
+	};
+
 	const commonCSS = `flex items-center justify-center p-2`;
 
 	let size = "text-xs min-w-10 min-h-10";
@@ -22,9 +35,18 @@ const Connection: React.FC<ConnectionProps> = ({ index, zoom }) => {
 		size = "text-base min-w-36 min-h-36";
 	}
 
+	let interactiveCSS = "";
+
+	if (status !== -1) {
+		interactiveCSS = "cursor-pointer hover:font-bold";
+	}
+
 	return (
-		<div className={`${commonCSS} ${size}`}>
-			<div>c</div>
+		<div
+			className={`${commonCSS} ${size} ${interactiveCSS}`}
+			onClick={handleClick}
+		>
+			<div>{status !== -1 ? <>{status}</> : <></>}</div>
 		</div>
 	);
 };

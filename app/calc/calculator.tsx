@@ -6,6 +6,7 @@ import Container from "../components/container";
 import LatencyChange from "./latencychange";
 import Matrix from "./matrix";
 import Menu from "./menu";
+import initConnection from "./supports/initconnection";
 import replaceOldEntry from "./supports/replaceoldentry";
 import ToolBar from "./toolbar";
 
@@ -20,7 +21,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	const field = Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
 		Array.from(
 			{ length: width * 2 - 1 },
-			(_, colIndex) => rowIndex * width + colIndex
+			(_, colIndex) => rowIndex * (width * 2 - 1) + colIndex
 		)
 	);
 
@@ -55,26 +56,37 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 			replaceOldEntry(fieldStatus, setFieldStatus);
 		}
 
-		setFieldStatus((prevFieldStatus) => {
-			const newFieldStatus = [...prevFieldStatus];
-			newFieldStatus[coords[0]] = [...newFieldStatus[coords[0]]];
-			newFieldStatus[coords[0]][coords[1]] = newValue;
+		const tmp = [...fieldStatus];
+		tmp[coords[0]] = [...tmp[coords[0]]];
+		tmp[coords[0]][coords[1]] = newValue;
 
-			return newFieldStatus;
-		});
+		setFieldStatus(tmp);
 	};
 
 	const boreHoleClick = (position: number[]) => {
 		if (tool === "entry") {
 			updateFieldValue(position, 0);
-		} else if (tool === "reset") {
+		} else if (tool === "eraser") {
 			updateFieldValue(position, -1);
 		} else {
 			if (selectedBoreHole === null) {
 				setSelectedBoreHole(position[2]);
 			} else {
-				console.log(position[2]);
+				initConnection(
+					selectedBoreHole,
+					position[2],
+					width * 2 - 1,
+					updateFieldValue,
+					tool
+				);
+				setSelectedBoreHole(null);
 			}
+		}
+	};
+
+	const connectionClick = (position: number[]) => {
+		if (tool === "eraser") {
+			updateFieldValue([position[0], position[1]], -1);
 		}
 	};
 
@@ -116,6 +128,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 								zoom={zoom}
 								selectedBoreHole={selectedBoreHole}
 								boreHoleClick={boreHoleClick}
+								connectionClick={connectionClick}
 							/>
 						</div>
 					</div>
@@ -125,6 +138,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 								tool={tool}
 								setTool={setTool}
 								latencySelection={latencySelection}
+								setLatencyChangeView={setLatencyChangeView}
 							/>
 						</div>
 					</div>

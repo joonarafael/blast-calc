@@ -1,15 +1,19 @@
 "use client";
 
+import { Button } from "../components/ui/button";
+
 interface ToolBarProps {
 	tool: string;
 	setTool: (tool: string) => void;
 	latencySelection: number[];
+	setLatencyChangeView: (value: boolean) => void;
 }
 
 const ToolBar: React.FC<ToolBarProps> = ({
 	tool,
 	setTool,
 	latencySelection,
+	setLatencyChangeView,
 }) => {
 	const handleToolChange = (tool: string) => {
 		setTool(tool);
@@ -29,6 +33,12 @@ const ToolBar: React.FC<ToolBarProps> = ({
 			>
 				Entry
 			</div>
+			<div
+				className={`${commonCSS} border-pink-500`}
+				onClick={() => handleToolChange("eraser")}
+			>
+				Eraser
+			</div>
 			{latencySelection.map((item, i) => (
 				<div
 					key={i}
@@ -38,12 +48,21 @@ const ToolBar: React.FC<ToolBarProps> = ({
 					{item}
 				</div>
 			))}
-			<div
-				className={`${commonCSS} border-neutral-500`}
-				onClick={() => handleToolChange("reset")}
+			<hr />
+			<Button
+				className="h-full"
+				onClick={() => {
+					setLatencyChangeView(true);
+				}}
 			>
-				Borehole reset
-			</div>
+				<p className="font-bold">
+					CONFIGURE
+					<br />
+					LATENCY
+					<br />
+					SELECTION
+				</p>
+			</Button>
 		</div>
 	);
 };

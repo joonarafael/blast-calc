@@ -62,7 +62,9 @@ const Menu: React.FC<MenuProps> = ({
 				<MenubarMenu>
 					<MenubarTrigger>File</MenubarTrigger>
 					<MenubarContent>
-						<MenubarItem>New Plan</MenubarItem>
+						<MenubarItem onClick={() => window.open("/calc/new", "_blank")}>
+							New Plan
+						</MenubarItem>
 						<MenubarSeparator />
 						<MenubarItem>Analyze</MenubarItem>
 						<MenubarSeparator />
