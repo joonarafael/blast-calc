@@ -3,9 +3,14 @@
 interface ToolBarProps {
 	tool: string;
 	setTool: (tool: string) => void;
+	latencySelection: number[];
 }
 
-const ToolBar: React.FC<ToolBarProps> = ({ tool, setTool }) => {
+const ToolBar: React.FC<ToolBarProps> = ({
+	tool,
+	setTool,
+	latencySelection,
+}) => {
 	const handleToolChange = (tool: string) => {
 		setTool(tool);
 	};
@@ -18,29 +23,26 @@ const ToolBar: React.FC<ToolBarProps> = ({ tool, setTool }) => {
 			<div className="font-bold text-2xl">{tool}</div>
 			<hr />
 			<div className="font-light text-neutral-500 text-xs">TOOL SELECTION</div>
-			<div className={commonCSS} onClick={() => handleToolChange("entry")}>
+			<div
+				className={`${commonCSS} border-indigo-500`}
+				onClick={() => handleToolChange("entry")}
+			>
 				Entry
 			</div>
-			<div className={commonCSS} onClick={() => handleToolChange("0")}>
-				0 ms
-			</div>
-			<div className={commonCSS} onClick={() => handleToolChange("9")}>
-				9 ms
-			</div>
-			<div className={commonCSS} onClick={() => handleToolChange("17")}>
-				17 ms
-			</div>
-			<div className={commonCSS} onClick={() => handleToolChange("25")}>
-				25 ms
-			</div>
-			<div className={commonCSS} onClick={() => handleToolChange("42")}>
-				42 ms
-			</div>
-			<div className={commonCSS} onClick={() => handleToolChange("67")}>
-				67 ms
-			</div>
-			<div className={commonCSS} onClick={() => handleToolChange("109")}>
-				109 ms
+			{latencySelection.map((item, i) => (
+				<div
+					key={i}
+					className={`${commonCSS}`}
+					onClick={() => handleToolChange(`${item}`)}
+				>
+					{item}
+				</div>
+			))}
+			<div
+				className={`${commonCSS} border-neutral-500`}
+				onClick={() => handleToolChange("reset")}
+			>
+				Borehole reset
 			</div>
 		</div>
 	);
