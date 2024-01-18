@@ -62,13 +62,7 @@ const Menu: React.FC<MenuProps> = ({
 				<MenubarMenu>
 					<MenubarTrigger>File</MenubarTrigger>
 					<MenubarContent>
-						<MenubarItem
-							onClick={() => {
-								console.log("Clicked");
-							}}
-						>
-							New Plan
-						</MenubarItem>
+						<MenubarItem>New Plan</MenubarItem>
 						<MenubarSeparator />
 						<MenubarItem>Analyze</MenubarItem>
 						<MenubarSeparator />

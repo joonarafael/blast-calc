@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Scrollbars } from "react-custom-scrollbars-2";
 
 import Container from "../components/container";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
 import LatencyChange from "./latencychange";
 import Matrix from "./matrix";
 import Menu from "./menu";
+import replaceOldEntry from "./supports/replaceoldentry";
 import ToolBar from "./toolbar";
 
 interface CalculatorProps {
@@ -52,31 +50,9 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 
 	const [selectedBoreHole, setSelectedBoreHole] = useState<number | null>(null);
 
-	const replaceOldEntry = () => {
-		let tmp = [...fieldStatus];
-
-		let rowIndex, columnIndex;
-
-		outerLoop: for (let i = 0; i < tmp.length; i++) {
-			for (let j = 0; j < tmp[i].length; j++) {
-				if (tmp[i][j] === 0) {
-					rowIndex = i;
-					columnIndex = j;
-					break outerLoop;
-				}
-			}
-		}
-
-		if (rowIndex !== undefined && columnIndex !== undefined) {
-			tmp[rowIndex][columnIndex] = -1;
-		}
-
-		setFieldStatus(tmp);
-	};
-
 	const updateFieldValue = (coords: number[], newValue: number) => {
 		if (tool === "entry") {
-			replaceOldEntry();
+			replaceOldEntry(fieldStatus, setFieldStatus);
 		}
 
 		setFieldStatus((prevFieldStatus) => {

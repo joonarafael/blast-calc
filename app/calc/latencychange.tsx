@@ -68,7 +68,9 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 		}
 
 		for (const val of keys) {
-			if (counts[val] !== 1) {
+			const numVal = parseInt(val, 10);
+
+			if (counts[numVal] !== 1) {
 				toast("Do not enter duplicate values.");
 				return;
 			}
@@ -79,7 +81,7 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 		setLatencyChangeView(false);
 	};
 
-	const counts = {};
+	const counts: Record<number, number> = {};
 
 	for (const num of latencySelection) {
 		counts[num] = counts[num] ? counts[num] + 1 : 1;
