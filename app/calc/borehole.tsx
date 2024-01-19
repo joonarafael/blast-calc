@@ -3,6 +3,7 @@
 interface BoreHoleProps {
 	index: number;
 	status: number;
+	value: number;
 	coords: number[];
 	zoom: number;
 	selectedBoreHole?: number | null;
@@ -13,6 +14,7 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 	index,
 	coords,
 	status,
+	value,
 	zoom,
 	selectedBoreHole,
 	boreHoleClick,
@@ -29,9 +31,11 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 				? `text-red-200 bg-red-700`
 				: status === 0
 				? `bg-indigo-500 hover:text-red-200 hover:bg-red-700`
+				: status === 2
+				? `bg-slate-500 hover:text-red-200 hover:bg-red-700`
 				: `hover:text-red-200 hover:bg-red-700 bg-transparent`
 		}
-		${status === -1 ? `border-neutral-500 border-1` : `border-white-500 border-2`}
+		${status === -1 ? `border-neutral-50 border-1` : `border-white-500 border-2`}
 		}
 		
 		`;
@@ -56,7 +60,7 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 
 	return (
 		<div onClick={handleClick} className={`${commonCSS} ${size}`}>
-			<div>{status !== -1 ? <>{status}</> : <></>}</div>
+			<div>{status === 0 ? <>{"E"}</> : <></>}</div>
 		</div>
 	);
 };

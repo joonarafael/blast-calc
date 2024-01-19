@@ -8,6 +8,7 @@ interface MatrixProps {
 	height: number;
 	field: number[][];
 	fieldStatus: number[][];
+	fieldValues: number[][];
 	zoom: number;
 	selectedBoreHole?: number | null;
 	boreHoleClick: (coords: number[]) => void;
@@ -19,6 +20,7 @@ const Matrix: React.FC<MatrixProps> = ({
 	height,
 	field,
 	fieldStatus,
+	fieldValues,
 	zoom,
 	selectedBoreHole,
 	boreHoleClick,
@@ -38,6 +40,7 @@ const Matrix: React.FC<MatrixProps> = ({
 											coords={[rowIndex, colIndex]}
 											zoom={zoom}
 											status={fieldStatus[rowIndex][colIndex]}
+											value={fieldValues[rowIndex][colIndex]}
 											selectedBoreHole={selectedBoreHole}
 											boreHoleClick={boreHoleClick}
 										/>
@@ -47,6 +50,7 @@ const Matrix: React.FC<MatrixProps> = ({
 											coords={[rowIndex, colIndex]}
 											zoom={zoom}
 											status={fieldStatus[rowIndex][colIndex]}
+											value={fieldValues[rowIndex][colIndex]}
 											connectionClick={connectionClick}
 										/>
 									)}
@@ -57,6 +61,7 @@ const Matrix: React.FC<MatrixProps> = ({
 									coords={[rowIndex, colIndex]}
 									zoom={zoom}
 									status={fieldStatus[rowIndex][colIndex]}
+									value={fieldValues[rowIndex][colIndex]}
 									connectionClick={connectionClick}
 								/>
 							)}

@@ -1,12 +1,12 @@
 "use client";
 
-import getColIndex from "../getcolindex";
-import getRowIndex from "../getrowindex";
+import getColIndex from '../getcolindex';
+import getRowIndex from '../getrowindex';
 
 export default function connectNorthEast(
 	start: number,
-	end: number,
 	width: number,
+	updateFieldStatus: (coords: number[], newValue: number) => void,
 	updateFieldValue: (coords: number[], newValue: number) => void,
 	tool: string
 ) {
@@ -19,5 +19,6 @@ export default function connectNorthEast(
 
 	console.log(targetIndexRow, targetIndexCol);
 
-	updateFieldValue([targetIndexRow, targetIndexCol], parseInt(tool, 10));
+	updateFieldValue([targetIndexRow, targetIndexCol], 1);
+	updateFieldStatus([targetIndexRow, targetIndexCol], parseInt(tool, 10));
 }

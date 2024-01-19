@@ -18,6 +18,7 @@ interface CalculatorProps {
 const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	const [latencyChangeView, setLatencyChangeView] = useState(false);
 
+	// master matrix for indexing, does not ever change
 	const field = Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
 		Array.from(
 			{ length: width * 2 - 1 },
@@ -25,9 +26,17 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 		)
 	);
 
+	// field status keeps track of different types of boreholes and individual connection latencies
 	const [fieldStatus, setFieldStatus] = useState(() => {
 		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
 			Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
+		);
+	});
+
+	// field values stores the actual calculated latencies and connection direction
+	const [fieldValues, setFieldValues] = useState(() => {
+		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
+			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
 		);
 	});
 
@@ -51,23 +60,37 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 
 	const [selectedBoreHole, setSelectedBoreHole] = useState<number | null>(null);
 
-	const updateFieldValue = (coords: number[], newValue: number) => {
+	const updateFieldStatus = (coords: number[], newValue: number) => {
 		if (tool === "entry") {
 			replaceOldEntry(fieldStatus, setFieldStatus);
 		}
 
-		const tmp = [...fieldStatus];
-		tmp[coords[0]] = [...tmp[coords[0]]];
-		tmp[coords[0]][coords[1]] = newValue;
+		if (newValue === 2 && fieldStatus[coords[0]][coords[1]] === 0) {
+			return;
+		}
 
-		setFieldStatus(tmp);
+		setFieldStatus((prevFieldStatus) => {
+			const tmp = [...prevFieldStatus];
+			tmp[coords[0]] = [...tmp[coords[0]]];
+			tmp[coords[0]][coords[1]] = newValue;
+			return tmp;
+		});
+	};
+
+	const updateFieldValue = (coords: number[], newValue: number) => {
+		setFieldValues((prevFieldValues) => {
+			const tmp = [...prevFieldValues];
+			tmp[coords[0]] = [...tmp[coords[0]]];
+			tmp[coords[0]][coords[1]] = newValue;
+			return tmp;
+		});
 	};
 
 	const boreHoleClick = (position: number[]) => {
 		if (tool === "entry") {
-			updateFieldValue(position, 0);
+			updateFieldStatus(position, 0);
 		} else if (tool === "eraser") {
-			updateFieldValue(position, -1);
+			updateFieldStatus(position, -1);
 		} else {
 			if (selectedBoreHole === null) {
 				setSelectedBoreHole(position[2]);
@@ -76,6 +99,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					selectedBoreHole,
 					position[2],
 					width * 2 - 1,
+					updateFieldStatus,
 					updateFieldValue,
 					tool
 				);
@@ -86,7 +110,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 
 	const connectionClick = (position: number[]) => {
 		if (tool === "eraser") {
-			updateFieldValue([position[0], position[1]], -1);
+			updateFieldStatus([position[0], position[1]], -1);
 		}
 	};
 
@@ -125,6 +149,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 								height={height}
 								field={field}
 								fieldStatus={fieldStatus}
+								fieldValues={fieldValues}
 								zoom={zoom}
 								selectedBoreHole={selectedBoreHole}
 								boreHoleClick={boreHoleClick}
