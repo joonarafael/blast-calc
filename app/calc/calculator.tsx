@@ -6,7 +6,6 @@ import Container from "../components/container";
 import LatencyChange from "./latencychange";
 import Matrix from "./matrix";
 import Menu from "./menu";
-import checkUnconnectedBoreholes from "./supports/boreholes/checkunconnectedboreholes";
 import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnections";
 import initConnection from "./supports/initconnection";
 import replaceOldEntry from "./supports/replaceoldentry";
@@ -19,6 +18,10 @@ interface CalculatorProps {
 
 const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	const [latencyChangeView, setLatencyChangeView] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [zoom, setZoom] = useState(4);
+	const [tool, setTool] = useState("entry");
+	const [selectedBoreHole, setSelectedBoreHole] = useState<number | null>(null);
 
 	// master matrix for indexing, does not ever change
 	const field = Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
@@ -43,114 +46,119 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	});
 
 	const debugStates = () => {
-		console.log("DEBUG:");
-		console.log(field);
-		console.log(fieldStatus);
-		console.log(fieldValues);
+		if (!isLoading) {
+			console.log("DEBUG:");
+			console.log(field);
+			console.log(fieldStatus);
+			console.log(fieldValues);
+		}
 	};
 
 	const resetField = () => {
-		setSelectedBoreHole(null);
-		setTool("entry");
-		setFieldStatus(
-			Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-				Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
-			)
-		);
-		setFieldValues(
-			Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-				Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
-			)
-		);
+		if (!isLoading) {
+			setSelectedBoreHole(null);
+			setTool("entry");
+			setFieldStatus(
+				Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
+					Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
+				)
+			);
+			setFieldValues(
+				Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
+					Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
+				)
+			);
+		}
 	};
 
 	const [latencySelection, setLatencySelection] = useState([
 		0, 9, 17, 25, 42, 67, 109,
 	]);
 
-	const [zoom, setZoom] = useState(4);
-
-	const [tool, setTool] = useState("entry");
-
-	const [selectedBoreHole, setSelectedBoreHole] = useState<number | null>(null);
-
 	const updateFieldStatus = (coords: number[], newValue: number) => {
-		if (tool === "entry") {
-			replaceOldEntry(fieldStatus, setFieldStatus);
-		}
+		if (!isLoading) {
+			setIsLoading(true);
+			if (tool === "entry") {
+				replaceOldEntry(fieldStatus, setFieldStatus);
+			}
 
-		if (newValue === 2 && fieldStatus[coords[0]][coords[1]] === 0) {
-			return;
-		}
+			if (newValue === 1 && fieldStatus[coords[0]][coords[1]] === 0) {
+				return;
+			}
 
-		setFieldStatus((prevFieldStatus) => {
-			const tmp = [...prevFieldStatus];
-			tmp[coords[0]] = [...tmp[coords[0]]];
-			tmp[coords[0]][coords[1]] = newValue;
-			return tmp;
-		});
+			setFieldStatus((prevFieldStatus) => {
+				const tmp = [...prevFieldStatus];
+				tmp[coords[0]] = [...tmp[coords[0]]];
+				tmp[coords[0]][coords[1]] = newValue;
+				return tmp;
+			});
+			setIsLoading(false);
+		}
 	};
 
 	const updateFieldValue = (coords: number[], newValue: number) => {
-		setFieldValues((prevFieldValues) => {
-			const tmp = [...prevFieldValues];
-			tmp[coords[0]] = [...tmp[coords[0]]];
-			tmp[coords[0]][coords[1]] = newValue;
-			return tmp;
-		});
-	};
-
-	const checkForUnconnected = (position: number[]) => {
-		setFieldValues((prevFieldValues) => {
-			const tmp = [...prevFieldValues];
-			tmp[position[0]] = [...tmp[position[0]]];
-			tmp[position[0]][position[1]] = -1;
-			return tmp;
-		});
-
-		checkUnconnectedBoreholes(
-			position,
-			fieldValues,
-			updateFieldValue,
-			updateFieldStatus
-		);
+		if (!isLoading) {
+			setIsLoading(true);
+			setFieldValues((prevFieldValues) => {
+				const tmp = [...prevFieldValues];
+				tmp[coords[0]] = [...tmp[coords[0]]];
+				tmp[coords[0]][coords[1]] = newValue;
+				return tmp;
+			});
+			setIsLoading(false);
+		}
 	};
 
 	const boreHoleClick = (position: number[]) => {
-		if (tool === "entry") {
-			updateFieldStatus(position, 0);
-		} else if (tool === "eraser") {
-			updateFieldStatus(position, -1);
+		if (!isLoading) {
+			setIsLoading(true);
+			if (tool === "entry") {
+				updateFieldStatus(position, 0);
+			} else if (tool === "borehole") {
+				updateFieldStatus(position, 1);
+			} else if (tool === "eraser") {
+				updateFieldStatus(position, -1);
 
-			eraseAdjacentConnections(
-				position,
-				fieldValues,
-				updateFieldValue,
-				updateFieldStatus
-			);
-
-			checkForUnconnected(position);
-		} else {
-			if (selectedBoreHole === null) {
-				setSelectedBoreHole(position[2]);
-			} else {
-				initConnection(
-					selectedBoreHole,
-					position[2],
-					width * 2 - 1,
-					updateFieldStatus,
+				eraseAdjacentConnections(
+					position,
+					fieldValues,
 					updateFieldValue,
-					tool
+					updateFieldStatus
 				);
-				setSelectedBoreHole(null);
+			} else {
+				if (selectedBoreHole === null) {
+					setSelectedBoreHole(position[2]);
+				} else {
+					initConnection(
+						selectedBoreHole,
+						position[2],
+						width * 2 - 1,
+						updateFieldStatus,
+						updateFieldValue,
+						tool
+					);
+					setSelectedBoreHole(null);
+				}
 			}
+
+			setIsLoading(false);
 		}
 	};
 
 	const connectionClick = (position: number[]) => {
-		if (tool === "eraser") {
-			updateFieldStatus([position[0], position[1]], -1);
-			updateFieldValue([position[0], position[1]], 0);
+		if (!isLoading) {
+			setIsLoading(true);
+
+			if (tool === "eraser") {
+				updateFieldStatus([position[0], position[1]], -1);
+				updateFieldValue([position[0], position[1]], 0);
+			} else if (tool !== "entry" && tool !== "borehole") {
+				if (fieldStatus[position[0]][position[1]] !== -1) {
+					updateFieldStatus([position[0], position[1]], parseInt(tool, 10));
+				}
+			}
+
+			setIsLoading(false);
 		}
 	};
 
@@ -186,12 +194,11 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					<div className="border rounded-lg w-5/6 h-[80svh] overflow-scroll">
 						<div className="w-max">
 							<Matrix
-								width={width}
-								height={height}
 								field={field}
 								fieldStatus={fieldStatus}
 								fieldValues={fieldValues}
 								zoom={zoom}
+								tool={tool}
 								selectedBoreHole={selectedBoreHole}
 								boreHoleClick={boreHoleClick}
 								connectionClick={connectionClick}

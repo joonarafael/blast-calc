@@ -20,7 +20,8 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 	boreHoleClick,
 }) => {
 	const commonCSS = `border
-		rounded-lg
+		rounded-2xl
+		m-[2px]
 		flex
 		items-center
 		justify-center
@@ -31,7 +32,7 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 				? `text-red-200 bg-red-700`
 				: status === 0
 				? `bg-indigo-500 hover:text-red-200 hover:bg-red-700`
-				: status === 2
+				: status === 1
 				? `bg-slate-500 hover:text-red-200 hover:bg-red-700`
 				: `hover:text-red-200 hover:bg-red-700 bg-transparent`
 		}

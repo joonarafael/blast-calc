@@ -34,6 +34,12 @@ const ToolBar: React.FC<ToolBarProps> = ({
 				Entry
 			</div>
 			<div
+				className={`${commonCSS} border-green-500`}
+				onClick={() => handleToolChange("borehole")}
+			>
+				Borehole
+			</div>
+			<div
 				className={`${commonCSS} border-pink-500`}
 				onClick={() => handleToolChange("eraser")}
 			>
@@ -45,7 +51,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
 					className={`${commonCSS}`}
 					onClick={() => handleToolChange(`${item}`)}
 				>
-					{item}
+					{`${item} ms`}
 				</div>
 			))}
 			<hr />

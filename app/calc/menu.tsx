@@ -46,6 +46,10 @@ const Menu: React.FC<MenuProps> = ({
 		setZoom(1);
 	};
 
+	const zoomDefault = () => {
+		setZoom(4);
+	};
+
 	const zoomMax = () => {
 		setZoom(6);
 	};
@@ -97,6 +101,18 @@ const Menu: React.FC<MenuProps> = ({
 					</MenubarContent>
 				</MenubarMenu>
 				<MenubarMenu>
+					<MenubarTrigger>Edit</MenubarTrigger>
+					<MenubarContent>
+						<MenubarItem
+							onClick={() => {
+								setLatencyChangeView(true);
+							}}
+						>
+							Edit Latency Times
+						</MenubarItem>
+					</MenubarContent>
+				</MenubarMenu>
+				<MenubarMenu>
 					<MenubarTrigger>View</MenubarTrigger>
 					<MenubarContent>
 						<MenubarItem onClick={zoomIn}>Zoom In</MenubarItem>
@@ -105,20 +121,10 @@ const Menu: React.FC<MenuProps> = ({
 						<MenubarItem onClick={zoomMin}>Zoom Minimum</MenubarItem>
 						<MenubarItem onClick={zoomMax}>Zoom Maximum</MenubarItem>
 						<MenubarSeparator />
+						<MenubarItem onClick={zoomDefault}>Reset Zoom</MenubarItem>
+						<MenubarSeparator />
 						<MenubarItem onClick={toggleFullscreen}>
 							Toggle Fullscreen
-						</MenubarItem>
-					</MenubarContent>
-				</MenubarMenu>
-				<MenubarMenu>
-					<MenubarTrigger>Tools</MenubarTrigger>
-					<MenubarContent>
-						<MenubarItem
-							onClick={() => {
-								setLatencyChangeView(true);
-							}}
-						>
-							Edit Latency Times
 						</MenubarItem>
 					</MenubarContent>
 				</MenubarMenu>

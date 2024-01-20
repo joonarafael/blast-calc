@@ -4,8 +4,6 @@ import BoreHole from "./borehole";
 import Connection from "./connection";
 
 interface MatrixProps {
-	width: number;
-	height: number;
 	field: number[][];
 	fieldStatus: number[][];
 	fieldValues: number[][];
@@ -13,11 +11,10 @@ interface MatrixProps {
 	selectedBoreHole?: number | null;
 	boreHoleClick: (coords: number[]) => void;
 	connectionClick: (coords: number[]) => void;
+	tool: string;
 }
 
 const Matrix: React.FC<MatrixProps> = ({
-	width,
-	height,
 	field,
 	fieldStatus,
 	fieldValues,
@@ -25,6 +22,7 @@ const Matrix: React.FC<MatrixProps> = ({
 	selectedBoreHole,
 	boreHoleClick,
 	connectionClick,
+	tool,
 }) => {
 	return (
 		<div className="flex flex-col p-2">
@@ -49,6 +47,7 @@ const Matrix: React.FC<MatrixProps> = ({
 											index={item}
 											coords={[rowIndex, colIndex]}
 											zoom={zoom}
+											tool={tool}
 											status={fieldStatus[rowIndex][colIndex]}
 											value={fieldValues[rowIndex][colIndex]}
 											connectionClick={connectionClick}
@@ -60,6 +59,7 @@ const Matrix: React.FC<MatrixProps> = ({
 									index={item}
 									coords={[rowIndex, colIndex]}
 									zoom={zoom}
+									tool={tool}
 									status={fieldStatus[rowIndex][colIndex]}
 									value={fieldValues[rowIndex][colIndex]}
 									connectionClick={connectionClick}

@@ -15,6 +15,21 @@ const HomeClient = () => {
 						<div className="font-light text-neutral-500">
 							Joona Rafael Kettunen
 						</div>
+						<hr />
+						<div className="font-light text-yellow-500">
+							<p>
+								CALCULATIONS AND RENDERING IS LARGELY DONE
+								<br />
+								ON CLIENT MACHINE BY THE CLIENT BROWSER.
+							</p>
+						</div>
+						<div className="font-light text-neutral-500">
+							<p>
+								MAKE SURE YOUR BROWSER IS RUNNING THE LATEST
+								<br />
+								AVAILABLE VERSION TO ENSURE THE BEST PERFORMANCE.
+							</p>
+						</div>
 						<Button onClick={() => window.open("/calc/new", "_self")}>
 							NEW PLAN
 						</Button>

@@ -97,55 +97,61 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 	}
 
 	return (
-		<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-4 border rounded-lg p-4">
-			<div className="flex flex-col gap-2 border rounded p-2 border-emerald-500">
-				<Button onClick={handleResetDefaults} className="h-full">
-					<p className="font-bold text-lg">RESET DEFAULTS</p>
-				</Button>
-			</div>
-			<div className="flex flex-col gap-2 border rounded p-2 border-sky-500">
-				<Button onClick={handleSort} className="h-full">
-					<p className="font-bold text-lg">SORT LIST</p>
-				</Button>
-			</div>
-
-			<div className="flex flex-col gap-2 border rounded p-2 border-fuchsia-500 h-full">
-				<Button onClick={handleAddNew} className="h-full">
-					<p className="font-bold text-lg">ADD NEW</p>
-				</Button>
-			</div>
-			<div className="flex flex-col gap-2 border rounded p-2 border-green-500 h-full">
-				<Button onClick={handleSaveChanges} className="h-full">
-					<p className="font-bold text-lg">SAVE CHANGES</p>
-				</Button>
-			</div>
-			{latencySelection.map((item, i) => (
-				<div
-					key={i}
-					className={`h-full flex flex-col gap-2 border rounded p-2 ${
-						counts[item] > 1 ? "border-red-500" : "border-neutral-500"
-					}`}
-				>
-					<label
-						className="text-neutral-500 font-light"
-						htmlFor={`latencyTime${i}`}
-					>{`LATENCY TIME ${i + 1}`}</label>
-					<Input
-						value={item}
-						type="number"
-						id={`latencyTime${i}`}
-						placeholder="Field Height"
-						onChange={(e) => handleLatencyChange(i, e.target.value)}
-					/>
-					<Button
-						onClick={() => {
-							handleRemove(i);
-						}}
-					>
-						<p className="text-lg">REMOVE</p>
+		<div className="w-full flex flex-col text-center">
+			<div className="font-bold text-4xl mb-4">CHANGE LATENCY SELECTION</div>
+			<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-4 rounded-lg p-4">
+				<div className="flex flex-col gap-2 border rounded p-2 border-emerald-500">
+					<Button onClick={handleResetDefaults} className="h-full">
+						<p className="font-bold text-lg">RESET DEFAULTS</p>
 					</Button>
 				</div>
-			))}
+				<div className="flex flex-col gap-2 border rounded p-2 border-sky-500">
+					<Button onClick={handleSort} className="h-full">
+						<p className="font-bold text-lg">SORT LIST</p>
+					</Button>
+				</div>
+
+				<div className="flex flex-col gap-2 border rounded p-2 border-fuchsia-500 h-full">
+					<Button onClick={handleAddNew} className="h-full">
+						<p className="font-bold text-lg">ADD NEW</p>
+					</Button>
+				</div>
+				<div className="flex flex-col gap-2 border rounded p-2 border-green-500 h-full">
+					<Button onClick={handleSaveChanges} className="h-full">
+						<p className="font-bold text-lg">SAVE CHANGES</p>
+					</Button>
+				</div>
+			</div>
+			<hr />
+			<div className="mt-4 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-4 rounded-lg p-4 border">
+				{latencySelection.map((item, i) => (
+					<div
+						key={i}
+						className={`h-full flex flex-col gap-2 border rounded p-2 ${
+							counts[item] > 1 ? "border-red-500" : "border-neutral-500"
+						}`}
+					>
+						<label
+							className="text-neutral-500 font-light"
+							htmlFor={`latencyTime${i}`}
+						>{`LATENCY TIME ${i + 1}`}</label>
+						<Input
+							value={item}
+							type="number"
+							id={`latencyTime${i}`}
+							placeholder="Field Height"
+							onChange={(e) => handleLatencyChange(i, e.target.value)}
+						/>
+						<Button
+							onClick={() => {
+								handleRemove(i);
+							}}
+						>
+							<p className="text-lg">REMOVE</p>
+						</Button>
+					</div>
+				))}
+			</div>
 		</div>
 	);
 };
