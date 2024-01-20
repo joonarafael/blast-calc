@@ -20,6 +20,7 @@ interface MenuProps {
 	setZoom: (value: number) => void;
 	resetField: () => void;
 	setLatencyChangeView: (value: boolean) => void;
+	debugStates: () => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -27,6 +28,7 @@ const Menu: React.FC<MenuProps> = ({
 	setZoom,
 	resetField,
 	setLatencyChangeView,
+	debugStates,
 }) => {
 	const zoomIn = () => {
 		if (zoom < 6) {
@@ -117,6 +119,14 @@ const Menu: React.FC<MenuProps> = ({
 							}}
 						>
 							Edit Latency Times
+						</MenubarItem>
+					</MenubarContent>
+				</MenubarMenu>
+				<MenubarMenu>
+					<MenubarTrigger>Debug</MenubarTrigger>
+					<MenubarContent>
+						<MenubarItem onClick={debugStates}>
+							Log state arrays to console
 						</MenubarItem>
 					</MenubarContent>
 				</MenubarMenu>

@@ -6,6 +6,8 @@ import Container from "../components/container";
 import LatencyChange from "./latencychange";
 import Matrix from "./matrix";
 import Menu from "./menu";
+import checkUnconnectedBoreholes from "./supports/boreholes/checkunconnectedboreholes";
+import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnections";
 import initConnection from "./supports/initconnection";
 import replaceOldEntry from "./supports/replaceoldentry";
 import ToolBar from "./toolbar";
@@ -36,14 +38,26 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	// field values stores the actual calculated latencies and connection direction
 	const [fieldValues, setFieldValues] = useState(() => {
 		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
+			Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
 		);
 	});
+
+	const debugStates = () => {
+		console.log("DEBUG:");
+		console.log(field);
+		console.log(fieldStatus);
+		console.log(fieldValues);
+	};
 
 	const resetField = () => {
 		setSelectedBoreHole(null);
 		setTool("entry");
 		setFieldStatus(
+			Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
+				Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
+			)
+		);
+		setFieldValues(
 			Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
 				Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
 			)
@@ -86,11 +100,36 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 		});
 	};
 
+	const checkForUnconnected = (position: number[]) => {
+		setFieldValues((prevFieldValues) => {
+			const tmp = [...prevFieldValues];
+			tmp[position[0]] = [...tmp[position[0]]];
+			tmp[position[0]][position[1]] = -1;
+			return tmp;
+		});
+
+		checkUnconnectedBoreholes(
+			position,
+			fieldValues,
+			updateFieldValue,
+			updateFieldStatus
+		);
+	};
+
 	const boreHoleClick = (position: number[]) => {
 		if (tool === "entry") {
 			updateFieldStatus(position, 0);
 		} else if (tool === "eraser") {
 			updateFieldStatus(position, -1);
+
+			eraseAdjacentConnections(
+				position,
+				fieldValues,
+				updateFieldValue,
+				updateFieldStatus
+			);
+
+			checkForUnconnected(position);
 		} else {
 			if (selectedBoreHole === null) {
 				setSelectedBoreHole(position[2]);
@@ -111,6 +150,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	const connectionClick = (position: number[]) => {
 		if (tool === "eraser") {
 			updateFieldStatus([position[0], position[1]], -1);
+			updateFieldValue([position[0], position[1]], 0);
 		}
 	};
 
@@ -140,6 +180,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					setZoom={setZoom}
 					resetField={resetField}
 					setLatencyChangeView={setLatencyChangeView}
+					debugStates={debugStates}
 				/>
 				<div className="flex flex-row gap-4">
 					<div className="border rounded-lg w-5/6 h-[80svh] overflow-scroll">
