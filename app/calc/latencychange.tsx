@@ -1,9 +1,9 @@
 "use client";
 
-import { toast } from 'sonner';
+import { toast } from "sonner";
 
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 
 interface LatencyChangeProps {
 	latencySelection: number[];
@@ -96,8 +96,8 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 	}
 
 	return (
-		<div className="w-full flex flex-col text-center">
-			<div className="font-bold text-4xl mb-4">CHANGE LATENCY SELECTION</div>
+		<div className="w-full flex flex-col text-center  max-w-[1080px]">
+			<div className="font-bold text-4xl mb-4">CONFIGURE LATENCY SELECTION</div>
 			<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-4 rounded-lg p-4">
 				<div className="flex flex-col gap-2 border rounded p-2 border-emerald-500">
 					<Button onClick={handleResetDefaults} className="h-full">

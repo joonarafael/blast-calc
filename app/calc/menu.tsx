@@ -22,6 +22,8 @@ interface MenuProps {
 	setLatencyChangeView: (value: boolean) => void;
 	debugStates: () => void;
 	setSelectedBoreHole: (value: number | null) => void;
+	latencySelection: number[];
+	setTool: (tool: string) => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -31,6 +33,8 @@ const Menu: React.FC<MenuProps> = ({
 	setLatencyChangeView,
 	debugStates,
 	setSelectedBoreHole,
+	setTool,
+	latencySelection,
 }) => {
 	const zoomIn = () => {
 		if (zoom < 6) {
@@ -110,19 +114,45 @@ const Menu: React.FC<MenuProps> = ({
 								setLatencyChangeView(true);
 							}}
 						>
-							Edit Latency Times
+							Configure Latency Selection
 						</MenubarItem>
 					</MenubarContent>
 				</MenubarMenu>
 				<MenubarMenu>
 					<MenubarTrigger>Select</MenubarTrigger>
 					<MenubarContent>
+						<MenubarSub>
+							<MenubarSubTrigger>Tool</MenubarSubTrigger>
+							<MenubarSubContent>
+								<MenubarItem onClick={() => setTool("cursor")}>
+									Cursor
+								</MenubarItem>
+								<MenubarItem onClick={() => setTool("entry")}>
+									Entry
+								</MenubarItem>
+								<MenubarItem onClick={() => setTool("borehole")}>
+									Borehole
+								</MenubarItem>
+								<MenubarItem onClick={() => setTool("eraser")}>
+									Eraser
+								</MenubarItem>
+								{latencySelection.map((item, i) => (
+									<MenubarItem key={i} onClick={() => setTool(`${item}`)}>
+										{`${item} ms`}
+									</MenubarItem>
+								))}
+							</MenubarSubContent>
+						</MenubarSub>
+						<MenubarSeparator />
+						<MenubarItem onClick={() => setTool("cursor")}>
+							Clear tool selection
+						</MenubarItem>
 						<MenubarItem
 							onClick={() => {
 								setSelectedBoreHole(null);
 							}}
 						>
-							Clear selection
+							Clear borehole selection
 						</MenubarItem>
 					</MenubarContent>
 				</MenubarMenu>

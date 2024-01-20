@@ -15,41 +15,43 @@ const ToolBar: React.FC<ToolBarProps> = ({
 	latencySelection,
 	setLatencyChangeView,
 }) => {
-	const handleToolChange = (tool: string) => {
-		setTool(tool);
-	};
-
 	const commonCSS = `cursor-pointer text-lg hover:pl-4 hover:underline rounded border p-2`;
 
 	return (
 		<div className="flex flex-col p-2 gap-2 w-full">
 			<div className="font-light text-neutral-500 text-xs">SELECTED TOOL</div>
-			<div className="font-bold text-2xl">{tool}</div>
+			<div className="font-bold text-3xl">{tool}</div>
 			<hr />
 			<div className="font-light text-neutral-500 text-xs">TOOL SELECTION</div>
 			<div
-				className={`${commonCSS} border-indigo-500`}
-				onClick={() => handleToolChange("entry")}
+				className={`${commonCSS} border-sky-500`}
+				onClick={() => setTool("cursor")}
 			>
-				Entry
+				CURSOR
+			</div>
+			<div
+				className={`${commonCSS} border-indigo-500`}
+				onClick={() => setTool("entry")}
+			>
+				ENTRY
 			</div>
 			<div
 				className={`${commonCSS} border-green-500`}
-				onClick={() => handleToolChange("borehole")}
+				onClick={() => setTool("borehole")}
 			>
-				Borehole
+				BOREHOLE
 			</div>
 			<div
 				className={`${commonCSS} border-pink-500`}
-				onClick={() => handleToolChange("eraser")}
+				onClick={() => setTool("eraser")}
 			>
-				Eraser
+				ERASER
 			</div>
 			{latencySelection.map((item, i) => (
 				<div
 					key={i}
 					className={`${commonCSS}`}
-					onClick={() => handleToolChange(`${item}`)}
+					onClick={() => setTool(`${item}`)}
 				>
 					{`${item} ms`}
 				</div>

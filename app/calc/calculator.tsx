@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import PageError from '@/app/components/pageerror';
+
 import Container from '../components/container';
 import LatencyChange from './latencychange';
 import Matrix from './matrix';
@@ -20,8 +22,19 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	const [latencyChangeView, setLatencyChangeView] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [zoom, setZoom] = useState(4);
-	const [tool, setTool] = useState("entry");
+	const [tool, setTool] = useState("cursor");
 	const [selectedBoreHole, setSelectedBoreHole] = useState<number | null>(null);
+	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	const breakpoint = 1060;
+
+	useEffect(() => {
+		const handleResizeWindow = () => setWindowWidth(window.innerWidth);
+		window.addEventListener("resize", handleResizeWindow);
+
+		return () => {
+			window.removeEventListener("resize", handleResizeWindow);
+		};
+	}, []);
 
 	// master matrix for indexing, does not ever change
 	const field = Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
@@ -125,7 +138,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					updateFieldValue,
 					updateFieldStatus
 				);
-			} else {
+			} else if (tool !== "cursor") {
 				if (selectedBoreHole === null) {
 					setSelectedBoreHole(position[2]);
 				} else {
@@ -153,7 +166,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 			if (tool === "eraser") {
 				updateFieldStatus([position[0], position[1]], -1);
 				updateFieldValue([position[0], position[1]], 0);
-			} else if (tool !== "entry" && tool !== "borehole") {
+			} else if (tool !== "entry" && tool !== "borehole" && tool !== "cursor") {
 				if (fieldStatus[position[0]][position[1]] !== -1) {
 					updateFieldStatus([position[0], position[1]], parseInt(tool, 10));
 				}
@@ -181,6 +194,10 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 		);
 	}
 
+	if (windowWidth < breakpoint) {
+		return <PageError message={"Window width of 1060px required."} />;
+	}
+
 	return (
 		<Container>
 			<div className="flex flex-col gap-4">
@@ -191,6 +208,8 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					setLatencyChangeView={setLatencyChangeView}
 					debugStates={debugStates}
 					setSelectedBoreHole={setSelectedBoreHole}
+					setTool={setTool}
+					latencySelection={latencySelection}
 				/>
 				<div className="flex flex-row gap-4">
 					<div className="border rounded-lg w-5/6 h-[80svh] overflow-scroll">

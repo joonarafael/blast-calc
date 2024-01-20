@@ -106,17 +106,34 @@ const Connection: React.FC<ConnectionProps> = ({
 	}
 
 	return (
-		<div className={`${commonCSS} ${size}`} onClick={handleClick}>
+		<div className={`${commonCSS} ${size} group`} onClick={handleClick}>
 			<div>
 				{status !== -1 ? (
 					<div className="relative">
 						<div>{arrowElement(value)}</div>
-						{zoom > 2 && (
+						{zoom > 2 ? (
 							<div
 								className={`z-99 absolute bg-zinc-900 p-1 rounded-xl ${labelTransforms}`}
 							>
 								{status}
 							</div>
+						) : (
+							<span
+								className="
+									group-hover:opacity-100
+									transition-opacity
+									bg-gray-800
+									text-sm
+									text-gray-100
+									rounded-lg
+									absolute
+									top-0
+									left-0
+									opacity-0
+									p-1"
+							>
+								{status}
+							</span>
 						)}
 					</div>
 				) : (

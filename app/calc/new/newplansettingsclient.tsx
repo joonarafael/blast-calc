@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { toast } from "sonner";
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
-import Container from "@/app/components/container";
-import { Button } from "@/app/components/ui/button";
-import { Input } from "@/app/components/ui/input";
+import Container from '@/app/components/container';
+import { Button } from '@/app/components/ui/button';
+import { Input } from '@/app/components/ui/input';
 
 const NewPlanSettingsClient = () => {
 	const [fieldWidth, setFieldWidth] = useState(6);
