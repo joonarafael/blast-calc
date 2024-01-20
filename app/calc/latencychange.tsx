@@ -1,9 +1,9 @@
 "use client";
 
-import { toast } from "sonner";
+import { toast } from 'sonner';
 
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
 
 interface LatencyChangeProps {
 	latencySelection: number[];
@@ -30,7 +30,6 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 			tmp[index] = asNumber;
 
 			setLatencySelection(tmp);
-			console.log(latencySelection);
 		} catch (e) {
 			console.log(e);
 		}

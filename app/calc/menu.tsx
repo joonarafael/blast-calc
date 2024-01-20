@@ -21,6 +21,7 @@ interface MenuProps {
 	resetField: () => void;
 	setLatencyChangeView: (value: boolean) => void;
 	debugStates: () => void;
+	setSelectedBoreHole: (value: number | null) => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -29,6 +30,7 @@ const Menu: React.FC<MenuProps> = ({
 	resetField,
 	setLatencyChangeView,
 	debugStates,
+	setSelectedBoreHole,
 }) => {
 	const zoomIn = () => {
 		if (zoom < 6) {
@@ -109,6 +111,18 @@ const Menu: React.FC<MenuProps> = ({
 							}}
 						>
 							Edit Latency Times
+						</MenubarItem>
+					</MenubarContent>
+				</MenubarMenu>
+				<MenubarMenu>
+					<MenubarTrigger>Select</MenubarTrigger>
+					<MenubarContent>
+						<MenubarItem
+							onClick={() => {
+								setSelectedBoreHole(null);
+							}}
+						>
+							Clear selection
 						</MenubarItem>
 					</MenubarContent>
 				</MenubarMenu>

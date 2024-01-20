@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import Container from "../components/container";
-import LatencyChange from "./latencychange";
-import Matrix from "./matrix";
-import Menu from "./menu";
-import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnections";
-import initConnection from "./supports/initconnection";
-import replaceOldEntry from "./supports/replaceoldentry";
-import ToolBar from "./toolbar";
+import Container from '../components/container';
+import LatencyChange from './latencychange';
+import Matrix from './matrix';
+import Menu from './menu';
+import eraseAdjacentConnections from './supports/connections/eraseadjacentconnections';
+import initConnection from './supports/initconnection';
+import replaceOldEntry from './supports/replaceoldentry';
+import ToolBar from './toolbar';
 
 interface CalculatorProps {
 	width: number;
@@ -137,7 +137,8 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 						updateFieldValue,
 						tool
 					);
-					setSelectedBoreHole(null);
+
+					setSelectedBoreHole(position[2]);
 				}
 			}
 
@@ -189,6 +190,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					resetField={resetField}
 					setLatencyChangeView={setLatencyChangeView}
 					debugStates={debugStates}
+					setSelectedBoreHole={setSelectedBoreHole}
 				/>
 				<div className="flex flex-row gap-4">
 					<div className="border rounded-lg w-5/6 h-[80svh] overflow-scroll">
