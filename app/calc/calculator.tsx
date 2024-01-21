@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import PageError from '@/app/components/pageerror';
+import PageError from "@/app/components/pageerror";
 
-import Container from '../components/container';
-import LatencyChange from './latencychange';
-import Matrix from './matrix';
-import Menu from './menu';
-import eraseAdjacentConnections from './supports/connections/eraseadjacentconnections';
-import initConnection from './supports/initconnection';
-import replaceOldEntry from './supports/replaceoldentry';
-import ToolBar from './toolbar';
+import Container from "../components/container";
+import LatencyChange from "./latencychange";
+import Matrix from "./matrix";
+import Menu from "./menu";
+import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnections";
+import initConnection from "./supports/initconnection";
+import replaceOldEntry from "./supports/replaceoldentry";
+import ToolBar from "./toolbar";
 
 interface CalculatorProps {
 	width: number;
@@ -21,6 +21,7 @@ interface CalculatorProps {
 const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	const [latencyChangeView, setLatencyChangeView] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isLinking, setIsLinking] = useState(true);
 	const [zoom, setZoom] = useState(4);
 	const [tool, setTool] = useState("cursor");
 	const [selectedBoreHole, setSelectedBoreHole] = useState<number | null>(null);
@@ -70,7 +71,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	const resetField = () => {
 		if (!isLoading) {
 			setSelectedBoreHole(null);
-			setTool("entry");
+			setTool("cursor");
 			setFieldStatus(
 				Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
 					Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
@@ -151,7 +152,11 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 						tool
 					);
 
-					setSelectedBoreHole(position[2]);
+					if (isLinking) {
+						setSelectedBoreHole(position[2]);
+					} else {
+						setSelectedBoreHole(null);
+					}
 				}
 			}
 
@@ -178,7 +183,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 
 	useEffect(() => {
 		setSelectedBoreHole(null);
-	}, [tool]);
+	}, [tool, isLinking]);
 
 	if (latencyChangeView) {
 		return (
@@ -210,6 +215,8 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					setSelectedBoreHole={setSelectedBoreHole}
 					setTool={setTool}
 					latencySelection={latencySelection}
+					isLinking={isLinking}
+					setIsLinking={setIsLinking}
 				/>
 				<div className="flex flex-row gap-4">
 					<div className="border rounded-lg w-5/6 h-[80svh] overflow-scroll">
@@ -231,6 +238,8 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 							<ToolBar
 								tool={tool}
 								setTool={setTool}
+								setIsLinking={setIsLinking}
+								isLinking={isLinking}
 								latencySelection={latencySelection}
 								setLatencyChangeView={setLatencyChangeView}
 							/>

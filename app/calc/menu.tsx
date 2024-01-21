@@ -24,6 +24,8 @@ interface MenuProps {
 	setSelectedBoreHole: (value: number | null) => void;
 	latencySelection: number[];
 	setTool: (tool: string) => void;
+	isLinking: boolean;
+	setIsLinking: (value: boolean) => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -34,6 +36,8 @@ const Menu: React.FC<MenuProps> = ({
 	debugStates,
 	setSelectedBoreHole,
 	setTool,
+	isLinking,
+	setIsLinking,
 	latencySelection,
 }) => {
 	const zoomIn = () => {
@@ -60,6 +64,10 @@ const Menu: React.FC<MenuProps> = ({
 		setZoom(6);
 	};
 
+	const toggleIsLinking = () => {
+		setIsLinking(!isLinking);
+	};
+
 	const toggleFullscreen = () => {
 		if (!document.fullscreenElement) {
 			document.documentElement.requestFullscreen();
@@ -78,10 +86,10 @@ const Menu: React.FC<MenuProps> = ({
 							New Plan
 						</MenubarItem>
 						<MenubarSeparator />
-						<MenubarItem>Analyze</MenubarItem>
+						<MenubarItem disabled>Analyze</MenubarItem>
 						<MenubarSeparator />
-						<MenubarItem>Share</MenubarItem>
-						<MenubarItem>Print</MenubarItem>
+						<MenubarItem disabled>Get Save Code</MenubarItem>
+						<MenubarItem disabled>Print</MenubarItem>
 						<MenubarSeparator />
 						<MenubarSub>
 							<MenubarSubTrigger>Reset Field</MenubarSubTrigger>
@@ -144,15 +152,19 @@ const Menu: React.FC<MenuProps> = ({
 							</MenubarSubContent>
 						</MenubarSub>
 						<MenubarSeparator />
+						<MenubarItem onClick={toggleIsLinking}>
+							Toggle Borehole Linking
+						</MenubarItem>
+						<MenubarSeparator />
 						<MenubarItem onClick={() => setTool("cursor")}>
-							Clear tool selection
+							Clear Tool Selection
 						</MenubarItem>
 						<MenubarItem
 							onClick={() => {
 								setSelectedBoreHole(null);
 							}}
 						>
-							Clear borehole selection
+							Clear Borehole Selection
 						</MenubarItem>
 					</MenubarContent>
 				</MenubarMenu>

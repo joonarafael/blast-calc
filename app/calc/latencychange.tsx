@@ -1,9 +1,10 @@
 "use client";
 
-import { toast } from "sonner";
+import { useState } from 'react';
+import { toast } from 'sonner';
 
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
 
 interface LatencyChangeProps {
 	latencySelection: number[];
@@ -16,6 +17,8 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 	setLatencySelection,
 	setLatencyChangeView,
 }) => {
+	const [oldSelection, setOldSelection] = useState([...latencySelection]);
+
 	const handleLatencyChange = (index: number, value: string) => {
 		try {
 			const asNumber = parseInt(value, 10);
@@ -67,6 +70,12 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 		toast("At least one latency should be available.");
 	};
 
+	const counts: Record<number, number> = {};
+
+	for (const num of latencySelection) {
+		counts[num] = counts[num] ? counts[num] + 1 : 1;
+	}
+
 	const handleSaveChanges = () => {
 		const keys = Object.keys(counts);
 
@@ -89,30 +98,27 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 		setLatencyChangeView(false);
 	};
 
-	const counts: Record<number, number> = {};
-
-	for (const num of latencySelection) {
-		counts[num] = counts[num] ? counts[num] + 1 : 1;
-	}
+	const handleRevertChanges = () => {
+		setLatencySelection(oldSelection);
+	};
 
 	return (
 		<div className="w-full flex flex-col text-center  max-w-[1080px]">
 			<div className="font-bold text-4xl mb-4">CONFIGURE LATENCY SELECTION</div>
 			<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-4 rounded-lg p-4">
-				<div className="flex flex-col gap-2 border rounded p-2 border-emerald-500">
+				<div className="flex flex-col gap-2 border rounded p-2 border-indigo-500">
 					<Button onClick={handleResetDefaults} className="h-full">
 						<p className="font-bold text-lg">RESET DEFAULTS</p>
+					</Button>
+				</div>
+				<div className="flex flex-col gap-2 border rounded p-2 border-emerald-500">
+					<Button onClick={handleRevertChanges} className="h-full">
+						<p className="font-bold text-lg">REVERT CHANGES</p>
 					</Button>
 				</div>
 				<div className="flex flex-col gap-2 border rounded p-2 border-sky-500">
 					<Button onClick={handleSort} className="h-full">
 						<p className="font-bold text-lg">SORT LIST</p>
-					</Button>
-				</div>
-
-				<div className="flex flex-col gap-2 border rounded p-2 border-fuchsia-500 h-full">
-					<Button onClick={handleAddNew} className="h-full">
-						<p className="font-bold text-lg">ADD NEW</p>
 					</Button>
 				</div>
 				<div className="flex flex-col gap-2 border rounded p-2 border-green-500 h-full">
@@ -150,6 +156,13 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 						</Button>
 					</div>
 				))}
+				{latencySelection.length < 16 && (
+					<div className="flex flex-col gap-2 border rounded p-2 border-fuchsia-500 h-full">
+						<Button onClick={handleAddNew} className="h-full">
+							<p className="font-bold text-lg">ADD NEW</p>
+						</Button>
+					</div>
+				)}
 			</div>
 		</div>
 	);

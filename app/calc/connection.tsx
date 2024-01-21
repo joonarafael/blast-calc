@@ -1,15 +1,15 @@
 "use client";
 
 import {
-	BsArrowDown,
-	BsArrowDownLeft,
-	BsArrowDownRight,
-	BsArrowLeft,
-	BsArrowRight,
-	BsArrowUp,
-	BsArrowUpLeft,
-	BsArrowUpRight,
-} from "react-icons/bs";
+	TbArrowDownCircle,
+	TbArrowDownLeftCircle,
+	TbArrowDownRightCircle,
+	TbArrowLeftCircle,
+	TbArrowRightCircle,
+	TbArrowUpCircle,
+	TbArrowUpLeftCircle,
+	TbArrowUpRightCircle,
+} from "react-icons/tb";
 
 interface ConnectionProps {
 	index: number;
@@ -54,10 +54,10 @@ const Connection: React.FC<ConnectionProps> = ({
 		size = "text-sm min-w-14 min-h-14";
 		icon = 48;
 	} else if (zoom === 3) {
-		size = "text-base min-w-20 min-h-20";
+		size = "text-sm min-w-20 min-h-20";
 		icon = 78;
 	} else if (zoom === 4) {
-		size = "text-lg min-w-24 min-h-24";
+		size = "text-base min-w-24 min-h-24";
 		icon = 90;
 	} else if (zoom === 5) {
 		size = "text-xl min-w-28 min-h-28";
@@ -69,41 +69,23 @@ const Connection: React.FC<ConnectionProps> = ({
 
 	const arrowElement = (orientation: number) => {
 		if (orientation === 0) {
-			return <BsArrowUp size={icon} />;
+			return <TbArrowUpCircle size={icon} />;
 		} else if (orientation === 1) {
-			return <BsArrowUpRight size={icon} />;
+			return <TbArrowUpRightCircle size={icon} />;
 		} else if (orientation === 2) {
-			return <BsArrowRight size={icon} />;
+			return <TbArrowRightCircle size={icon} />;
 		} else if (orientation === 3) {
-			return <BsArrowDownRight size={icon} />;
+			return <TbArrowDownRightCircle size={icon} />;
 		} else if (orientation === 4) {
-			return <BsArrowDown size={icon} />;
+			return <TbArrowDownCircle size={icon} />;
 		} else if (orientation === 5) {
-			return <BsArrowDownLeft size={icon} />;
+			return <TbArrowDownLeftCircle size={icon} />;
 		} else if (orientation === 6) {
-			return <BsArrowLeft size={icon} />;
+			return <TbArrowLeftCircle size={icon} />;
 		}
 
-		return <BsArrowUpLeft size={icon} />;
+		return <TbArrowUpLeftCircle size={icon} />;
 	};
-
-	let labelTransforms = "bottom-0 left-2/4 -translate-x-2/4";
-
-	if (value === 1) {
-		labelTransforms = "bottom-0 left-0";
-	} else if (value === 2) {
-		labelTransforms = "top-2/4 left-0 -translate-y-2/4";
-	} else if (value === 3) {
-		labelTransforms = "top-0 left-0";
-	} else if (value === 4) {
-		labelTransforms = "top-0 left-2/4 -translate-x-2/4";
-	} else if (value === 5) {
-		labelTransforms = "top-0 right-0";
-	} else if (value === 6) {
-		labelTransforms = "top-2/4 right-0 -translate-y-2/4";
-	} else if (value === 7) {
-		labelTransforms = "bottom-0 right-0";
-	}
 
 	return (
 		<div className={`${commonCSS} ${size} group`} onClick={handleClick}>
@@ -113,7 +95,7 @@ const Connection: React.FC<ConnectionProps> = ({
 						<div>{arrowElement(value)}</div>
 						{zoom > 2 ? (
 							<div
-								className={`z-99 absolute bg-zinc-900 p-1 rounded-xl ${labelTransforms}`}
+								className={`z-99 absolute bg-zinc-900 p-1 rounded-xl top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4`}
 							>
 								{status}
 							</div>
