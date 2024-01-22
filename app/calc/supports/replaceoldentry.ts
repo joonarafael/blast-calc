@@ -10,7 +10,7 @@ export default function replaceOldEntry(
 
 	outerLoop: for (let i = 0; i < tmp.length; i++) {
 		for (let j = 0; j < tmp[i].length; j++) {
-			if (tmp[i][j] === 0) {
+			if (tmp[i][j] === 1) {
 				rowIndex = i;
 				columnIndex = j;
 				break outerLoop;
@@ -19,7 +19,7 @@ export default function replaceOldEntry(
 	}
 
 	if (rowIndex !== undefined && columnIndex !== undefined) {
-		tmp[rowIndex][columnIndex] = -1;
+		tmp[rowIndex][columnIndex] = 0;
 	}
 
 	setFieldStatus(tmp);

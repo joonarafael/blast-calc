@@ -16,5 +16,9 @@ export default function connectSouthWest(
 	const targetIndexCol = getColIndex(targetIndex, width);
 
 	updateFieldValue([targetIndexRow, targetIndexCol], 5);
-	updateFieldStatus([targetIndexRow, targetIndexCol], parseInt(tool, 10));
+	if (tool === "0") {
+		updateFieldStatus([targetIndexRow, targetIndexCol], 65535);
+	} else {
+		updateFieldStatus([targetIndexRow, targetIndexCol], parseInt(tool, 10));
+	}
 }

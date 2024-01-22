@@ -1,7 +1,7 @@
 "use client";
 
-import getColIndex from "../getcolindex";
-import getRowIndex from "../getrowindex";
+import getColIndex from '../getcolindex';
+import getRowIndex from '../getrowindex';
 
 export default function connectNorthEast(
 	start: number,
@@ -16,5 +16,9 @@ export default function connectNorthEast(
 	const targetIndexCol = getColIndex(targetIndex, width);
 
 	updateFieldValue([targetIndexRow, targetIndexCol], 1);
-	updateFieldStatus([targetIndexRow, targetIndexCol], parseInt(tool, 10));
+	if (tool === "0") {
+		updateFieldStatus([targetIndexRow, targetIndexCol], 65535);
+	} else {
+		updateFieldStatus([targetIndexRow, targetIndexCol], parseInt(tool, 10));
+	}
 }

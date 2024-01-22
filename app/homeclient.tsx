@@ -16,14 +16,13 @@ const HomeClient = () => {
 							Joona Rafael Kettunen
 						</div>
 						<hr />
-						<div className="font-light text-yellow-500">
+						<div className="font-light text-yellow-500 max-w-[500px]">
 							<p>
-								CALCULATIONS AND RENDERING IS LARGELY DONE
-								<br />
-								ON CLIENT MACHINE BY THE CLIENT BROWSER.
+								CALCULATIONS AND RENDERING IS LARGELY DONE ON CLIENT MACHINE BY
+								THE CLIENT BROWSER.
 							</p>
 						</div>
-						<div className="font-light text-neutral-500">
+						<div className="font-light text-neutral-500 max-w-[500px]">
 							<p>
 								MAKE SURE YOUR BROWSER IS RUNNING THE LATEST
 								<br />

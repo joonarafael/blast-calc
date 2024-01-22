@@ -1,17 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import PageError from "@/app/components/pageerror";
+import PageError from '@/app/components/pageerror';
 
-import Container from "../components/container";
-import LatencyChange from "./latencychange";
-import Matrix from "./matrix";
-import Menu from "./menu";
-import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnections";
-import initConnection from "./supports/initconnection";
-import replaceOldEntry from "./supports/replaceoldentry";
-import ToolBar from "./toolbar";
+import Container from '../components/container';
+import LatencyChange from './latencychange';
+import Matrix from './matrix';
+import Menu from './menu';
+import generateSaveCode from './savecodes/generate';
+import eraseAdjacentConnections from './supports/connections/eraseadjacentconnections';
+import initConnection from './supports/initconnection';
+import replaceOldEntry from './supports/replaceoldentry';
+import ToolBar from './toolbar';
 
 interface CalculatorProps {
 	width: number;
@@ -48,14 +49,14 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	// field status keeps track of different types of boreholes and individual connection latencies
 	const [fieldStatus, setFieldStatus] = useState(() => {
 		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-			Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
+			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
 		);
 	});
 
 	// field values stores the actual calculated latencies and connection direction
 	const [fieldValues, setFieldValues] = useState(() => {
 		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-			Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
+			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
 		);
 	});
 
@@ -74,15 +75,19 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 			setTool("cursor");
 			setFieldStatus(
 				Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-					Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
+					Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
 				)
 			);
 			setFieldValues(
 				Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-					Array.from({ length: width * 2 - 1 }, (_, colIndex) => -1)
+					Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
 				)
 			);
 		}
+	};
+
+	const requestCode = () => {
+		generateSaveCode(width, fieldStatus, fieldValues);
 	};
 
 	const [latencySelection, setLatencySelection] = useState([
@@ -96,7 +101,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 				replaceOldEntry(fieldStatus, setFieldStatus);
 			}
 
-			if (newValue === 1 && fieldStatus[coords[0]][coords[1]] === 0) {
+			if (newValue === 2 && fieldStatus[coords[0]][coords[1]] === 1) {
 				return;
 			}
 
@@ -127,11 +132,11 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 		if (!isLoading) {
 			setIsLoading(true);
 			if (tool === "entry") {
-				updateFieldStatus(position, 0);
-			} else if (tool === "borehole") {
 				updateFieldStatus(position, 1);
+			} else if (tool === "borehole") {
+				updateFieldStatus(position, 2);
 			} else if (tool === "eraser") {
-				updateFieldStatus(position, -1);
+				updateFieldStatus(position, 0);
 
 				eraseAdjacentConnections(
 					position,
@@ -167,13 +172,32 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	const connectionClick = (position: number[]) => {
 		if (!isLoading) {
 			setIsLoading(true);
+			setSelectedBoreHole(null);
 
 			if (tool === "eraser") {
-				updateFieldStatus([position[0], position[1]], -1);
+				updateFieldStatus([position[0], position[1]], 0);
 				updateFieldValue([position[0], position[1]], 0);
 			} else if (tool !== "entry" && tool !== "borehole" && tool !== "cursor") {
-				if (fieldStatus[position[0]][position[1]] !== -1) {
-					updateFieldStatus([position[0], position[1]], parseInt(tool, 10));
+				if (fieldStatus[position[0]][position[1]] === parseInt(tool, 10)) {
+					const newOrientation = fieldValues[position[0]][position[1]] + 4;
+
+					if (newOrientation > 7) {
+						updateFieldValue(
+							[position[0], position[1]],
+							fieldValues[position[0]][position[1]] + 4 - 8
+						);
+					} else {
+						updateFieldValue(
+							[position[0], position[1]],
+							fieldValues[position[0]][position[1]] + 4
+						);
+					}
+				} else if (fieldStatus[position[0]][position[1]] !== 0) {
+					if (tool === "0") {
+						updateFieldStatus([position[0], position[1]], 65535);
+					} else {
+						updateFieldStatus([position[0], position[1]], parseInt(tool, 10));
+					}
 				}
 			}
 
@@ -216,6 +240,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					setTool={setTool}
 					latencySelection={latencySelection}
 					isLinking={isLinking}
+					requestCode={requestCode}
 					setIsLinking={setIsLinking}
 				/>
 				<div className="flex flex-row gap-4">

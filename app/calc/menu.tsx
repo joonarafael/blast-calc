@@ -26,6 +26,7 @@ interface MenuProps {
 	setTool: (tool: string) => void;
 	isLinking: boolean;
 	setIsLinking: (value: boolean) => void;
+	requestCode: () => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -39,6 +40,7 @@ const Menu: React.FC<MenuProps> = ({
 	isLinking,
 	setIsLinking,
 	latencySelection,
+	requestCode,
 }) => {
 	const zoomIn = () => {
 		if (zoom < 6) {
@@ -85,6 +87,7 @@ const Menu: React.FC<MenuProps> = ({
 						<MenubarItem onClick={() => window.open("/calc/new", "_blank")}>
 							New Plan
 						</MenubarItem>
+						<MenubarItem disabled>Load Plan From Save Code</MenubarItem>
 						<MenubarSeparator />
 						<MenubarItem disabled>Analyze</MenubarItem>
 						<MenubarSeparator />

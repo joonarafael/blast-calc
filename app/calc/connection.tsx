@@ -1,15 +1,9 @@
 "use client";
 
 import {
-	TbArrowDownCircle,
-	TbArrowDownLeftCircle,
-	TbArrowDownRightCircle,
-	TbArrowLeftCircle,
-	TbArrowRightCircle,
-	TbArrowUpCircle,
-	TbArrowUpLeftCircle,
-	TbArrowUpRightCircle,
-} from "react-icons/tb";
+    TbArrowDownCircle, TbArrowDownLeftCircle, TbArrowDownRightCircle, TbArrowLeftCircle,
+    TbArrowRightCircle, TbArrowUpCircle, TbArrowUpLeftCircle, TbArrowUpRightCircle
+} from 'react-icons/tb';
 
 interface ConnectionProps {
 	index: number;
@@ -40,7 +34,7 @@ const Connection: React.FC<ConnectionProps> = ({
 		items-center
 		justify-center
 		${
-			value !== -1 &&
+			status !== 0 &&
 			tool !== "entry" &&
 			tool !== "borehole" &&
 			"hover:bg-red-300 hover:border cursor-pointer"
@@ -90,14 +84,14 @@ const Connection: React.FC<ConnectionProps> = ({
 	return (
 		<div className={`${commonCSS} ${size} group`} onClick={handleClick}>
 			<div>
-				{status !== -1 ? (
+				{status !== 0 ? (
 					<div className="relative">
 						<div>{arrowElement(value)}</div>
 						{zoom > 2 ? (
 							<div
 								className={`z-99 absolute bg-zinc-900 p-1 rounded-xl top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4`}
 							>
-								{status}
+								{status === 65535 ? "0" : `${status}`}
 							</div>
 						) : (
 							<span
@@ -114,7 +108,7 @@ const Connection: React.FC<ConnectionProps> = ({
 									opacity-0
 									p-1"
 							>
-								{status}
+								{status === 65535 ? "0" : `${status}`}
 							</span>
 						)}
 					</div>

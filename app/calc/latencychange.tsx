@@ -23,9 +23,7 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 		try {
 			const asNumber = parseInt(value, 10);
 
-			if (asNumber < 0) {
-				return;
-			} else if (asNumber > 9999) {
+			if (asNumber < 0 || asNumber > 65534) {
 				return;
 			}
 
@@ -158,8 +156,9 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 				))}
 				{latencySelection.length < 16 && (
 					<div className="flex flex-col gap-2 border rounded p-2 border-fuchsia-500 h-full">
-						<Button onClick={handleAddNew} className="h-full">
+						<Button onClick={handleAddNew} className="h-full flex flex-col gap-1">
 							<p className="font-bold text-lg">ADD NEW</p>
+							<p className="text-base font-light">0 - 65534 ms</p>
 						</Button>
 					</div>
 				)}

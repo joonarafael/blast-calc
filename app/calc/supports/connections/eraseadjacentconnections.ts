@@ -13,32 +13,32 @@ export default function eraseAdjacentConnections(
 	if (fieldValues[original[0] - 1] !== undefined) {
 		const target = fieldValues[original[0] - 1][original[1]];
 		if (target !== undefined) {
-			updateFieldValue([original[0] - 1, original[1]], -1);
-			updateFieldStatus([original[0] - 1, original[1]], -1);
+			updateFieldValue([original[0] - 1, original[1]], 0);
+			updateFieldStatus([original[0] - 1, original[1]], 0);
 		}
 	}
 
 	// check east
 	let target = fieldValues[original[0]][original[1] + 1];
 	if (target !== undefined) {
-		updateFieldValue([original[0], original[1] + 1], -1);
-		updateFieldStatus([original[0], original[1] + 1], -1);
+		updateFieldValue([original[0], original[1] + 1], 0);
+		updateFieldStatus([original[0], original[1] + 1], 0);
 	}
 
 	// check south
 	if (fieldValues[original[0] + 1] !== undefined) {
 		const target = fieldValues[original[0] + 1][original[1]];
 		if (target !== undefined) {
-			updateFieldValue([original[0] + 1, original[1]], -1);
-			updateFieldStatus([original[0] + 1, original[1]], -1);
+			updateFieldValue([original[0] + 1, original[1]], 0);
+			updateFieldStatus([original[0] + 1, original[1]], 0);
 		}
 	}
 
 	// check west
 	target = fieldValues[original[0]][original[1] - 1];
 	if (target !== undefined) {
-		updateFieldValue([original[0], original[1] - 1], -1);
-		updateFieldStatus([original[0], original[1] - 1], -1);
+		updateFieldValue([original[0], original[1] - 1], 0);
+		updateFieldStatus([original[0], original[1] - 1], 0);
 	}
 
 	// check northeast
@@ -46,8 +46,8 @@ export default function eraseAdjacentConnections(
 		const target = fieldValues[original[0] - 1][original[1] + 1];
 		if (target !== undefined) {
 			if (target === 1 || target === 5) {
-				updateFieldValue([original[0] - 1, original[1] + 1], -1);
-				updateFieldStatus([original[0] - 1, original[1] + 1], -1);
+				updateFieldValue([original[0] - 1, original[1] + 1], 0);
+				updateFieldStatus([original[0] - 1, original[1] + 1], 0);
 			}
 		}
 	}
@@ -57,8 +57,8 @@ export default function eraseAdjacentConnections(
 		const target = fieldValues[original[0] + 1][original[1] + 1];
 		if (target !== undefined) {
 			if (target === 3 || target === 7) {
-				updateFieldValue([original[0] + 1, original[1] + 1], -1);
-				updateFieldStatus([original[0] + 1, original[1] + 1], -1);
+				updateFieldValue([original[0] + 1, original[1] + 1], 0);
+				updateFieldStatus([original[0] + 1, original[1] + 1], 0);
 			}
 		}
 	}
@@ -68,8 +68,8 @@ export default function eraseAdjacentConnections(
 		const target = fieldValues[original[0] + 1][original[1] - 1];
 		if (target !== undefined) {
 			if (target === 5 || target === 1) {
-				updateFieldValue([original[0] + 1, original[1] - 1], -1);
-				updateFieldStatus([original[0] + 1, original[1] - 1], -1);
+				updateFieldValue([original[0] + 1, original[1] - 1], 0);
+				updateFieldStatus([original[0] + 1, original[1] - 1], 0);
 			}
 		}
 	}
@@ -79,8 +79,8 @@ export default function eraseAdjacentConnections(
 		const target = fieldValues[original[0] - 1][original[1] - 1];
 		if (target !== undefined) {
 			if (target === 3 || target === 7) {
-				updateFieldValue([original[0] - 1, original[1] - 1], -1);
-				updateFieldStatus([original[0] - 1, original[1] - 1], -1);
+				updateFieldValue([original[0] - 1, original[1] - 1], 0);
+				updateFieldStatus([original[0] - 1, original[1] - 1], 0);
 			}
 		}
 	}

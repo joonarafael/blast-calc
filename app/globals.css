@@ -22,14 +22,14 @@
 		--primary-foreground: 240 5.9% 10%;
 		--primary: 60 0% 98%;
 		--ring: 240 4.9% 83.9%;
-		--secondary-foreground: 0 0% 98%;
+		--secondary-foreground: 60 0% 98%;
 		--secondary: 240 3.7% 15.9%;
 	}
 }
 
 ::-webkit-scrollbar {
-	width: 10px;
-	height: 10px;
+	width: 6px;
+	height: 6px;
 }
 
 ::-webkit-scrollbar-track {
