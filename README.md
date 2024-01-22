@@ -2,4 +2,5 @@
 
 ## TODO
 
-- eraser tool functionality for adjacent connections and boreholes
+- save code
+- graph logic
