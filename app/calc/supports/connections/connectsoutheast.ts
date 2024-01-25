@@ -15,10 +15,10 @@ export default function connectSouthEast(
 	const targetIndexRow = getRowIndex(targetIndex, width);
 	const targetIndexCol = getColIndex(targetIndex, width);
 
-	updateFieldValue([targetIndexRow, targetIndexCol], 3);
+	updateFieldStatus([targetIndexRow, targetIndexCol], 3);
 	if (tool === "0") {
-		updateFieldStatus([targetIndexRow, targetIndexCol], 65535);
+		updateFieldValue([targetIndexRow, targetIndexCol], 65535);
 	} else {
-		updateFieldStatus([targetIndexRow, targetIndexCol], parseInt(tool, 10));
+		updateFieldValue([targetIndexRow, targetIndexCol], parseInt(tool, 10));
 	}
 }

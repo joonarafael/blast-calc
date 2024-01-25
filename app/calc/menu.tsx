@@ -27,6 +27,7 @@ interface MenuProps {
 	isLinking: boolean;
 	setIsLinking: (value: boolean) => void;
 	requestCode: () => void;
+	setReplacingToolView: (value: boolean) => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -41,6 +42,7 @@ const Menu: React.FC<MenuProps> = ({
 	setIsLinking,
 	latencySelection,
 	requestCode,
+	setReplacingToolView,
 }) => {
 	const zoomIn = () => {
 		if (zoom < 6) {
@@ -89,6 +91,14 @@ const Menu: React.FC<MenuProps> = ({
 						</MenubarItem>
 						<MenubarItem disabled>Load Plan From Save Code</MenubarItem>
 						<MenubarSeparator />
+						<MenubarItem
+							onClick={() => {
+								setLatencyChangeView(true);
+							}}
+						>
+							Configure Latency Selection
+						</MenubarItem>
+						<MenubarSeparator />
 						<MenubarItem disabled>Analyze</MenubarItem>
 						<MenubarSeparator />
 						<MenubarItem disabled>Get Save Code</MenubarItem>
@@ -106,6 +116,7 @@ const Menu: React.FC<MenuProps> = ({
 								</MenubarItem>
 							</MenubarSubContent>
 						</MenubarSub>
+
 						<MenubarSeparator />
 						<MenubarSub>
 							<MenubarSubTrigger>Exit</MenubarSubTrigger>
@@ -118,22 +129,17 @@ const Menu: React.FC<MenuProps> = ({
 					</MenubarContent>
 				</MenubarMenu>
 				<MenubarMenu>
-					<MenubarTrigger>Edit</MenubarTrigger>
-					<MenubarContent>
-						<MenubarItem
-							onClick={() => {
-								setLatencyChangeView(true);
-							}}
-						>
-							Configure Latency Selection
-						</MenubarItem>
-					</MenubarContent>
-				</MenubarMenu>
-				<MenubarMenu>
 					<MenubarTrigger>Select</MenubarTrigger>
 					<MenubarContent>
 						<MenubarSub>
 							<MenubarSubTrigger>Tool</MenubarSubTrigger>
+							<MenubarItem
+								onClick={() => {
+									setReplacingToolView(true);
+								}}
+							>
+								Bulk Replace Tool
+							</MenubarItem>
 							<MenubarSubContent>
 								<MenubarItem onClick={() => setTool("cursor")}>
 									Cursor

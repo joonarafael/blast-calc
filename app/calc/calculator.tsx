@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 
 import PageError from "@/app/components/pageerror";
@@ -8,6 +7,7 @@ import Container from "../components/container";
 import LatencyChange from "./latencychange";
 import Matrix from "./matrix";
 import Menu from "./menu";
+import ReplacingTool from "./replacingtool";
 import generateSaveCode from "./savecodes/generate";
 import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnections";
 import initConnection from "./supports/initconnection";
@@ -28,6 +28,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	const [oldEntryValue, setOldEntryValue] = useState<number | null>(null);
 	const [selectedBoreHole, setSelectedBoreHole] = useState<number | null>(null);
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	const [replacingToolView, setReplacingToolView] = useState(false);
 	const breakpoint = 1060;
 
 	useEffect(() => {
@@ -180,25 +181,28 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 				updateFieldStatus([position[0], position[1]], 0);
 				updateFieldValue([position[0], position[1]], 0);
 			} else if (tool !== "entry" && tool !== "borehole" && tool !== "cursor") {
-				if (fieldStatus[position[0]][position[1]] === parseInt(tool, 10)) {
-					const newOrientation = fieldValues[position[0]][position[1]] + 4;
+				if (
+					fieldValues[position[0]][position[1]] === parseInt(tool, 10) ||
+					(fieldValues[position[0]][position[1]] === 65535 && tool === "0")
+				) {
+					const newOrientation = fieldStatus[position[0]][position[1]] + 4;
 
 					if (newOrientation > 7) {
-						updateFieldValue(
+						updateFieldStatus(
 							[position[0], position[1]],
-							fieldValues[position[0]][position[1]] + 4 - 8
+							fieldStatus[position[0]][position[1]] - 4
 						);
 					} else {
-						updateFieldValue(
+						updateFieldStatus(
 							[position[0], position[1]],
-							fieldValues[position[0]][position[1]] + 4
+							fieldStatus[position[0]][position[1]] + 4
 						);
 					}
-				} else if (fieldStatus[position[0]][position[1]] !== 0) {
+				} else if (fieldValues[position[0]][position[1]] !== 0) {
 					if (tool === "0") {
-						updateFieldStatus([position[0], position[1]], 65535);
+						updateFieldValue([position[0], position[1]], 65535);
 					} else {
-						updateFieldStatus([position[0], position[1]], parseInt(tool, 10));
+						updateFieldValue([position[0], position[1]], parseInt(tool, 10));
 					}
 				}
 			}
@@ -244,6 +248,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					isLinking={isLinking}
 					requestCode={requestCode}
 					setIsLinking={setIsLinking}
+					setReplacingToolView={setReplacingToolView}
 				/>
 				<div className="flex flex-row gap-4">
 					<div className="border rounded-lg w-5/6 h-[80svh] overflow-scroll">
@@ -262,14 +267,22 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					</div>
 					<div className="border rounded-lg w-1/6">
 						<div className="w-full">
-							<ToolBar
-								tool={tool}
-								setTool={setTool}
-								setIsLinking={setIsLinking}
-								isLinking={isLinking}
-								latencySelection={latencySelection}
-								setLatencyChangeView={setLatencyChangeView}
-							/>
+							{replacingToolView ? (
+								<ReplacingTool
+									fieldValues={fieldValues}
+									setReplacingToolView={setReplacingToolView}
+									latencySelection={latencySelection}
+								/>
+							) : (
+								<ToolBar
+									tool={tool}
+									setTool={setTool}
+									setIsLinking={setIsLinking}
+									isLinking={isLinking}
+									latencySelection={latencySelection}
+									setLatencyChangeView={setLatencyChangeView}
+								/>
+							)}
 						</div>
 					</div>
 				</div>

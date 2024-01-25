@@ -1,7 +1,7 @@
 "use client";
 
-import getColIndex from '../getcolindex';
-import getRowIndex from '../getrowindex';
+import getColIndex from "../getcolindex";
+import getRowIndex from "../getrowindex";
 
 export default function connectSouthWest(
 	start: number,
@@ -15,10 +15,10 @@ export default function connectSouthWest(
 	const targetIndexRow = getRowIndex(targetIndex, width);
 	const targetIndexCol = getColIndex(targetIndex, width);
 
-	updateFieldValue([targetIndexRow, targetIndexCol], 5);
+	updateFieldStatus([targetIndexRow, targetIndexCol], 5);
 	if (tool === "0") {
-		updateFieldStatus([targetIndexRow, targetIndexCol], 65535);
+		updateFieldValue([targetIndexRow, targetIndexCol], 65535);
 	} else {
-		updateFieldStatus([targetIndexRow, targetIndexCol], parseInt(tool, 10));
+		updateFieldValue([targetIndexRow, targetIndexCol], parseInt(tool, 10));
 	}
 }
