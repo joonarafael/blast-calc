@@ -2,7 +2,8 @@
 
 export default function replaceOldEntry(
 	fieldStatus: number[][],
-	setFieldStatus: (arr: number[][]) => void
+	setFieldStatus: (arr: number[][]) => void,
+	oldEntryValue?: number | null
 ) {
 	let tmp = [...fieldStatus];
 
@@ -19,7 +20,11 @@ export default function replaceOldEntry(
 	}
 
 	if (rowIndex !== undefined && columnIndex !== undefined) {
-		tmp[rowIndex][columnIndex] = 0;
+		if (oldEntryValue) {
+			tmp[rowIndex][columnIndex] = oldEntryValue;
+		} else {
+			tmp[rowIndex][columnIndex] = 0;
+		}
 	}
 
 	setFieldStatus(tmp);

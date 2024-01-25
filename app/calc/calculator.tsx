@@ -1,18 +1,18 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import PageError from '@/app/components/pageerror';
+import PageError from "@/app/components/pageerror";
 
-import Container from '../components/container';
-import LatencyChange from './latencychange';
-import Matrix from './matrix';
-import Menu from './menu';
-import generateSaveCode from './savecodes/generate';
-import eraseAdjacentConnections from './supports/connections/eraseadjacentconnections';
-import initConnection from './supports/initconnection';
-import replaceOldEntry from './supports/replaceoldentry';
-import ToolBar from './toolbar';
+import Container from "../components/container";
+import LatencyChange from "./latencychange";
+import Matrix from "./matrix";
+import Menu from "./menu";
+import generateSaveCode from "./savecodes/generate";
+import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnections";
+import initConnection from "./supports/initconnection";
+import replaceOldEntry from "./supports/replaceoldentry";
+import ToolBar from "./toolbar";
 
 interface CalculatorProps {
 	width: number;
@@ -25,6 +25,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	const [isLinking, setIsLinking] = useState(true);
 	const [zoom, setZoom] = useState(4);
 	const [tool, setTool] = useState("cursor");
+	const [oldEntryValue, setOldEntryValue] = useState<number | null>(null);
 	const [selectedBoreHole, setSelectedBoreHole] = useState<number | null>(null);
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 	const breakpoint = 1060;
@@ -98,7 +99,8 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 		if (!isLoading) {
 			setIsLoading(true);
 			if (tool === "entry") {
-				replaceOldEntry(fieldStatus, setFieldStatus);
+				replaceOldEntry(fieldStatus, setFieldStatus, oldEntryValue);
+				setOldEntryValue(fieldStatus[coords[0]][coords[1]]);
 			}
 
 			if (newValue === 2 && fieldStatus[coords[0]][coords[1]] === 1) {
