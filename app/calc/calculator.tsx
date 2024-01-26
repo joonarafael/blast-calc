@@ -8,7 +8,7 @@ import LatencyChange from "./latencychange";
 import Matrix from "./matrix";
 import Menu from "./menu";
 import ReplacingTool from "./replacingtool";
-import generateSaveCode from "./savecodes/generate";
+import generateSaveCode from "./savecode/generate";
 import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnections";
 import initConnection from "./supports/initconnection";
 import replaceOldEntry from "./supports/replaceoldentry";
@@ -89,7 +89,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	};
 
 	const requestCode = () => {
-		generateSaveCode(width, fieldStatus, fieldValues);
+		generateSaveCode(width, height, fieldStatus, fieldValues);
 	};
 
 	const [latencySelection, setLatencySelection] = useState([

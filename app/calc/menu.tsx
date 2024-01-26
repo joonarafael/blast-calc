@@ -101,7 +101,7 @@ const Menu: React.FC<MenuProps> = ({
 						<MenubarSeparator />
 						<MenubarItem disabled>Analyze</MenubarItem>
 						<MenubarSeparator />
-						<MenubarItem disabled>Get Save Code</MenubarItem>
+						<MenubarItem onClick={requestCode}>Get Save Code</MenubarItem>
 						<MenubarItem disabled>Print</MenubarItem>
 						<MenubarSeparator />
 						<MenubarSub>

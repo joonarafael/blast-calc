@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-import Container from '@/app/components/container';
-import { Button } from '@/app/components/ui/button';
-import { Input } from '@/app/components/ui/input';
+import Container from "@/app/components/container";
+import { Button } from "@/app/components/ui/button";
+import { Input } from "@/app/components/ui/input";
 
 const NewPlanSettingsClient = () => {
 	const [fieldWidth, setFieldWidth] = useState(6);
@@ -100,7 +100,12 @@ const NewPlanSettingsClient = () => {
 						</div>
 						<hr />
 						<Button onClick={handleNewPlan}>CREATE</Button>
-						<Button onClick={() => window.open("/", "_self")}>GO BACK</Button>
+						<Button
+							variant={"secondary"}
+							onClick={() => window.open("/", "_self")}
+						>
+							GO BACK
+						</Button>
 					</div>
 				</div>
 			</div>
