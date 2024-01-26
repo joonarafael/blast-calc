@@ -27,6 +27,7 @@ interface MenuProps {
 	isLinking: boolean;
 	setIsLinking: (value: boolean) => void;
 	requestCode: () => void;
+	replacingToolView: boolean;
 	setReplacingToolView: (value: boolean) => void;
 }
 
@@ -43,6 +44,7 @@ const Menu: React.FC<MenuProps> = ({
 	latencySelection,
 	requestCode,
 	setReplacingToolView,
+	replacingToolView,
 }) => {
 	const zoomIn = () => {
 		if (zoom < 6) {
@@ -135,7 +137,7 @@ const Menu: React.FC<MenuProps> = ({
 							<MenubarSubTrigger>Tool</MenubarSubTrigger>
 							<MenubarItem
 								onClick={() => {
-									setReplacingToolView(true);
+									setReplacingToolView(!replacingToolView);
 								}}
 							>
 								Bulk Replace Tool

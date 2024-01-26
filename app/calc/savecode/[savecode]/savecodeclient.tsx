@@ -35,8 +35,15 @@ const SaveCodeClient: React.FC<SaveCodeClientProps> = ({ saveCode }) => {
 							<p>{saveCode}</p>
 						</div>
 						<hr />
-						<Button onClick={handleClick}>COPY CODE TO CLIPBOARD</Button>
 						<Button variant={"secondary"} onClick={handleClick}>
+							COPY CODE TO CLIPBOARD
+						</Button>
+						<Button
+							variant={"outline"}
+							onClick={() => {
+								window.close();
+							}}
+						>
 							CLOSE WINDOW
 						</Button>
 					</div>

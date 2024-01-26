@@ -99,9 +99,11 @@ const NewPlanSettingsClient = () => {
 							THE FIELD WIDTH & HEIGHT CANNOT BE ALTERED AFTERWARDS.
 						</div>
 						<hr />
-						<Button onClick={handleNewPlan}>CREATE</Button>
+						<Button variant={"secondary"} onClick={handleNewPlan}>
+							CREATE
+						</Button>
 						<Button
-							variant={"secondary"}
+							variant={"outline"}
 							onClick={() => window.open("/", "_self")}
 						>
 							GO BACK

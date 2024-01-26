@@ -43,6 +43,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
 			<hr />
 			<Button
 				className="h-18"
+				variant={"secondary"}
 				onClick={() => {
 					setLatencyChangeView(true);
 				}}

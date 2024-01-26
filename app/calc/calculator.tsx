@@ -1,18 +1,18 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import PageError from "@/app/components/pageerror";
+import PageError from '@/app/components/pageerror';
 
-import Container from "../components/container";
-import LatencyChange from "./latencychange";
-import Matrix from "./matrix";
-import Menu from "./menu";
-import ReplacingTool from "./replacingtool";
-import generateSaveCode from "./savecode/generate";
-import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnections";
-import initConnection from "./supports/initconnection";
-import replaceOldEntry from "./supports/replaceoldentry";
-import ToolBar from "./toolbar";
+import Container from '../components/container';
+import LatencyChange from './latencychange';
+import Matrix from './matrix';
+import Menu from './menu';
+import ReplacingTool from './replacingtool';
+import generateSaveCode from './savecode/generate';
+import eraseAdjacentConnections from './supports/connections/eraseadjacentconnections';
+import initConnection from './supports/initconnection';
+import replaceOldEntry from './supports/replaceoldentry';
+import ToolBar from './toolbar';
 
 interface CalculatorProps {
 	width: number;
@@ -248,6 +248,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					isLinking={isLinking}
 					requestCode={requestCode}
 					setIsLinking={setIsLinking}
+					replacingToolView={replacingToolView}
 					setReplacingToolView={setReplacingToolView}
 				/>
 				<div className="flex flex-row gap-4">
@@ -272,6 +273,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 									fieldValues={fieldValues}
 									setReplacingToolView={setReplacingToolView}
 									latencySelection={latencySelection}
+									setFieldValues={setFieldValues}
 								/>
 							) : (
 								<ToolBar

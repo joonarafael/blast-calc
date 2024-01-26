@@ -1,12 +1,12 @@
 "use client";
 
 export default function replaceAllEqualTo(
-	fieldStatus: number[][],
-	setFieldStatus: (arr: number[][]) => void,
+	fieldValues: number[][],
+	setFieldValues: (arr: number[][]) => void,
 	toBeReplaced: number,
 	replaceWith: number
 ) {
-	let tmp = [...fieldStatus];
+	let tmp = [...fieldValues];
 
 	for (let i = 0; i < tmp.length; i++) {
 		for (let j = 0; j < tmp[i].length; j++) {
@@ -16,5 +16,5 @@ export default function replaceAllEqualTo(
 		}
 	}
 
-	setFieldStatus(tmp);
+	setFieldValues(tmp);
 }

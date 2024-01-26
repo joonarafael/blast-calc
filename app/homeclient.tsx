@@ -29,8 +29,14 @@ const HomeClient = () => {
 								AVAILABLE VERSION TO ENSURE THE BEST PERFORMANCE.
 							</p>
 						</div>
-						<Button onClick={() => window.open("/calc/new", "_self")}>
+						<Button
+							variant={"secondary"}
+							onClick={() => window.open("/calc/new", "_self")}
+						>
 							NEW PLAN
+						</Button>
+						<Button variant={"outline"} disabled>
+							LOAD PLAN FROM SAVE CODE
 						</Button>
 					</div>
 				</div>

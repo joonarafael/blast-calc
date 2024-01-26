@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { toast } from "sonner";
+
 import {
 	Select,
 	SelectContent,
@@ -9,18 +12,24 @@ import {
 } from "@/app/components/ui/select";
 
 import { Button } from "../components/ui/button";
+import replaceAllEqualTo from "./supports/replaceallequalto";
 
 interface ReplacingToolProps {
 	setReplacingToolView: (value: boolean) => void;
 	fieldValues: number[][];
 	latencySelection: number[];
+	setFieldValues: (value: number[][]) => void;
 }
 
 const ReplacingTool: React.FC<ReplacingToolProps> = ({
 	setReplacingToolView,
 	fieldValues,
 	latencySelection,
+	setFieldValues,
 }) => {
+	const [oldValue, setOldValue] = useState<string | undefined>(undefined);
+	const [newValue, setNewValue] = useState<string | undefined>(undefined);
+
 	const findExistingDelays = (fieldValues: number[][]) => {
 		let delays = new Set([0]);
 
@@ -37,6 +46,29 @@ const ReplacingTool: React.FC<ReplacingToolProps> = ({
 
 	const existingDelays = findExistingDelays(fieldValues);
 
+	const handleClick = () => {
+		if (
+			oldValue !== undefined &&
+			newValue !== undefined &&
+			oldValue !== newValue
+		) {
+			replaceAllEqualTo(
+				fieldValues,
+				setFieldValues,
+				parseInt(oldValue, 10),
+				parseInt(newValue, 10)
+			);
+
+			setOldValue(undefined);
+			setNewValue(undefined);
+
+			toast("Replacing successful!");
+
+			return;
+		}
+		toast("Invalid selections");
+	};
+
 	return (
 		<div className="flex flex-col p-2 gap-2 w-full h-[80svh]">
 			<div className="font-light text-neutral-500 text-xs">
@@ -44,6 +76,7 @@ const ReplacingTool: React.FC<ReplacingToolProps> = ({
 			</div>
 			<Button
 				className="h-18"
+				variant={"secondary"}
 				onClick={() => {
 					setReplacingToolView(false);
 				}}
@@ -53,32 +86,50 @@ const ReplacingTool: React.FC<ReplacingToolProps> = ({
 			<hr />
 			<div className="font-light text-neutral-500 text-xs">TO BE REPLACED</div>
 			{existingDelays.length > 0 ? (
-				<Select>
+				<Select value={oldValue} onValueChange={setOldValue}>
 					<SelectTrigger className="w-full">
 						<SelectValue placeholder="TO BE REPLACED" />
 					</SelectTrigger>
 					<SelectContent>
 						{existingDelays.map((delay) => (
-							<SelectItem key={delay} value={delay.toString()}>
-								{delay}
-							</SelectItem>
+							<>
+								{delay === 65535 ? (
+									<SelectItem key={delay} value={delay.toString()}>
+										{"0"}
+									</SelectItem>
+								) : (
+									<SelectItem key={delay} value={delay.toString()}>
+										{delay}
+									</SelectItem>
+								)}
+							</>
 						))}
 					</SelectContent>
 				</Select>
 			) : (
-				<div className="text-base font-bold">NO CONNECTIONS ON THE FIELD</div>
+				<Button disabled variant={"outline"}>
+					<p className="font-bold">NO CONNECTIONS</p>
+				</Button>
 			)}
 			<div className="font-light text-neutral-500 text-xs">REPLACE WITH</div>
 			{latencySelection.length > 1 ? (
-				<Select>
+				<Select value={newValue} onValueChange={setNewValue}>
 					<SelectTrigger className="w-full">
 						<SelectValue placeholder="REPLACE  WITH" />
 					</SelectTrigger>
 					<SelectContent>
 						{latencySelection.map((delay) => (
-							<SelectItem key={delay} value={delay.toString()}>
-								{delay}
-							</SelectItem>
+							<>
+								{delay === 0 ? (
+									<SelectItem key={delay} value={"65535"}>
+										{"0"}
+									</SelectItem>
+								) : (
+									<SelectItem key={delay} value={delay.toString()}>
+										{delay}
+									</SelectItem>
+								)}
+							</>
 						))}
 					</SelectContent>
 				</Select>
@@ -86,6 +137,16 @@ const ReplacingTool: React.FC<ReplacingToolProps> = ({
 				<div className="text-base font-bold">
 					NO LATENCY SELECTION AVAILABLE
 				</div>
+			)}
+			<hr />
+			{oldValue && newValue && oldValue !== newValue ? (
+				<Button onClick={handleClick} variant={"secondary"}>
+					<p className="font-bold">REPLACE</p>
+				</Button>
+			) : (
+				<Button disabled variant={"outline"}>
+					<p className="font-bold">REPLACE</p>
+				</Button>
 			)}
 		</div>
 	);
