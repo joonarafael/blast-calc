@@ -74,8 +74,8 @@ const NewPlanSettingsClient = () => {
 						<hr />
 						<div>Enter values between 1 and 32.</div>
 						<div className="flex flex-row gap-4 w-full">
-							<div className="flex flex-col gap-2 p-4 border w-1/2">
-								<label htmlFor="fieldWidth">FIELD WIDTH</label>
+							<div className="flex flex-col gap-2 p-4 border rounded-lg w-1/2">
+								<label htmlFor="fieldWidth">FIELD COLUMN COUNT</label>
 								<Input
 									value={fieldWidth}
 									type="number"
@@ -84,8 +84,8 @@ const NewPlanSettingsClient = () => {
 									onChange={(e) => handleFieldWidthChange(e.target.value)}
 								/>
 							</div>
-							<div className="flex flex-col gap-2 p-4 border w-1/2">
-								<label htmlFor="fieldHeight">FIELD HEIGHT</label>
+							<div className="flex flex-col gap-2 p-4 rounded-lg border w-1/2">
+								<label htmlFor="fieldHeight">FIELD ROW COUNT</label>
 								<Input
 									value={fieldHeight}
 									type="number"
@@ -95,10 +95,12 @@ const NewPlanSettingsClient = () => {
 								/>
 							</div>
 						</div>
-						<div className="text-yellow-500">
-							THE FIELD WIDTH & HEIGHT CANNOT BE ALTERED AFTERWARDS.
+						<div className="text-neutral-500 font-light text-sm">
+							(COLUMNS = X-AXIS AND ROWS = Y-AXIS)
 						</div>
-						<hr />
+						<div className="text-yellow-500 border rounded-lg p-2 border-red-500">
+							THE ROW & COLUMN COUNT CANNOT BE ALTERED AFTERWARDS.
+						</div>
 						<Button variant={"secondary"} onClick={handleNewPlan}>
 							CREATE
 						</Button>

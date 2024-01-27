@@ -92,10 +92,9 @@ const Connection: React.FC<ConnectionProps> = ({
 			<div>
 				{value !== 0 ? (
 					<div className="relative">
-						<div>{arrowElement(status)}</div>
 						{zoom > 2 ? (
 							<div
-								className={`z-99 absolute bg-zinc-900 p-1 rounded-xl top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4`}
+								className={`z-1 absolute p-1 rounded-xl top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 text-neutral-500 font-bold text-5xl`}
 							>
 								{value === 65535 ? "0" : `${value}`}
 							</div>
@@ -117,6 +116,8 @@ const Connection: React.FC<ConnectionProps> = ({
 								{value === 65535 ? "0" : `${value}`}
 							</span>
 						)}
+
+						<div className="z-2">{arrowElement(status)}</div>
 					</div>
 				) : (
 					<></>

@@ -51,7 +51,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
 				<p className="font-bold">
 					CONFIGURE
 					<br />
-					LATENCY
+					DELAY
 					<br />
 					SELECTION
 				</p>

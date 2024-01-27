@@ -98,7 +98,7 @@ const Menu: React.FC<MenuProps> = ({
 								setLatencyChangeView(true);
 							}}
 						>
-							Configure Latency Selection
+							Configure Delay Selection
 						</MenubarItem>
 						<MenubarSeparator />
 						<MenubarItem disabled>Analyze</MenubarItem>
