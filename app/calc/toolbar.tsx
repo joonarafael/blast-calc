@@ -25,9 +25,18 @@ const ToolBar: React.FC<ToolBarProps> = ({
 
 	const commonCSS = `cursor-pointer text-lg hover:pl-4 hover:underline rounded border p-2`;
 
+	const toolList = ["cursor", "entry", "borehole", "eraser"];
+
 	return (
 		<div className="flex flex-col p-2 gap-2 w-full h-[80svh]">
-			<div className="font-light text-neutral-500 text-xs">SELECTED TOOL</div>
+			{toolList.includes(tool) ? (
+				<div className="font-light text-neutral-500 text-xs">SELECTED TOOL</div>
+			) : (
+				<div className="font-light text-neutral-500 text-xs">
+					SELECTED DELAY
+				</div>
+			)}
+
 			<div className="font-bold text-3xl">{tool}</div>
 			<div
 				onClick={toggleIsLinking}
@@ -40,22 +49,6 @@ const ToolBar: React.FC<ToolBarProps> = ({
 					<p className="text-red-500">OFF</p>
 				)}
 			</div>
-			<hr />
-			<Button
-				className="h-18"
-				variant={"secondary"}
-				onClick={() => {
-					setLatencyChangeView(true);
-				}}
-			>
-				<p className="font-bold">
-					CONFIGURE
-					<br />
-					DELAY
-					<br />
-					SELECTION
-				</p>
-			</Button>
 			<hr />
 			<div className="font-light text-neutral-500 text-xs">TOOL SELECTION</div>
 			<div className="overflow-y-scroll flex flex-col gap-1 pr-1">
@@ -83,8 +76,26 @@ const ToolBar: React.FC<ToolBarProps> = ({
 				>
 					ERASER
 				</div>
-
 				<hr className="my-1" />
+				<Button
+					className="h-18"
+					variant={"secondary"}
+					onClick={() => {
+						setLatencyChangeView(true);
+					}}
+				>
+					<p className="font-bold">
+						CONFIGURE
+						<br />
+						DELAY
+						<br />
+						SELECTION
+					</p>
+				</Button>
+				<hr className="my-1" />
+				<div className="font-light text-neutral-500 text-xs">
+					DELAY SELECTION
+				</div>
 				{latencySelection.map((item, i) => (
 					<div
 						key={i}

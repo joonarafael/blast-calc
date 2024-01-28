@@ -99,7 +99,7 @@ const NewPlanSettingsClient = () => {
 							(COLUMNS = X-AXIS AND ROWS = Y-AXIS)
 						</div>
 						<div className="text-yellow-500 border rounded-lg p-2 border-red-500">
-							THE ROW & COLUMN COUNT CANNOT BE ALTERED AFTERWARDS.
+							THE COUNT OF ROWS & COLUMNS CANNOT BE ALTERED AFTERWARDS.
 						</div>
 						<Button variant={"secondary"} onClick={handleNewPlan}>
 							CREATE

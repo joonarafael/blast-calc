@@ -188,7 +188,7 @@ const Menu: React.FC<MenuProps> = ({
 						<MenubarItem onClick={zoomMin}>Zoom Minimum</MenubarItem>
 						<MenubarItem onClick={zoomMax}>Zoom Maximum</MenubarItem>
 						<MenubarSeparator />
-						<MenubarItem onClick={zoomDefault}>Reset Zoom</MenubarItem>
+						<MenubarItem onClick={zoomDefault}>Zoom Default</MenubarItem>
 						<MenubarSeparator />
 						<MenubarItem onClick={toggleFullscreen}>
 							Toggle Fullscreen

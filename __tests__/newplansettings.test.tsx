@@ -23,7 +23,7 @@ describe("NewPlanSettings", () => {
 	it("should have FIELD WIDTH input", () => {
 		render(<NewPlanSettingsPage />);
 
-		const myElem = screen.getByLabelText("FIELD WIDTH");
+		const myElem = screen.getByLabelText("FIELD COLUMN COUNT");
 
 		expect(myElem).toBeInTheDocument();
 	});
@@ -31,7 +31,7 @@ describe("NewPlanSettings", () => {
 	it("should have FIELD HEIGHT input", () => {
 		render(<NewPlanSettingsPage />);
 
-		const myElem = screen.getByLabelText("FIELD HEIGHT");
+		const myElem = screen.getByLabelText("FIELD ROW COUNT");
 
 		expect(myElem).toBeInTheDocument();
 	});
