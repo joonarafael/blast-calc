@@ -1,18 +1,19 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import PageError from '@/app/components/pageerror';
+import PageError from "@/app/components/pageerror";
 
-import Container from '../components/container';
-import LatencyChange from './latencychange';
-import Matrix from './matrix';
-import Menu from './menu';
-import ReplacingTool from './replacingtool';
-import generateSaveCode from './savecode/generate';
-import eraseAdjacentConnections from './supports/connections/eraseadjacentconnections';
-import initConnection from './supports/initconnection';
-import replaceOldEntry from './supports/replaceoldentry';
-import ToolBar from './toolbar';
+import generateAdjacencyList from "../algos/adjacency";
+import Container from "../components/container";
+import LatencyChange from "./latencychange";
+import Matrix from "./matrix";
+import Menu from "./menu";
+import ReplacingTool from "./replacingtool";
+import generateSaveCode from "./savecode/generate";
+import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnections";
+import initConnection from "./supports/initconnection";
+import replaceOldEntry from "./supports/replaceoldentry";
+import ToolBar from "./toolbar";
 
 interface CalculatorProps {
 	width: number;
@@ -135,10 +136,13 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 		if (!isLoading) {
 			setIsLoading(true);
 			if (tool === "entry") {
+				setSelectedBoreHole(null);
 				updateFieldStatus(position, 1);
 			} else if (tool === "borehole") {
+				setSelectedBoreHole(null);
 				updateFieldStatus(position, 2);
 			} else if (tool === "eraser") {
+				setSelectedBoreHole(null);
 				updateFieldStatus(position, 0);
 
 				eraseAdjacentConnections(
@@ -214,6 +218,10 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	useEffect(() => {
 		setSelectedBoreHole(null);
 	}, [tool, isLinking]);
+
+	useEffect(() => {
+		generateAdjacencyList(fieldStatus, fieldValues);
+	}, [fieldStatus, fieldValues, width]);
 
 	if (latencyChangeView) {
 		return (
