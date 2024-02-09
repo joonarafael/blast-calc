@@ -103,6 +103,6 @@ export default function generateAdjacencyList(
 		}
 	}
 
-	console.log(adjacencyList);
+	// console.log(adjacencyList);
 	return adjacencyList;
 }

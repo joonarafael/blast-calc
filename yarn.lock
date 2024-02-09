@@ -2643,6 +2643,7 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
     lucide-react: "npm:^0.309.0"
+    lz-string: "npm:^1.5.0"
     next: "npm:13.4.20-canary.13"
     next-themes: "npm:^0.2.1"
     postcss: "npm:8.4.31"
