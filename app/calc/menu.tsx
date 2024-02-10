@@ -26,7 +26,6 @@ interface MenuProps {
 	setTool: (tool: string) => void;
 	isLinking: boolean;
 	setIsLinking: (value: boolean) => void;
-	requestCode: () => void;
 	replacingToolView: boolean;
 	setReplacingToolView: (value: boolean) => void;
 }
@@ -42,7 +41,6 @@ const Menu: React.FC<MenuProps> = ({
 	isLinking,
 	setIsLinking,
 	latencySelection,
-	requestCode,
 	setReplacingToolView,
 	replacingToolView,
 }) => {
@@ -103,7 +101,7 @@ const Menu: React.FC<MenuProps> = ({
 						<MenubarSeparator />
 						<MenubarItem disabled>Analyze</MenubarItem>
 						<MenubarSeparator />
-						<MenubarItem onClick={requestCode}>Get Save Code</MenubarItem>
+						<MenubarItem disabled>Get Save Code</MenubarItem>
 						<MenubarItem disabled>Print</MenubarItem>
 						<MenubarSeparator />
 						<MenubarSub>
