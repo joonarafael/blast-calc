@@ -4,6 +4,7 @@ interface BoreHoleProps {
 	index: number;
 	status: number;
 	value: number;
+	delay?: number | null;
 	coords: number[];
 	zoom: number;
 	selectedBoreHole?: number | null;
@@ -15,6 +16,7 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 	coords,
 	status,
 	value,
+	delay,
 	zoom,
 	selectedBoreHole,
 	boreHoleClick,
@@ -52,16 +54,18 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 	} else if (zoom === 3) {
 		size = "text-base min-w-20 min-h-20";
 	} else if (zoom === 4) {
-		size = "text-base min-w-24 min-h-24";
+		size = "text-lg min-w-24 min-h-24";
 	} else if (zoom === 5) {
-		size = "text-base min-w-28 min-h-28";
+		size = "text-xl min-w-28 min-h-28";
 	} else if (zoom === 6) {
-		size = "text-base min-w-36 min-h-36";
+		size = "text-2xl min-w-36 min-h-36";
 	}
 
 	return (
 		<div onClick={handleClick} className={`${commonCSS} ${size}`}>
-			<div>{status === 1 ? <>{"E"}</> : <></>}</div>
+			<div className="absolute">
+				{status === 1 ? <>{"E"}</> : status === 2 ? <>{delay}</> : <></>}
+			</div>
 		</div>
 	);
 };

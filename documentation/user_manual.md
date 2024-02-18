@@ -14,13 +14,13 @@ Biggest part of the screen layout is the actual field plan. It's a grid layout r
 
 **New Plan**: (opens in a new tab) Create a new plan.
 
-**Load Plan From Save Code**: (opens a new tab) Load an old plan with an existing save code.
+**Load Plan From Save Code [unavailable]**: (opens in a new tab) Load an old plan with an existing save code.
 
 **Configure Latency Selection**: Open the view to configure the latency selection for the active plan.
 
 **Analyze [unavailable]**: Analyze the field and create statistics.
 
-**Get Save Code**: (opens in a new tab) Generates a new save code for the current field at the moment (if work is continued, a new save code must be requested).
+**Get Save Code [unavailable]**: Generates a new save code for the current field at the moment.
 
 **Print [unavailable]**: Print the field plan.
 

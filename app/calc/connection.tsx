@@ -1,9 +1,15 @@
 "use client";
 
 import {
-    TbArrowDownCircle, TbArrowDownLeftCircle, TbArrowDownRightCircle, TbArrowLeftCircle,
-    TbArrowRightCircle, TbArrowUpCircle, TbArrowUpLeftCircle, TbArrowUpRightCircle
-} from 'react-icons/tb';
+	TbArrowDownCircle,
+	TbArrowDownLeftCircle,
+	TbArrowDownRightCircle,
+	TbArrowLeftCircle,
+	TbArrowRightCircle,
+	TbArrowUpCircle,
+	TbArrowUpLeftCircle,
+	TbArrowUpRightCircle,
+} from "react-icons/tb";
 
 interface ConnectionProps {
 	index: number;
@@ -37,28 +43,28 @@ const Connection: React.FC<ConnectionProps> = ({
 			value !== 0 &&
 			tool !== "entry" &&
 			tool !== "borehole" &&
-			"hover:border hover:bg-red-300 cursor-pointer"
+			"hover:bg-red-300 cursor-pointer"
 		}
 		rounded-2xl`;
 
 	let size = "text-xs min-w-10 min-h-10";
-	let icon = 32;
+	let icon = 44;
 
 	if (zoom === 2) {
 		size = "text-sm min-w-14 min-h-14";
-		icon = 48;
+		icon = 64;
 	} else if (zoom === 3) {
 		size = "text-base min-w-20 min-h-20";
-		icon = 78;
+		icon = 96;
 	} else if (zoom === 4) {
 		size = "text-xl min-w-24 min-h-24";
-		icon = 90;
+		icon = 112;
 	} else if (zoom === 5) {
 		size = "text-2xl min-w-28 min-h-28";
-		icon = 106;
+		icon = 132;
 	} else if (zoom === 6) {
 		size = "text-3xl min-w-36 min-h-36";
-		icon = 132;
+		icon = 168;
 	}
 
 	const arrowElement = (orientation: number) => {
@@ -86,10 +92,12 @@ const Connection: React.FC<ConnectionProps> = ({
 			<div>
 				{value !== 0 ? (
 					<div className="relative">
-						<div className="z-2">{arrowElement(status)}</div>
+						<div className="absolute z-2 top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
+							{arrowElement(status)}
+						</div>
 						{zoom > 2 ? (
 							<div
-								className={`z-6 absolute bg-slate-950 px-1 rounded-xl drop-shadow-lg top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 font-bold`}
+								className={`z-6 absolute bg-slate-950/80 px-1 rounded-xl drop-shadow-lg top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 font-bold`}
 							>
 								{value === 65535 ? "0" : `${value}`}
 							</div>
@@ -103,8 +111,8 @@ const Connection: React.FC<ConnectionProps> = ({
 									text-gray-100
 									rounded-lg
 									absolute
-									top-0
-									left-0
+									bottom-0
+									right-0
 									opacity-0
 									p-1"
 							>

@@ -13,6 +13,10 @@ import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnec
 import initConnection from "./supports/initconnection";
 import replaceOldEntry from "./supports/replaceoldentry";
 import ToolBar from "./toolbar";
+import twoDimIndexOf from "./supports/indexof";
+import dijkstra from "../algos/dijkstra";
+import getColIndex from "./supports/getcolindex";
+import getRowIndex from "./supports/getrowindex";
 
 interface CalculatorProps {
 	width: number;
@@ -21,7 +25,6 @@ interface CalculatorProps {
 
 const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	const [latencyChangeView, setLatencyChangeView] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
 	const [isLinking, setIsLinking] = useState(true);
 	const [zoom, setZoom] = useState(4);
 	const [tool, setTool] = useState("cursor");
@@ -48,44 +51,50 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 		)
 	);
 
-	// field status keeps track of different types of boreholes and individual connection latencies
 	const [fieldStatus, setFieldStatus] = useState(() => {
 		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
 			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
 		);
 	});
 
-	// field values stores the actual calculated latencies and connection direction
 	const [fieldValues, setFieldValues] = useState(() => {
 		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
 			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
 		);
 	});
 
+	const [fieldDelays, setFieldDelays] = useState(() => {
+		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
+			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
+		);
+	});
+
 	const debugStates = () => {
-		if (!isLoading) {
-			console.log("DEBUG:");
-			console.log(field);
-			console.log(fieldStatus);
-			console.log(fieldValues);
-		}
+		console.log("DEBUG:");
+		console.log(field);
+		console.log(fieldStatus);
+		console.log(fieldValues);
+		console.log(fieldDelays);
 	};
 
 	const resetField = () => {
-		if (!isLoading) {
-			setSelectedBoreHole(null);
-			setTool("cursor");
-			setFieldStatus(
-				Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-					Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
-				)
-			);
-			setFieldValues(
-				Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-					Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
-				)
-			);
-		}
+		setSelectedBoreHole(null);
+		setTool("cursor");
+		setFieldStatus(
+			Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
+				Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
+			)
+		);
+		setFieldValues(
+			Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
+				Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
+			)
+		);
+		setFieldDelays(
+			Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
+				Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
+			)
+		);
 	};
 
 	const [latencySelection, setLatencySelection] = useState([
@@ -93,120 +102,102 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	]);
 
 	const updateFieldStatus = (coords: number[], newValue: number) => {
-		if (!isLoading) {
-			setIsLoading(true);
-			if (tool === "entry") {
-				replaceOldEntry(fieldStatus, setFieldStatus, oldEntryValue);
-				setOldEntryValue(fieldStatus[coords[0]][coords[1]]);
-			}
-
-			if (newValue === 2 && fieldStatus[coords[0]][coords[1]] === 1) {
-				return;
-			}
-
-			setFieldStatus((prevFieldStatus) => {
-				const tmp = [...prevFieldStatus];
-				tmp[coords[0]] = [...tmp[coords[0]]];
-				tmp[coords[0]][coords[1]] = newValue;
-				return tmp;
-			});
-			setIsLoading(false);
+		if (tool === "entry") {
+			replaceOldEntry(fieldStatus, setFieldStatus, oldEntryValue);
+			setOldEntryValue(fieldStatus[coords[0]][coords[1]]);
 		}
+
+		if (newValue === 2 && fieldStatus[coords[0]][coords[1]] === 1) {
+			return;
+		}
+
+		setFieldStatus((prevFieldStatus) => {
+			const tmp = [...prevFieldStatus];
+			tmp[coords[0]] = [...tmp[coords[0]]];
+			tmp[coords[0]][coords[1]] = newValue;
+			return tmp;
+		});
 	};
 
 	const updateFieldValue = (coords: number[], newValue: number) => {
-		if (!isLoading) {
-			setIsLoading(true);
-			setFieldValues((prevFieldValues) => {
-				const tmp = [...prevFieldValues];
-				tmp[coords[0]] = [...tmp[coords[0]]];
-				tmp[coords[0]][coords[1]] = newValue;
-				return tmp;
-			});
-			setIsLoading(false);
-		}
+		setFieldValues((prevFieldValues) => {
+			const tmp = [...prevFieldValues];
+			tmp[coords[0]] = [...tmp[coords[0]]];
+			tmp[coords[0]][coords[1]] = newValue;
+			return tmp;
+		});
 	};
 
 	const boreHoleClick = (position: number[]) => {
-		if (!isLoading) {
-			setIsLoading(true);
-			if (tool === "entry") {
-				setSelectedBoreHole(null);
-				updateFieldStatus(position, 1);
-			} else if (tool === "borehole") {
-				setSelectedBoreHole(null);
-				updateFieldStatus(position, 2);
-			} else if (tool === "eraser") {
-				setSelectedBoreHole(null);
-				updateFieldStatus(position, 0);
+		if (tool === "entry") {
+			setSelectedBoreHole(null);
+			updateFieldStatus(position, 1);
+		} else if (tool === "borehole") {
+			setSelectedBoreHole(null);
+			updateFieldStatus(position, 2);
+		} else if (tool === "eraser") {
+			setSelectedBoreHole(null);
+			updateFieldStatus(position, 0);
 
-				eraseAdjacentConnections(
-					position,
-					fieldValues,
+			eraseAdjacentConnections(
+				position,
+				fieldValues,
+				updateFieldValue,
+				updateFieldStatus
+			);
+		} else if (tool !== "cursor") {
+			if (selectedBoreHole === null) {
+				setSelectedBoreHole(position[2]);
+			} else {
+				initConnection(
+					selectedBoreHole,
+					position[2],
+					width * 2 - 1,
+					updateFieldStatus,
 					updateFieldValue,
-					updateFieldStatus
+					tool
 				);
-			} else if (tool !== "cursor") {
-				if (selectedBoreHole === null) {
+
+				if (isLinking) {
 					setSelectedBoreHole(position[2]);
 				} else {
-					initConnection(
-						selectedBoreHole,
-						position[2],
-						width * 2 - 1,
-						updateFieldStatus,
-						updateFieldValue,
-						tool
-					);
-
-					if (isLinking) {
-						setSelectedBoreHole(position[2]);
-					} else {
-						setSelectedBoreHole(null);
-					}
+					setSelectedBoreHole(null);
 				}
 			}
-
-			setIsLoading(false);
 		}
 	};
 
 	const connectionClick = (position: number[]) => {
-		if (!isLoading) {
-			setIsLoading(true);
-			setSelectedBoreHole(null);
+		setSelectedBoreHole(null);
 
-			if (tool === "eraser") {
-				updateFieldStatus([position[0], position[1]], 0);
-				updateFieldValue([position[0], position[1]], 0);
-			} else if (tool !== "entry" && tool !== "borehole" && tool !== "cursor") {
-				if (
-					fieldValues[position[0]][position[1]] === parseInt(tool, 10) ||
-					(fieldValues[position[0]][position[1]] === 65535 && tool === "0")
-				) {
-					const newOrientation = fieldStatus[position[0]][position[1]] + 4;
+		if (tool === "eraser") {
+			updateFieldStatus([position[0], position[1]], 0);
+			updateFieldValue([position[0], position[1]], 0);
+		} else if (tool !== "entry" && tool !== "borehole" && tool !== "cursor") {
+			if (
+				fieldValues[position[0]][position[1]] === parseInt(tool, 10) ||
+				(fieldValues[position[0]][position[1]] === 65535 && tool === "0")
+			) {
+				const newOrientation = fieldStatus[position[0]][position[1]] + 4;
 
-					if (newOrientation > 7) {
-						updateFieldStatus(
-							[position[0], position[1]],
-							fieldStatus[position[0]][position[1]] - 4
-						);
-					} else {
-						updateFieldStatus(
-							[position[0], position[1]],
-							fieldStatus[position[0]][position[1]] + 4
-						);
-					}
-				} else if (fieldValues[position[0]][position[1]] !== 0) {
-					if (tool === "0") {
-						updateFieldValue([position[0], position[1]], 65535);
-					} else {
-						updateFieldValue([position[0], position[1]], parseInt(tool, 10));
-					}
+				if (newOrientation > 7) {
+					updateFieldStatus(
+						[position[0], position[1]],
+						fieldStatus[position[0]][position[1]] - 4
+					);
+				} else {
+					updateFieldStatus(
+						[position[0], position[1]],
+						fieldStatus[position[0]][position[1]] + 4
+					);
+				}
+			} else if (fieldValues[position[0]][position[1]] !== 0) {
+				if (tool === "0") {
+					updateFieldValue([position[0], position[1]], 65535);
+				} else {
+					updateFieldValue([position[0], position[1]], parseInt(tool, 10));
 				}
 			}
-
-			setIsLoading(false);
 		}
 	};
 
@@ -215,7 +206,36 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	}, [tool, isLinking]);
 
 	useEffect(() => {
-		generateAdjacencyList(fieldStatus, fieldValues);
+		setFieldDelays(
+			Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
+				Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
+			)
+		);
+
+		const adjacencyList = generateAdjacencyList(fieldStatus, fieldValues);
+
+		const startIndex = twoDimIndexOf(fieldStatus, 1);
+
+		if (startIndex !== -1) {
+			const dijkstraResult = dijkstra(adjacencyList, startIndex);
+
+			for (const key in dijkstraResult) {
+				if (dijkstraResult.hasOwnProperty(key)) {
+					const element = dijkstraResult[key];
+					const distance = element.distance;
+
+					const rowIndex = getRowIndex(parseInt(key, 10), width * 2 - 1);
+					const colIndex = getColIndex(parseInt(key, 10), width * 2 - 1);
+
+					setFieldDelays((prevFieldDelays) => {
+						const tmp = [...prevFieldDelays];
+						tmp[rowIndex] = [...tmp[rowIndex]];
+						tmp[rowIndex][colIndex] = distance;
+						return tmp;
+					});
+				}
+			}
+		}
 	}, [fieldStatus, fieldValues, width]);
 
 	if (latencyChangeView) {
@@ -260,6 +280,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 								field={field}
 								fieldStatus={fieldStatus}
 								fieldValues={fieldValues}
+								fieldDelays={fieldDelays}
 								zoom={zoom}
 								tool={tool}
 								selectedBoreHole={selectedBoreHole}

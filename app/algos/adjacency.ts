@@ -1,6 +1,6 @@
 "use client";
 
-type AdjacencyList = Record<number, number[]>;
+type AdjacencyList = Record<number, { neighbor: number; weight: number }[]>;
 
 export default function generateAdjacencyList(
 	fieldStatus: number[][],
@@ -18,7 +18,7 @@ export default function generateAdjacencyList(
 			for (let col = 0; col < colCount; col++) {
 				if (col % 2 == 0) {
 					if (fieldStatus[row][col] !== 0) {
-						let neighbors = [];
+						let neighbors: { neighbor: number; weight: number }[] = [];
 
 						if (
 							row >= 2 &&
@@ -26,7 +26,17 @@ export default function generateAdjacencyList(
 							fieldValues[row - 1][col] !== 0 &&
 							fieldStatus[row - 1][col] == 0
 						) {
-							neighbors.push(getIndex(row - 2, col));
+							if (fieldValues[row - 1][col] === 65535) {
+								neighbors.push({
+									neighbor: getIndex(row - 2, col),
+									weight: 0,
+								});
+							} else {
+								neighbors.push({
+									neighbor: getIndex(row - 2, col),
+									weight: fieldValues[row - 1][col],
+								});
+							}
 						}
 
 						if (
@@ -36,7 +46,17 @@ export default function generateAdjacencyList(
 							fieldValues[row - 1][col + 1] !== 0 &&
 							fieldStatus[row - 1][col + 1] == 1
 						) {
-							neighbors.push(getIndex(row - 2, col + 2));
+							if (fieldValues[row - 1][col + 1] === 65535) {
+								neighbors.push({
+									neighbor: getIndex(row - 2, col + 2),
+									weight: 0,
+								});
+							} else {
+								neighbors.push({
+									neighbor: getIndex(row - 2, col + 2),
+									weight: fieldValues[row - 1][col + 1],
+								});
+							}
 						}
 
 						if (
@@ -45,7 +65,17 @@ export default function generateAdjacencyList(
 							fieldValues[row][col + 1] !== 0 &&
 							fieldStatus[row][col + 1] == 2
 						) {
-							neighbors.push(getIndex(row, col + 2));
+							if (fieldValues[row][col + 1] === 65535) {
+								neighbors.push({
+									neighbor: getIndex(row, col + 2),
+									weight: 0,
+								});
+							} else {
+								neighbors.push({
+									neighbor: getIndex(row, col + 2),
+									weight: fieldValues[row][col + 1],
+								});
+							}
 						}
 
 						if (
@@ -55,7 +85,17 @@ export default function generateAdjacencyList(
 							fieldValues[row + 1][col + 1] !== 0 &&
 							fieldStatus[row + 1][col + 1] == 3
 						) {
-							neighbors.push(getIndex(row + 2, col + 2));
+							if (fieldValues[row + 1][col + 1] === 65535) {
+								neighbors.push({
+									neighbor: getIndex(row + 2, col + 2),
+									weight: 0,
+								});
+							} else {
+								neighbors.push({
+									neighbor: getIndex(row + 2, col + 2),
+									weight: fieldValues[row + 1][col + 1],
+								});
+							}
 						}
 
 						if (
@@ -64,7 +104,17 @@ export default function generateAdjacencyList(
 							fieldValues[row + 1][col] !== 0 &&
 							fieldStatus[row + 1][col] == 4
 						) {
-							neighbors.push(getIndex(row + 2, col));
+							if (fieldValues[row + 1][col] === 65535) {
+								neighbors.push({
+									neighbor: getIndex(row + 2, col),
+									weight: 0,
+								});
+							} else {
+								neighbors.push({
+									neighbor: getIndex(row + 2, col),
+									weight: fieldValues[row + 1][col],
+								});
+							}
 						}
 
 						if (
@@ -74,7 +124,17 @@ export default function generateAdjacencyList(
 							fieldValues[row + 1][col - 1] !== 0 &&
 							fieldStatus[row + 1][col - 1] == 5
 						) {
-							neighbors.push(getIndex(row + 2, col - 2));
+							if (fieldValues[row + 1][col - 1] === 65535) {
+								neighbors.push({
+									neighbor: getIndex(row + 2, col - 2),
+									weight: 0,
+								});
+							} else {
+								neighbors.push({
+									neighbor: getIndex(row + 2, col - 2),
+									weight: fieldValues[row + 1][col - 1],
+								});
+							}
 						}
 
 						if (
@@ -83,7 +143,17 @@ export default function generateAdjacencyList(
 							fieldValues[row][col - 1] !== 0 &&
 							fieldStatus[row][col - 1] == 6
 						) {
-							neighbors.push(getIndex(row, col - 2));
+							if (fieldValues[row][col - 1] === 65535) {
+								neighbors.push({
+									neighbor: getIndex(row, col - 2),
+									weight: 0,
+								});
+							} else {
+								neighbors.push({
+									neighbor: getIndex(row, col - 2),
+									weight: fieldValues[row][col - 1],
+								});
+							}
 						}
 
 						if (
@@ -93,7 +163,17 @@ export default function generateAdjacencyList(
 							fieldValues[row - 1][col - 1] !== 0 &&
 							fieldStatus[row - 1][col - 1] == 7
 						) {
-							neighbors.push(getIndex(row - 2, col - 2));
+							if (fieldValues[row - 1][col - 1] === 65535) {
+								neighbors.push({
+									neighbor: getIndex(row - 2, col - 2),
+									weight: 0,
+								});
+							} else {
+								neighbors.push({
+									neighbor: getIndex(row - 2, col - 2),
+									weight: fieldValues[row - 1][col - 1],
+								});
+							}
 						}
 
 						adjacencyList[getIndex(row, col)] = neighbors;
@@ -103,6 +183,5 @@ export default function generateAdjacencyList(
 		}
 	}
 
-	// console.log(adjacencyList);
 	return adjacencyList;
 }

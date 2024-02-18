@@ -7,6 +7,7 @@ interface MatrixProps {
 	field: number[][];
 	fieldStatus: number[][];
 	fieldValues: number[][];
+	fieldDelays: number[][];
 	zoom: number;
 	selectedBoreHole?: number | null;
 	boreHoleClick: (coords: number[]) => void;
@@ -18,6 +19,7 @@ const Matrix: React.FC<MatrixProps> = ({
 	field,
 	fieldStatus,
 	fieldValues,
+	fieldDelays,
 	zoom,
 	selectedBoreHole,
 	boreHoleClick,
@@ -39,6 +41,7 @@ const Matrix: React.FC<MatrixProps> = ({
 											zoom={zoom}
 											status={fieldStatus[rowIndex][colIndex]}
 											value={fieldValues[rowIndex][colIndex]}
+											delay={fieldDelays[rowIndex][colIndex]}
 											selectedBoreHole={selectedBoreHole}
 											boreHoleClick={boreHoleClick}
 										/>
