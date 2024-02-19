@@ -236,7 +236,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 				}
 			}
 		}
-	}, [fieldStatus, fieldValues, width]);
+	}, [fieldStatus, fieldValues, width, height]);
 
 	if (latencyChangeView) {
 		return (

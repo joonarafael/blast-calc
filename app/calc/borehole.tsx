@@ -63,8 +63,16 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 
 	return (
 		<div onClick={handleClick} className={`${commonCSS} ${size}`}>
-			<div className="absolute">
-				{status === 1 ? <>{"E"}</> : status === 2 ? <>{delay}</> : <></>}
+			<div className="relative">
+				<div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
+					{status === 1 ? (
+						<p className="font-bold">{"E"}</p>
+					) : status === 2 ? (
+						<>{delay}</>
+					) : (
+						<></>
+					)}
+				</div>
 			</div>
 		</div>
 	);
