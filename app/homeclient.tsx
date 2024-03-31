@@ -35,7 +35,10 @@ const HomeClient = () => {
 						>
 							NEW PLAN
 						</Button>
-						<Button variant={"outline"} disabled>
+						<Button
+							variant={"outline"}
+							onClick={() => window.open("/calc/load", "_self")}
+						>
 							LOAD PLAN FROM FILE
 						</Button>
 					</div>

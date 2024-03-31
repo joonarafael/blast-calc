@@ -91,7 +91,9 @@ const Menu: React.FC<MenuProps> = ({
 						<MenubarItem onClick={() => window.open("/calc/new", "_blank")}>
 							New Plan
 						</MenubarItem>
-						<MenubarItem disabled>Load Plan From File</MenubarItem>
+						<MenubarItem onClick={() => window.open("/calc/load", "_blank")}>
+							Load Plan From File
+						</MenubarItem>
 						<MenubarSeparator />
 						<MenubarItem
 							onClick={() => {
