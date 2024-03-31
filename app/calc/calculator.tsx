@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 import PageError from "@/app/components/pageerror";
 
 import generateAdjacencyList from "../algos/adjacency";
+import dijkstra from "../algos/dijkstra";
 import Container from "../components/container";
 import LatencyChange from "./latencychange";
 import Matrix from "./matrix";
 import Menu from "./menu";
 import ReplacingTool from "./replacingtool";
 import eraseAdjacentConnections from "./supports/connections/eraseadjacentconnections";
+import getColIndex from "./supports/getcolindex";
+import getRowIndex from "./supports/getrowindex";
+import twoDimIndexOf from "./supports/indexof";
 import initConnection from "./supports/initconnection";
 import replaceOldEntry from "./supports/replaceoldentry";
 import ToolBar from "./toolbar";
-import twoDimIndexOf from "./supports/indexof";
-import dijkstra from "../algos/dijkstra";
-import getColIndex from "./supports/getcolindex";
-import getRowIndex from "./supports/getrowindex";
 
 interface CalculatorProps {
 	width: number;
@@ -75,6 +75,26 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 		console.log(fieldStatus);
 		console.log(fieldValues);
 		console.log(fieldDelays);
+	};
+
+	const savePlan = () => {
+		const data = {
+			width: width,
+			height: height,
+			fieldStatus: fieldStatus,
+			fieldValues: fieldValues,
+			fieldDelays: fieldDelays,
+		};
+
+		const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
+			JSON.stringify(data)
+		)}`;
+
+		const link = document.createElement("a");
+		link.href = jsonString;
+		link.download = "plan.json";
+
+		link.click();
 	};
 
 	const resetField = () => {
@@ -272,6 +292,7 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 					setIsLinking={setIsLinking}
 					replacingToolView={replacingToolView}
 					setReplacingToolView={setReplacingToolView}
+					savePlan={savePlan}
 				/>
 				<div className="flex flex-row gap-4">
 					<div className="border rounded-lg w-5/6 h-[80svh] overflow-scroll">

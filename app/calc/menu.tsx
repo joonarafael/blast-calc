@@ -28,6 +28,7 @@ interface MenuProps {
 	setIsLinking: (value: boolean) => void;
 	replacingToolView: boolean;
 	setReplacingToolView: (value: boolean) => void;
+	savePlan: () => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -43,6 +44,7 @@ const Menu: React.FC<MenuProps> = ({
 	latencySelection,
 	setReplacingToolView,
 	replacingToolView,
+	savePlan,
 }) => {
 	const zoomIn = () => {
 		if (zoom < 6) {
@@ -89,7 +91,7 @@ const Menu: React.FC<MenuProps> = ({
 						<MenubarItem onClick={() => window.open("/calc/new", "_blank")}>
 							New Plan
 						</MenubarItem>
-						<MenubarItem disabled>Load Plan From Save Code</MenubarItem>
+						<MenubarItem disabled>Load Plan From File</MenubarItem>
 						<MenubarSeparator />
 						<MenubarItem
 							onClick={() => {
@@ -101,7 +103,13 @@ const Menu: React.FC<MenuProps> = ({
 						<MenubarSeparator />
 						<MenubarItem disabled>Analyze</MenubarItem>
 						<MenubarSeparator />
-						<MenubarItem disabled>Get Save Code</MenubarItem>
+						<MenubarItem
+							onClick={() => {
+								savePlan();
+							}}
+						>
+							Save Plan
+						</MenubarItem>
 						<MenubarItem disabled>Print</MenubarItem>
 						<MenubarSeparator />
 						<MenubarSub>

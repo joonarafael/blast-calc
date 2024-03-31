@@ -36,7 +36,7 @@ const HomeClient = () => {
 							NEW PLAN
 						</Button>
 						<Button variant={"outline"} disabled>
-							LOAD PLAN FROM SAVE CODE
+							LOAD PLAN FROM FILE
 						</Button>
 					</div>
 				</div>
