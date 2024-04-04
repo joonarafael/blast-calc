@@ -1,9 +1,81 @@
 "use client";
 
-import Container from '@/app/components/container';
-import { Button } from '@/app/components/ui/button';
+import { useState } from "react";
+import { toast } from "sonner";
+
+import Container from "@/app/components/container";
+import { Button } from "@/app/components/ui/button";
+import { Input } from "@/app/components/ui/input";
+
+import Calculator from "../calculator";
+
+interface Plan {
+	width: number;
+	height: number;
+	fieldStatus: number[][];
+	fieldValues: number[][];
+	fieldDelays: number[][];
+}
 
 const LoadPlanClient = () => {
+	const [file, setFile] = useState<File | null>(null);
+	const [previousPlan, setPreviousPlan] = useState<Plan | null>(null);
+
+	const handleFile = () => {
+		if (!file) {
+			return;
+		}
+
+		const reader = new FileReader();
+
+		reader.onload = (event) => {
+			try {
+				const fileContent = event.target?.result as string;
+				const jsonData = JSON.parse(fileContent);
+
+				if (
+					!jsonData.width ||
+					!jsonData.height ||
+					!jsonData.fieldStatus ||
+					!jsonData.fieldValues ||
+					!jsonData.fieldDelays
+				) {
+					toast("Invalid JSON file.");
+					return;
+				}
+
+				const { width, height, fieldStatus, fieldValues, fieldDelays } =
+					jsonData;
+
+				setPreviousPlan({
+					width: width,
+					height: height,
+					fieldStatus: fieldStatus,
+					fieldValues: fieldValues,
+					fieldDelays: fieldDelays,
+				});
+			} catch (error) {
+				toast("Error parsing JSON file.");
+			}
+		};
+
+		reader.readAsText(file);
+	};
+
+	if (previousPlan) {
+		return (
+			<Container>
+				<Calculator
+					width={previousPlan.width}
+					height={previousPlan.height}
+					prevFieldStatus={previousPlan.fieldStatus}
+					prevFieldValues={previousPlan.fieldValues}
+					prevFieldDelays={previousPlan.fieldDelays}
+				/>
+			</Container>
+		);
+	}
+
 	return (
 		<Container>
 			<div className="w-full flex justify-center">
@@ -23,8 +95,24 @@ const LoadPlanClient = () => {
 						<div className="text-yellow-500 border rounded-lg p-2 border-red-500">
 							CORRUPTED JSON FILE WILL NOT WORK.
 						</div>
-						<Button disabled onClick={() => {}}>
-							CREATE
+						<label htmlFor="fieldWidth">FILE UPLOAD</label>
+						<Input
+							type="file"
+							id="file"
+							placeholder="Upload you plan.json file"
+							onChange={(e) => {
+								if (e.target.files) {
+									setFile(e.target.files[0]);
+								}
+							}}
+						/>
+						<Button
+							disabled={!file}
+							onClick={() => {
+								handleFile();
+							}}
+						>
+							OPEN
 						</Button>
 						<Button variant="outline" onClick={() => window.open("/", "_self")}>
 							GO BACK

@@ -4,6 +4,14 @@
 
 N/A
 
+## Creating a New Plan
+
+Navigate to the "Create a New Plan" page from the Home Page by clicking the "New Plan" button. Give the amount of columns and rows as integer values between 1 and 32. Please note that **these values cannot be changed afterwards**.
+
+## Loading an Existing Plan
+
+In order to upload your old existing plan into the calculator, you need to navigate to the "Load Plan From File" page by clicking the "Load Plan From File" button. Search the file from your local machine and upload it to the calculator. After clicking "OPEN", the calculator will check the file type and it tries to parse the given file. If your file is OK and the parsing is successful, the calculator will now open with your plan loaded.
+
 ## Application Layout
 
 Biggest part of the screen layout is the actual field plan. It's a grid layout representing all the possible locations for the boreholes. The view can be zoomed with the controls provided in the "View" menu.
@@ -14,7 +22,7 @@ Biggest part of the screen layout is the actual field plan. It's a grid layout r
 
 **New Plan**: (opens in a new tab) Create a new plan.
 
-**Load Plan From File [unavailable]**: (opens in a new tab) Load an old existing plan from a file.
+**Load Plan From File**: (opens in a new tab) Load an old existing plan from a file.
 
 **Configure Latency Selection**: Open the view to configure the latency selection for the active plan.
 

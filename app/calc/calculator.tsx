@@ -21,9 +21,18 @@ import ToolBar from "./toolbar";
 interface CalculatorProps {
 	width: number;
 	height: number;
+	prevFieldStatus?: number[][] | null;
+	prevFieldValues?: number[][] | null;
+	prevFieldDelays?: number[][] | null;
 }
 
-const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
+const Calculator: React.FC<CalculatorProps> = ({
+	width,
+	height,
+	prevFieldStatus,
+	prevFieldValues,
+	prevFieldDelays,
+}) => {
 	const [latencyChangeView, setLatencyChangeView] = useState(false);
 	const [isLinking, setIsLinking] = useState(true);
 	const [zoom, setZoom] = useState(4);
@@ -52,18 +61,24 @@ const Calculator: React.FC<CalculatorProps> = ({ width, height }) => {
 	);
 
 	const [fieldStatus, setFieldStatus] = useState(() => {
+		if (prevFieldStatus) return prevFieldStatus;
+
 		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
 			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
 		);
 	});
 
 	const [fieldValues, setFieldValues] = useState(() => {
+		if (prevFieldValues) return prevFieldValues;
+
 		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
 			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
 		);
 	});
 
 	const [fieldDelays, setFieldDelays] = useState(() => {
+		if (prevFieldDelays) return prevFieldDelays;
+
 		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
 			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
 		);
