@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "../components/ui/button";
+import { Button } from '../components/ui/button';
 
 interface ToolBarProps {
 	tool: string;
@@ -79,7 +79,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
 				<hr className="my-1" />
 				<Button
 					className="h-18"
-					variant={"secondary"}
+					variant="secondary"
 					onClick={() => {
 						setLatencyChangeView(true);
 					}}

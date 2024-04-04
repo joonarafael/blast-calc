@@ -1,7 +1,7 @@
 "use client";
 
-import Container from "@/app/components/container";
-import { Button } from "@/app/components/ui/button";
+import Container from '@/app/components/container';
+import { Button } from '@/app/components/ui/button';
 
 const LoadPlanClient = () => {
 	return (
@@ -23,13 +23,10 @@ const LoadPlanClient = () => {
 						<div className="text-yellow-500 border rounded-lg p-2 border-red-500">
 							CORRUPTED JSON FILE WILL NOT WORK.
 						</div>
-						<Button variant={"secondary"} disabled onClick={() => {}}>
+						<Button disabled onClick={() => {}}>
 							CREATE
 						</Button>
-						<Button
-							variant={"outline"}
-							onClick={() => window.open("/", "_self")}
-						>
+						<Button variant="outline" onClick={() => window.open("/", "_self")}>
 							GO BACK
 						</Button>
 					</div>

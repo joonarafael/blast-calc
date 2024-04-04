@@ -1,19 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 import {
-	Menubar,
-	MenubarContent,
-	MenubarItem,
-	MenubarMenu,
-	MenubarSeparator,
-	MenubarShortcut,
-	MenubarSub,
-	MenubarSubContent,
-	MenubarSubTrigger,
-	MenubarTrigger,
-} from "@/app/components/ui/menubar";
+    Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut,
+    MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger
+} from '@/app/components/ui/menubar';
 
 interface MenuProps {
 	zoom: number;
@@ -46,6 +39,13 @@ const Menu: React.FC<MenuProps> = ({
 	replacingToolView,
 	savePlan,
 }) => {
+	const [mounted, setMounted] = useState(false);
+	const { setTheme, theme } = useTheme();
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
 	const zoomIn = () => {
 		if (zoom < 6) {
 			setZoom(zoom + 1);
@@ -81,6 +81,12 @@ const Menu: React.FC<MenuProps> = ({
 			document.exitFullscreen();
 		}
 	};
+
+	if (!mounted || typeof theme === "undefined") {
+		return (
+			<div className="flex justify-between gap-4 m-4">Loading menu...</div>
+		);
+	}
 
 	return (
 		<div>
@@ -126,7 +132,6 @@ const Menu: React.FC<MenuProps> = ({
 								</MenubarItem>
 							</MenubarSubContent>
 						</MenubarSub>
-
 						<MenubarSeparator />
 						<MenubarSub>
 							<MenubarSubTrigger>Exit</MenubarSubTrigger>
@@ -201,6 +206,23 @@ const Menu: React.FC<MenuProps> = ({
 						<MenubarItem onClick={toggleFullscreen}>
 							Toggle Fullscreen
 						</MenubarItem>
+						{theme === "light" ? (
+							<MenubarItem
+								onClick={() => {
+									setTheme("dark");
+								}}
+							>
+								Dark Mode
+							</MenubarItem>
+						) : (
+							<MenubarItem
+								onClick={() => {
+									setTheme("light");
+								}}
+							>
+								Light Mode
+							</MenubarItem>
+						)}
 					</MenubarContent>
 				</MenubarMenu>
 				<MenubarMenu>

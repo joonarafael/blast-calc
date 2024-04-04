@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { toast } from "sonner";
+import { useState } from 'react';
+import { toast } from 'sonner';
 
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
 
 interface LatencyChangeProps {
 	latencySelection: number[];
@@ -104,38 +104,26 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 		<div className="w-full flex flex-col text-center  max-w-[1080px]">
 			<div className="font-bold text-4xl mb-4">CONFIGURE DELAY SELECTION</div>
 			<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-4 rounded-lg p-4">
-				<div className="flex flex-col gap-2 border rounded p-2 border-indigo-500">
-					<Button
-						variant={"secondary"}
-						onClick={handleResetDefaults}
-						className="h-full"
-					>
-						<p className="font-bold text-lg">RESET DEFAULTS</p>
-					</Button>
-				</div>
-				<div className="flex flex-col gap-2 border rounded p-2 border-emerald-500">
-					<Button
-						variant={"secondary"}
-						onClick={handleRevertChanges}
-						className="h-full"
-					>
-						<p className="font-bold text-lg">REVERT CHANGES</p>
-					</Button>
-				</div>
-				<div className="flex flex-col gap-2 border rounded p-2 border-sky-500">
-					<Button variant={"secondary"} onClick={handleSort} className="h-full">
-						<p className="font-bold text-lg">SORT LIST</p>
-					</Button>
-				</div>
-				<div className="flex flex-col gap-2 border rounded p-2 border-green-500 h-full">
-					<Button
-						variant={"secondary"}
-						onClick={handleSaveChanges}
-						className="h-full"
-					>
-						<p className="font-bold text-lg">SAVE CHANGES</p>
-					</Button>
-				</div>
+				<Button
+					variant={"outline"}
+					onClick={handleResetDefaults}
+					className="h-full"
+				>
+					<p className="font-bold text-lg">RESET DEFAULTS</p>
+				</Button>
+				<Button
+					variant={"outline"}
+					onClick={handleRevertChanges}
+					className="h-full"
+				>
+					<p className="font-bold text-lg">REVERT CHANGES</p>
+				</Button>
+				<Button variant={"secondary"} onClick={handleSort} className="h-full">
+					<p className="font-bold text-lg">SORT LIST</p>
+				</Button>
+				<Button onClick={handleSaveChanges} className="h-full">
+					<p className="font-bold text-lg">SAVE CHANGES</p>
+				</Button>
 			</div>
 			<hr />
 			<div className="mt-4 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-4 p-4">
@@ -143,12 +131,17 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 					<div
 						key={i}
 						className={`h-full flex flex-col gap-2 border rounded p-2 ${
-							counts[item] > 1 ? "border-red-500" : "border-neutral-500"
+							counts[item] > 1
+								? "border-red-500 bg-secondary"
+								: "border-neutral-500"
 						}`}
 					>
-						<label className="font-light" htmlFor={`latencyTime${i}`}>{`DELAY ${
-							i + 1
-						}`}</label>
+						<label
+							className={
+								counts[item] > 1 ? "text-red-500 font-bold" : "font-light"
+							}
+							htmlFor={`latencyTime${i}`}
+						>{`DELAY ${i + 1}`}</label>
 						<Input
 							value={item}
 							type="number"
@@ -157,7 +150,7 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 							onChange={(e) => handleLatencyChange(i, e.target.value)}
 						/>
 						<Button
-							variant={"secondary"}
+							variant={"destructive"}
 							onClick={() => {
 								handleRemove(i);
 							}}
@@ -167,16 +160,10 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 					</div>
 				))}
 				{latencySelection.length < 16 && (
-					<div className="flex flex-col gap-2 border rounded p-2 border-fuchsia-500 h-full">
-						<Button
-							onClick={handleAddNew}
-							variant={"secondary"}
-							className="h-full flex flex-col gap-1"
-						>
-							<p className="font-bold text-lg">ADD NEW</p>
-							<p className="text-base font-light">0 - 65534 ms</p>
-						</Button>
-					</div>
+					<Button onClick={handleAddNew} className="h-full flex flex-col gap-1">
+						<p className="font-bold text-lg">ADD NEW</p>
+						<p className="text-base font-light">0 - 65534 ms</p>
+					</Button>
 				)}
 			</div>
 		</div>

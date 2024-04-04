@@ -1,15 +1,9 @@
 "use client";
 
 import {
-	TbArrowDownCircle,
-	TbArrowDownLeftCircle,
-	TbArrowDownRightCircle,
-	TbArrowLeftCircle,
-	TbArrowRightCircle,
-	TbArrowUpCircle,
-	TbArrowUpLeftCircle,
-	TbArrowUpRightCircle,
-} from "react-icons/tb";
+    TbArrowDownCircle, TbArrowDownLeftCircle, TbArrowDownRightCircle, TbArrowLeftCircle,
+    TbArrowRightCircle, TbArrowUpCircle, TbArrowUpLeftCircle, TbArrowUpRightCircle
+} from 'react-icons/tb';
 
 interface ConnectionProps {
 	index: number;
@@ -69,19 +63,19 @@ const Connection: React.FC<ConnectionProps> = ({
 
 	const arrowElement = (orientation: number) => {
 		if (orientation === 0) {
-			return <TbArrowUpCircle size={icon} />;
+			return <TbArrowUpCircle size={icon} color="silver" />;
 		} else if (orientation === 1) {
-			return <TbArrowUpRightCircle size={icon} />;
+			return <TbArrowUpRightCircle size={icon} color="silver" />;
 		} else if (orientation === 2) {
-			return <TbArrowRightCircle size={icon} />;
+			return <TbArrowRightCircle size={icon} color="silver" />;
 		} else if (orientation === 3) {
-			return <TbArrowDownRightCircle size={icon} />;
+			return <TbArrowDownRightCircle size={icon} color="silver" />;
 		} else if (orientation === 4) {
-			return <TbArrowDownCircle size={icon} />;
+			return <TbArrowDownCircle size={icon} color="silver" />;
 		} else if (orientation === 5) {
-			return <TbArrowDownLeftCircle size={icon} />;
+			return <TbArrowDownLeftCircle size={icon} color="silver" />;
 		} else if (orientation === 6) {
-			return <TbArrowLeftCircle size={icon} />;
+			return <TbArrowLeftCircle size={icon} color="silver" />;
 		}
 
 		return <TbArrowUpLeftCircle size={icon} />;
@@ -97,7 +91,7 @@ const Connection: React.FC<ConnectionProps> = ({
 						</div>
 						{zoom > 2 ? (
 							<div
-								className={`z-6 absolute bg-slate-950/80 px-1 rounded-xl drop-shadow-lg top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 font-bold`}
+								className={`z-6 absolute bg-slate-950/80 px-1 rounded-xl drop-shadow-lg top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 font-bold text-gray-100`}
 							>
 								{value === 65535 ? "0" : `${value}`}
 							</div>
@@ -107,7 +101,7 @@ const Connection: React.FC<ConnectionProps> = ({
 									group-hover:opacity-100
 									transition-opacity
 									bg-gray-800
-									text-sm
+									text-xs
 									text-gray-100
 									rounded-lg
 									absolute

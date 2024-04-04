@@ -1,18 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { toast } from "sonner";
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/app/components/ui/select";
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/app/components/ui/select';
 
-import { Button } from "../components/ui/button";
-import replaceAllEqualTo from "./supports/replaceallequalto";
+import { Button } from '../components/ui/button';
+import replaceAllEqualTo from './supports/replaceallequalto';
 
 interface ReplacingToolProps {
 	setReplacingToolView: (value: boolean) => void;
@@ -76,7 +72,7 @@ const ReplacingTool: React.FC<ReplacingToolProps> = ({
 			</div>
 			<Button
 				className="h-18"
-				variant={"secondary"}
+				variant={"destructive"}
 				onClick={() => {
 					setReplacingToolView(false);
 				}}
@@ -140,11 +136,11 @@ const ReplacingTool: React.FC<ReplacingToolProps> = ({
 			)}
 			<hr />
 			{oldValue && newValue && oldValue !== newValue ? (
-				<Button onClick={handleClick} variant={"secondary"}>
+				<Button onClick={handleClick}>
 					<p className="font-bold">REPLACE</p>
 				</Button>
 			) : (
-				<Button disabled variant={"outline"}>
+				<Button disabled>
 					<p className="font-bold">REPLACE</p>
 				</Button>
 			)}

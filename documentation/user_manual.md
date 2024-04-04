@@ -14,13 +14,13 @@ Biggest part of the screen layout is the actual field plan. It's a grid layout r
 
 **New Plan**: (opens in a new tab) Create a new plan.
 
-**Load Plan From Save Code [unavailable]**: (opens in a new tab) Load an old plan with an existing save code.
+**Load Plan From File [unavailable]**: (opens in a new tab) Load an old existing plan from a file.
 
 **Configure Latency Selection**: Open the view to configure the latency selection for the active plan.
 
 **Analyze [unavailable]**: Analyze the field and create statistics.
 
-**Get Save Code [unavailable]**: Generates a new save code for the current field at the moment.
+**Save Plan**: Save the current plan as a file and download it to your local machine for later use.
 
 **Print [unavailable]**: Print the field plan.
 
@@ -44,7 +44,7 @@ Biggest part of the screen layout is the actual field plan. It's a grid layout r
 
 **Zoom In**: Increase the Zoom level by 1.
 
-**Zoom Out**: Decrease the Zoom level by 1.,
+**Zoom Out**: Decrease the Zoom level by 1.
 
 **Zoom Minimum**: Zoom as far out as possible.
 
@@ -53,6 +53,8 @@ Biggest part of the screen layout is the actual field plan. It's a grid layout r
 **Reset Zoom**: Reset the Zoom level to default.
 
 **Toggle Fullscreen**: Enable and disable the Fullscreen mode, also achieved with key F11.
+
+**Light / Dark Mode**: Toggle between the light and dark modes.
 
 ### Debug
 

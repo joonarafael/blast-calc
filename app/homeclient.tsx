@@ -2,8 +2,8 @@
 
 // Client view for Home Page
 
-import Container from "./components/container";
-import { Button } from "./components/ui/button";
+import Container from './components/container';
+import { Button } from './components/ui/button';
 
 const HomeClient = () => {
 	return (
@@ -29,14 +29,11 @@ const HomeClient = () => {
 								AVAILABLE VERSION TO ENSURE THE BEST PERFORMANCE.
 							</p>
 						</div>
-						<Button
-							variant={"secondary"}
-							onClick={() => window.open("/calc/new", "_self")}
-						>
+						<Button onClick={() => window.open("/calc/new", "_self")}>
 							NEW PLAN
 						</Button>
 						<Button
-							variant={"outline"}
+							variant="secondary"
 							onClick={() => window.open("/calc/load", "_self")}
 						>
 							LOAD PLAN FROM FILE
