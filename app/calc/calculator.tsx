@@ -67,7 +67,7 @@ const Calculator: React.FC<CalculatorProps> = ({
 		if (prevFieldStatus) return prevFieldStatus;
 
 		return Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
+			Array.from({ length: width * 2 - 1 }, (_, colIndex) => 8)
 		);
 	});
 
@@ -125,7 +125,7 @@ const Calculator: React.FC<CalculatorProps> = ({
 		setTool("cursor");
 		setFieldStatus(
 			Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-				Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
+				Array.from({ length: width * 2 - 1 }, (_, colIndex) => 8)
 			)
 		);
 		setFieldValues(
@@ -151,7 +151,7 @@ const Calculator: React.FC<CalculatorProps> = ({
 				setOldEntryValue(fieldStatus[coords[0]][coords[1]]);
 			}
 
-			if (newValue === 2 && fieldStatus[coords[0]][coords[1]] === 1) {
+			if (newValue === 10 && fieldStatus[coords[0]][coords[1]] === 9) {
 				return;
 			}
 
@@ -185,13 +185,13 @@ const Calculator: React.FC<CalculatorProps> = ({
 		try {
 			if (tool === "entry") {
 				setSelectedBoreHole(null);
-				updateFieldStatus(position, 1);
+				updateFieldStatus(position, 9);
 			} else if (tool === "borehole") {
 				setSelectedBoreHole(null);
-				updateFieldStatus(position, 2);
+				updateFieldStatus(position, 10);
 			} else if (tool === "eraser") {
 				setSelectedBoreHole(null);
-				updateFieldStatus(position, 0);
+				updateFieldStatus(position, 8);
 
 				eraseAdjacentConnections(
 					position,
@@ -278,7 +278,7 @@ const Calculator: React.FC<CalculatorProps> = ({
 
 			const adjacencyList = generateAdjacencyList(fieldStatus, fieldValues);
 
-			const startIndex = twoDimIndexOf(fieldStatus, 1);
+			const startIndex = twoDimIndexOf(fieldStatus, 9);
 
 			if (startIndex !== -1) {
 				const dijkstraResult = dijkstra(adjacencyList, startIndex);

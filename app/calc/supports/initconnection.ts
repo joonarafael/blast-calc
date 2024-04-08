@@ -45,11 +45,11 @@ export default function initConnection(
 		const startIndexRow = getRowIndex(start, width);
 		const startIndexCol = getColIndex(start, width);
 
-		updateFieldStatus([startIndexRow, startIndexCol], 2);
+		updateFieldStatus([startIndexRow, startIndexCol], 10);
 
 		const endIndexRow = getRowIndex(end, width);
 		const endIndexCol = getColIndex(end, width);
 
-		updateFieldStatus([endIndexRow, endIndexCol], 2);
+		updateFieldStatus([endIndexRow, endIndexCol], 10);
 	}
 }

@@ -1,9 +1,15 @@
 "use client";
 
 import {
-    TbArrowDownCircle, TbArrowDownLeftCircle, TbArrowDownRightCircle, TbArrowLeftCircle,
-    TbArrowRightCircle, TbArrowUpCircle, TbArrowUpLeftCircle, TbArrowUpRightCircle
-} from 'react-icons/tb';
+	TbArrowDownCircle,
+	TbArrowDownLeftCircle,
+	TbArrowDownRightCircle,
+	TbArrowLeftCircle,
+	TbArrowRightCircle,
+	TbArrowUpCircle,
+	TbArrowUpLeftCircle,
+	TbArrowUpRightCircle,
+} from "react-icons/tb";
 
 interface ConnectionProps {
 	index: number;
@@ -78,7 +84,7 @@ const Connection: React.FC<ConnectionProps> = ({
 			return <TbArrowLeftCircle size={icon} color="silver" />;
 		}
 
-		return <TbArrowUpLeftCircle size={icon} />;
+		return <TbArrowUpLeftCircle size={icon} color="silver" />;
 	};
 
 	return (

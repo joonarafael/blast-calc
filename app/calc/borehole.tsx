@@ -32,13 +32,13 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 		${
 			selectedBoreHole === index
 				? `text-red-200 bg-red-700`
-				: status === 1
+				: status === 9
 				? `bg-indigo-500 text-white hover:text-red-200 hover:bg-red-700`
-				: status === 2
+				: status === 10
 				? `bg-slate-500 hover:text-red-200 hover:bg-red-700`
 				: `hover:text-red-200 hover:bg-red-700 bg-transparent`
 		}
-		${status === 0 ? `border-neutral-500 border-1` : `border-neutral-500 border-2`}
+		${status === 8 ? `border-neutral-500 border-1` : `border-neutral-500 border-2`}
 		}
 		
 		`;
@@ -65,9 +65,9 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 		<div onClick={handleClick} className={`${commonCSS} ${size}`}>
 			<div className="relative">
 				<div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
-					{status === 1 ? (
+					{status === 9 ? (
 						<p className="font-bold">{"E"}</p>
-					) : status === 2 ? (
+					) : status === 10 ? (
 						<>{delay}</>
 					) : (
 						<></>

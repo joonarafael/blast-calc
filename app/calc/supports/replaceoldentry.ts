@@ -11,7 +11,7 @@ export default function replaceOldEntry(
 
 	outerLoop: for (let i = 0; i < tmp.length; i++) {
 		for (let j = 0; j < tmp[i].length; j++) {
-			if (tmp[i][j] === 1) {
+			if (tmp[i][j] === 9) {
 				rowIndex = i;
 				columnIndex = j;
 				break outerLoop;
@@ -23,7 +23,7 @@ export default function replaceOldEntry(
 		if (oldEntryValue) {
 			tmp[rowIndex][columnIndex] = oldEntryValue;
 		} else {
-			tmp[rowIndex][columnIndex] = 0;
+			tmp[rowIndex][columnIndex] = 8;
 		}
 	}
 
