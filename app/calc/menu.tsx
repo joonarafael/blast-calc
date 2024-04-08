@@ -1,12 +1,20 @@
 "use client";
 
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 import {
-    Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut,
-    MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger
-} from '@/app/components/ui/menubar';
+	Menubar,
+	MenubarContent,
+	MenubarItem,
+	MenubarMenu,
+	MenubarSeparator,
+	MenubarShortcut,
+	MenubarSub,
+	MenubarSubContent,
+	MenubarSubTrigger,
+	MenubarTrigger,
+} from "@/app/components/ui/menubar";
 
 interface MenuProps {
 	zoom: number;

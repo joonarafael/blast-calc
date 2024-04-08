@@ -343,7 +343,7 @@ const Calculator: React.FC<CalculatorProps> = ({
 					savePlan={savePlan}
 				/>
 				<div className="flex flex-row gap-4">
-					<div className="border rounded-lg w-5/6 h-[80svh] overflow-scroll">
+					<div className="border rounded-lg w-5/6 h-[80svh] overflow-scroll bg-secondary">
 						<div className="w-max">
 							<Matrix
 								field={field}
