@@ -1,7 +1,10 @@
 "use client";
+
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import PageError from "@/app/components/pageerror";
+import { DEFAULT_LATENCY_SELECTION } from "@/constants/latencyselection";
 
 import generateAdjacencyList from "../algos/adjacency";
 import dijkstra from "../algos/dijkstra";
@@ -93,23 +96,28 @@ const Calculator: React.FC<CalculatorProps> = ({
 	};
 
 	const savePlan = () => {
-		const data = {
-			width: width,
-			height: height,
-			fieldStatus: fieldStatus,
-			fieldValues: fieldValues,
-			fieldDelays: fieldDelays,
-		};
+		try {
+			const data = {
+				width: width,
+				height: height,
+				fieldStatus: fieldStatus,
+				fieldValues: fieldValues,
+				fieldDelays: fieldDelays,
+			};
 
-		const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
-			JSON.stringify(data)
-		)}`;
+			const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
+				JSON.stringify(data)
+			)}`;
 
-		const link = document.createElement("a");
-		link.href = jsonString;
-		link.download = "plan.json";
+			const link = document.createElement("a");
+			link.href = jsonString;
+			link.download = "plan.json";
 
-		link.click();
+			link.click();
+		} catch (err) {
+			toast("Error while saving the plan.");
+			console.log(err);
+		}
 	};
 
 	const resetField = () => {
@@ -132,107 +140,127 @@ const Calculator: React.FC<CalculatorProps> = ({
 		);
 	};
 
-	const [latencySelection, setLatencySelection] = useState([
-		0, 9, 17, 25, 42, 67, 109,
-	]);
+	const [latencySelection, setLatencySelection] = useState(
+		DEFAULT_LATENCY_SELECTION
+	);
 
 	const updateFieldStatus = (coords: number[], newValue: number) => {
-		if (tool === "entry") {
-			replaceOldEntry(fieldStatus, setFieldStatus, oldEntryValue);
-			setOldEntryValue(fieldStatus[coords[0]][coords[1]]);
-		}
+		try {
+			if (tool === "entry") {
+				replaceOldEntry(fieldStatus, setFieldStatus, oldEntryValue);
+				setOldEntryValue(fieldStatus[coords[0]][coords[1]]);
+			}
 
-		if (newValue === 2 && fieldStatus[coords[0]][coords[1]] === 1) {
-			return;
-		}
+			if (newValue === 2 && fieldStatus[coords[0]][coords[1]] === 1) {
+				return;
+			}
 
-		setFieldStatus((prevFieldStatus) => {
-			const tmp = [...prevFieldStatus];
-			tmp[coords[0]] = [...tmp[coords[0]]];
-			tmp[coords[0]][coords[1]] = newValue;
-			return tmp;
-		});
+			setFieldStatus((prevFieldStatus) => {
+				const tmp = [...prevFieldStatus];
+				tmp[coords[0]] = [...tmp[coords[0]]];
+				tmp[coords[0]][coords[1]] = newValue;
+				return tmp;
+			});
+		} catch (err) {
+			toast("Error updating field status.");
+			console.log(err);
+		}
 	};
 
 	const updateFieldValue = (coords: number[], newValue: number) => {
-		setFieldValues((prevFieldValues) => {
-			const tmp = [...prevFieldValues];
-			tmp[coords[0]] = [...tmp[coords[0]]];
-			tmp[coords[0]][coords[1]] = newValue;
-			return tmp;
-		});
+		try {
+			setFieldValues((prevFieldValues) => {
+				const tmp = [...prevFieldValues];
+				tmp[coords[0]] = [...tmp[coords[0]]];
+				tmp[coords[0]][coords[1]] = newValue;
+				return tmp;
+			});
+		} catch (err) {
+			toast("Error updating field value.");
+			console.log(err);
+		}
 	};
 
 	const boreHoleClick = (position: number[]) => {
-		if (tool === "entry") {
-			setSelectedBoreHole(null);
-			updateFieldStatus(position, 1);
-		} else if (tool === "borehole") {
-			setSelectedBoreHole(null);
-			updateFieldStatus(position, 2);
-		} else if (tool === "eraser") {
-			setSelectedBoreHole(null);
-			updateFieldStatus(position, 0);
+		try {
+			if (tool === "entry") {
+				setSelectedBoreHole(null);
+				updateFieldStatus(position, 1);
+			} else if (tool === "borehole") {
+				setSelectedBoreHole(null);
+				updateFieldStatus(position, 2);
+			} else if (tool === "eraser") {
+				setSelectedBoreHole(null);
+				updateFieldStatus(position, 0);
 
-			eraseAdjacentConnections(
-				position,
-				fieldValues,
-				updateFieldValue,
-				updateFieldStatus
-			);
-		} else if (tool !== "cursor") {
-			if (selectedBoreHole === null) {
-				setSelectedBoreHole(position[2]);
-			} else {
-				initConnection(
-					selectedBoreHole,
-					position[2],
-					width * 2 - 1,
-					updateFieldStatus,
+				eraseAdjacentConnections(
+					position,
+					fieldValues,
 					updateFieldValue,
-					tool
+					updateFieldStatus
 				);
-
-				if (isLinking) {
+			} else if (tool !== "cursor") {
+				if (selectedBoreHole === null) {
 					setSelectedBoreHole(position[2]);
 				} else {
-					setSelectedBoreHole(null);
+					initConnection(
+						selectedBoreHole,
+						position[2],
+						width * 2 - 1,
+						updateFieldStatus,
+						updateFieldValue,
+						tool
+					);
+
+					if (isLinking) {
+						setSelectedBoreHole(position[2]);
+					} else {
+						setSelectedBoreHole(null);
+					}
 				}
 			}
+		} catch (err) {
+			toast("Error processing user action.");
+			console.log(err);
 		}
 	};
 
 	const connectionClick = (position: number[]) => {
-		setSelectedBoreHole(null);
+		try {
+			setSelectedBoreHole(null);
 
-		if (tool === "eraser") {
-			updateFieldStatus([position[0], position[1]], 0);
-			updateFieldValue([position[0], position[1]], 0);
-		} else if (tool !== "entry" && tool !== "borehole" && tool !== "cursor") {
-			if (
-				fieldValues[position[0]][position[1]] === parseInt(tool, 10) ||
-				(fieldValues[position[0]][position[1]] === 65535 && tool === "0")
-			) {
-				const newOrientation = fieldStatus[position[0]][position[1]] + 4;
+			if (tool === "eraser") {
+				updateFieldStatus([position[0], position[1]], 0);
+				updateFieldValue([position[0], position[1]], 0);
+			} else if (tool !== "entry" && tool !== "borehole" && tool !== "cursor") {
+				if (
+					fieldValues[position[0]][position[1]] === parseInt(tool, 10) ||
+					(fieldValues[position[0]][position[1]] === 65535 && tool === "0")
+				) {
+					const newOrientation = fieldStatus[position[0]][position[1]] + 4;
 
-				if (newOrientation > 7) {
-					updateFieldStatus(
-						[position[0], position[1]],
-						fieldStatus[position[0]][position[1]] - 4
-					);
-				} else {
-					updateFieldStatus(
-						[position[0], position[1]],
-						fieldStatus[position[0]][position[1]] + 4
-					);
-				}
-			} else if (fieldValues[position[0]][position[1]] !== 0) {
-				if (tool === "0") {
-					updateFieldValue([position[0], position[1]], 65535);
-				} else {
-					updateFieldValue([position[0], position[1]], parseInt(tool, 10));
+					if (newOrientation > 7) {
+						updateFieldStatus(
+							[position[0], position[1]],
+							fieldStatus[position[0]][position[1]] - 4
+						);
+					} else {
+						updateFieldStatus(
+							[position[0], position[1]],
+							fieldStatus[position[0]][position[1]] + 4
+						);
+					}
+				} else if (fieldValues[position[0]][position[1]] !== 0) {
+					if (tool === "0") {
+						updateFieldValue([position[0], position[1]], 65535);
+					} else {
+						updateFieldValue([position[0], position[1]], parseInt(tool, 10));
+					}
 				}
 			}
+		} catch (err) {
+			toast("Error processing user action.");
+			console.log(err);
 		}
 	};
 
@@ -241,35 +269,40 @@ const Calculator: React.FC<CalculatorProps> = ({
 	}, [tool, isLinking]);
 
 	useEffect(() => {
-		setFieldDelays(
-			Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
-				Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
-			)
-		);
+		try {
+			setFieldDelays(
+				Array.from({ length: height * 2 - 1 }, (_, rowIndex) =>
+					Array.from({ length: width * 2 - 1 }, (_, colIndex) => 0)
+				)
+			);
 
-		const adjacencyList = generateAdjacencyList(fieldStatus, fieldValues);
+			const adjacencyList = generateAdjacencyList(fieldStatus, fieldValues);
 
-		const startIndex = twoDimIndexOf(fieldStatus, 1);
+			const startIndex = twoDimIndexOf(fieldStatus, 1);
 
-		if (startIndex !== -1) {
-			const dijkstraResult = dijkstra(adjacencyList, startIndex);
+			if (startIndex !== -1) {
+				const dijkstraResult = dijkstra(adjacencyList, startIndex);
 
-			for (const key in dijkstraResult) {
-				if (dijkstraResult.hasOwnProperty(key)) {
-					const element = dijkstraResult[key];
-					const distance = element.distance;
+				for (const key in dijkstraResult) {
+					if (dijkstraResult.hasOwnProperty(key)) {
+						const element = dijkstraResult[key];
+						const distance = element.distance;
 
-					const rowIndex = getRowIndex(parseInt(key, 10), width * 2 - 1);
-					const colIndex = getColIndex(parseInt(key, 10), width * 2 - 1);
+						const rowIndex = getRowIndex(parseInt(key, 10), width * 2 - 1);
+						const colIndex = getColIndex(parseInt(key, 10), width * 2 - 1);
 
-					setFieldDelays((prevFieldDelays) => {
-						const tmp = [...prevFieldDelays];
-						tmp[rowIndex] = [...tmp[rowIndex]];
-						tmp[rowIndex][colIndex] = distance;
-						return tmp;
-					});
+						setFieldDelays((prevFieldDelays) => {
+							const tmp = [...prevFieldDelays];
+							tmp[rowIndex] = [...tmp[rowIndex]];
+							tmp[rowIndex][colIndex] = distance;
+							return tmp;
+						});
+					}
 				}
 			}
+		} catch (err) {
+			toast("Error updating field delays.");
+			console.log(err);
 		}
 	}, [fieldStatus, fieldValues, width, height]);
 
