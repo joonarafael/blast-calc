@@ -20,7 +20,7 @@ interface MenuProps {
 	zoom: number;
 	setZoom: (value: number) => void;
 	resetField: () => void;
-	setLatencyChangeView: (value: boolean) => void;
+	setLatencyChangeView: (value: string) => void;
 	debugStates: () => void;
 	setSelectedBoreHole: (value: number | null) => void;
 	latencySelection: number[];
@@ -30,6 +30,7 @@ interface MenuProps {
 	replacingToolView: boolean;
 	setReplacingToolView: (value: boolean) => void;
 	savePlan: () => void;
+	runAnalyze: () => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -46,6 +47,7 @@ const Menu: React.FC<MenuProps> = ({
 	setReplacingToolView,
 	replacingToolView,
 	savePlan,
+	runAnalyze,
 }) => {
 	const [mounted, setMounted] = useState(false);
 	const { setTheme, theme } = useTheme();
@@ -111,13 +113,19 @@ const Menu: React.FC<MenuProps> = ({
 						<MenubarSeparator />
 						<MenubarItem
 							onClick={() => {
-								setLatencyChangeView(true);
+								setLatencyChangeView("latencyChange");
 							}}
 						>
 							Configure Delay Selection
 						</MenubarItem>
 						<MenubarSeparator />
-						<MenubarItem disabled>Analyze</MenubarItem>
+						<MenubarItem
+							onClick={() => {
+								runAnalyze();
+							}}
+						>
+							Analyze
+						</MenubarItem>
 						<MenubarSeparator />
 						<MenubarItem
 							onClick={() => {

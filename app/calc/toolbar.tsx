@@ -6,7 +6,7 @@ interface ToolBarProps {
 	tool: string;
 	setTool: (tool: string) => void;
 	latencySelection: number[];
-	setLatencyChangeView: (value: boolean) => void;
+	setLatencyChangeView: (value: string) => void;
 	isLinking: boolean;
 	setIsLinking: (value: boolean) => void;
 }
@@ -50,25 +50,25 @@ const ToolBar: React.FC<ToolBarProps> = ({
 			<div className="font-light text-neutral-500 text-xs">TOOL SELECTION</div>
 			<div className="overflow-y-scroll flex flex-col gap-1 pr-1">
 				<div
-					className={`${commonCSS} border-sky-500 border-2 text-white bg-sky-700`}
+					className={`${commonCSS} border-sky-500 border-2 text-white bg-sky-700/50`}
 					onClick={() => setTool("cursor")}
 				>
 					CURSOR
 				</div>
 				<div
-					className={`${commonCSS} border-indigo-500 border-2 text-white bg-indigo-700`}
+					className={`${commonCSS} border-indigo-500 border-2 text-white bg-indigo-700/50`}
 					onClick={() => setTool("entry")}
 				>
 					ENTRY
 				</div>
 				<div
-					className={`${commonCSS} border-green-500 border-2 text-white bg-green-700`}
+					className={`${commonCSS} border-green-500 border-2 text-white bg-green-700/50`}
 					onClick={() => setTool("borehole")}
 				>
 					BOREHOLE
 				</div>
 				<div
-					className={`${commonCSS} border-pink-500 border-2 text-white bg-pink-700`}
+					className={`${commonCSS} border-pink-500 border-2 text-white bg-pink-700/50`}
 					onClick={() => setTool("eraser")}
 				>
 					ERASER
@@ -78,7 +78,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
 					className="h-18"
 					variant="outline"
 					onClick={() => {
-						setLatencyChangeView(true);
+						setLatencyChangeView("latencyChange");
 					}}
 				>
 					<p className="font-bold">

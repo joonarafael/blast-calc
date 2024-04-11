@@ -27,6 +27,7 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 		flex
 		items-center
 		justify-center
+		font-bold
 		p-2
 		cursor-pointer
 		${
@@ -38,7 +39,11 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 				? `bg-slate-500 hover:text-red-200 hover:bg-red-700`
 				: `hover:text-red-200 hover:bg-red-700 bg-transparent`
 		}
-		${status === 8 ? `border-neutral-500 border-1` : `border-neutral-500 border-2`}
+		${
+			status === 8
+				? `border-neutral-500 border-1`
+				: `border-neutral-500 border-2 text-white`
+		}
 		}
 		
 		`;
@@ -65,13 +70,7 @@ const BoreHole: React.FC<BoreHoleProps> = ({
 		<div onClick={handleClick} className={`${commonCSS} ${size}`}>
 			<div className="relative">
 				<div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
-					{status === 9 ? (
-						<p className="font-bold">{"E"}</p>
-					) : status === 10 ? (
-						<>{delay}</>
-					) : (
-						<></>
-					)}
+					{status === 9 ? <p>{"E"}</p> : status === 10 ? <>{delay}</> : <></>}
 				</div>
 			</div>
 		</div>

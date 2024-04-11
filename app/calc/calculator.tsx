@@ -7,8 +7,10 @@ import PageError from "@/app/components/pageerror";
 import { DEFAULT_LATENCY_SELECTION } from "@/constants/latencyselection";
 
 import generateAdjacencyList from "../algos/adjacency";
+import analyzeMaster from "../algos/analyze/analyze";
 import dijkstra from "../algos/dijkstra";
 import Container from "../components/container";
+import AnalyzeView from "./analyze";
 import LatencyChange from "./latencychange";
 import Matrix from "./matrix";
 import Menu from "./menu";
@@ -36,13 +38,14 @@ const Calculator: React.FC<CalculatorProps> = ({
 	prevFieldValues,
 	prevFieldDelays,
 }) => {
-	const [latencyChangeView, setLatencyChangeView] = useState(false);
+	const [appView, setAppView] = useState("calc");
 	const [isLinking, setIsLinking] = useState(true);
 	const [zoom, setZoom] = useState(4);
 	const [tool, setTool] = useState("cursor");
 	const [oldEntryValue, setOldEntryValue] = useState<number | null>(null);
 	const [selectedBoreHole, setSelectedBoreHole] = useState<number | null>(null);
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	const [analysis, setAnalysis] = useState<any>(null);
 	const [replacingToolView, setReplacingToolView] = useState(false);
 	const breakpoint = 1060;
 
@@ -306,15 +309,58 @@ const Calculator: React.FC<CalculatorProps> = ({
 		}
 	}, [fieldStatus, fieldValues, width, height]);
 
-	if (latencyChangeView) {
+	const runAnalyze = () => {
+		try {
+			const adjacencyList = generateAdjacencyList(fieldStatus, fieldValues);
+
+			const startIndex = twoDimIndexOf(fieldStatus, 9);
+
+			let delayMap = [];
+
+			if (startIndex !== -1) {
+				const dijkstraResult = dijkstra(adjacencyList, startIndex);
+
+				for (const key in dijkstraResult) {
+					if (dijkstraResult.hasOwnProperty(key)) {
+						const element = dijkstraResult[key];
+						const delay = element.distance;
+
+						const borehole = parseInt(key, 10);
+
+						delayMap.push({ borehole, delay });
+					}
+				}
+
+				const result = analyzeMaster(delayMap);
+				setAnalysis(result);
+
+				setAppView("analyze");
+			}
+		} catch (err) {
+			toast("Error analyzing the field.");
+			console.log(err);
+		}
+	};
+
+	if (appView === "latencyChange") {
 		return (
 			<Container>
 				<div className="flex justify-center mt-16">
 					<LatencyChange
 						latencySelection={latencySelection}
 						setLatencySelection={setLatencySelection}
-						setLatencyChangeView={setLatencyChangeView}
+						setLatencyChangeView={setAppView}
 					/>
+				</div>
+			</Container>
+		);
+	}
+
+	if (appView === "analyze") {
+		return (
+			<Container>
+				<div className="flex justify-center mt-16">
+					<AnalyzeView backToCalc={setAppView} delayGraph={analysis} />
 				</div>
 			</Container>
 		);
@@ -331,7 +377,7 @@ const Calculator: React.FC<CalculatorProps> = ({
 					zoom={zoom}
 					setZoom={setZoom}
 					resetField={resetField}
-					setLatencyChangeView={setLatencyChangeView}
+					setLatencyChangeView={setAppView}
 					debugStates={debugStates}
 					setSelectedBoreHole={setSelectedBoreHole}
 					setTool={setTool}
@@ -341,9 +387,10 @@ const Calculator: React.FC<CalculatorProps> = ({
 					replacingToolView={replacingToolView}
 					setReplacingToolView={setReplacingToolView}
 					savePlan={savePlan}
+					runAnalyze={runAnalyze}
 				/>
 				<div className="flex flex-row gap-4">
-					<div className="border rounded-lg w-5/6 h-[80svh] overflow-scroll bg-secondary">
+					<div className="border rounded-lg w-5/6 h-[80svh] overflow-scroll bg-secondary/50">
 						<div className="w-max">
 							<Matrix
 								field={field}
@@ -374,7 +421,7 @@ const Calculator: React.FC<CalculatorProps> = ({
 									setIsLinking={setIsLinking}
 									isLinking={isLinking}
 									latencySelection={latencySelection}
-									setLatencyChangeView={setLatencyChangeView}
+									setLatencyChangeView={setAppView}
 								/>
 							)}
 						</div>

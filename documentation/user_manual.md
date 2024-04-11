@@ -26,7 +26,7 @@ Biggest part of the screen layout is the actual field plan. It's a grid layout r
 
 **Configure Latency Selection**: Open the view to configure the latency selection for the active plan.
 
-**Analyze [unavailable]**: Analyze the field and create statistics.
+**Analyze**: Analyze the current field (circuit diagram), calculate delays, and create statistics.
 
 **Save Plan**: Save the current plan as a file and download it to your local machine for later use.
 

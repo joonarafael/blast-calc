@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from 'react';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { toast } from "sonner";
 
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 
 interface LatencyChangeProps {
 	latencySelection: number[];
 	setLatencySelection: (selection: number[]) => void;
-	setLatencyChangeView: (value: boolean) => void;
+	setLatencyChangeView: (value: string) => void;
 }
 
 const LatencyChange: React.FC<LatencyChangeProps> = ({
@@ -93,7 +93,7 @@ const LatencyChange: React.FC<LatencyChangeProps> = ({
 
 		handleSort();
 
-		setLatencyChangeView(false);
+		setLatencyChangeView("calc");
 	};
 
 	const handleRevertChanges = () => {
