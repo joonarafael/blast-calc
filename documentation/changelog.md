@@ -6,6 +6,7 @@
 
 | date  | ver   | desc                                   |
 | :---: | :---- | :------------------------------------- |
+| 23.4. | 0.1.5 | updated dependencies                   |
 | 11.4. | 0.1.4 | started work on the analysis algorithm |
 | 8.4.  | 0.1.3 | many visual improvements to UI         |
 | 8.4.  | 0.1.2 | more robust error handling to calc     |

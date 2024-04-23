@@ -1,6 +1,6 @@
 {
 	"name": "blast-calc",
-	"version": "beta-0.1.4",
+	"version": "beta-0.1.5",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
@@ -14,7 +14,6 @@
 		"@radix-ui/react-menubar": "^1.0.4",
 		"@radix-ui/react-select": "^2.0.0",
 		"@radix-ui/react-slot": "^1.0.2",
-		"@testing-library/dom": ">=7.21.4",
 		"@types/node": "^20.8.4",
 		"@types/react": "18.2.20",
 		"@types/react-dom": "18.2.7",
@@ -39,7 +38,8 @@
 		"typescript": "5.1.6"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "5.16.5",
+		"@testing-library/dom": ">=7.21.4",
+		"@testing-library/jest-dom": "^6.4.2",
 		"@testing-library/react": "^14.1.2",
 		"@testing-library/user-event": "^14.5.2",
 		"@types/object-path": "^0",
