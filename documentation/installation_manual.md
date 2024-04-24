@@ -1,6 +1,6 @@
 # INSTALLATION MANUAL
 
-This manual provides instructions for the cloning of the repository and the installation procedure to get this application running on your own local machine. If you're looking for the general user manual on how to use the [Live Application](https://blastcalc.vercel.app/ "Blastcalc Web Application") running on the dedicated web server, consult [this document](https://github.com/joonarafael/blast-calc/tree/main/documentation/user_manual.md "User Manual").
+This manual provides instructions for the cloning of the repository and the installation procedure to get this application running on your own local machine. If you're looking for the general user manual on how to use the [Live Application](https://blastcalc.pages.dev/ "Blast Calc Web Application") running on the dedicated web server, consult [this document](https://github.com/joonarafael/blast-calc/tree/main/documentation/user_manual.md "User Manual").
 
 **This installation manual describes the process for LINUX systems.** Users of other operating systems might need to consult other documentation to get the application running on their own local machine. However, the installation procedure should look largely similar to the one described here.
 
@@ -51,15 +51,15 @@ You may also continue to use NPM as your package manager (automatically installe
 Clone the repository to your local machine by executing
 
 ```
-git clone https://github.com/joonarafael/visualpathfinder.git
+git clone https://github.com/joonarafael/blast-calc.git
 ```
 
-You may also download the repository as a [ZIP folder](https://github.com/joonarafael/visualpathfinder/archive/refs/heads/main.zip "Download ZIP").
+You may also download the repository as a [ZIP folder](https://github.com/joonarafael/blast-calc/archive/refs/heads/main.zip "Download ZIP").
 
 Enter the repository with
 
 ```
-cd visualpathfinder
+cd blast-calc
 ```
 
 ## Install dependencies

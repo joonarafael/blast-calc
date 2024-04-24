@@ -1,6 +1,6 @@
 {
 	"name": "blast-calc",
-	"version": "beta-0.1.5",
+	"version": "beta-0.1.6",
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",

@@ -1,6 +1,6 @@
 # BLAST CALC
 
-The application is constantly running at [blastcalc.vercel.app](https://blastcalc.vercel.app/ "Blast Calc").
+The application is constantly up and running [here](https://blastcalc.pages.dev/ "Blast Calc") hosted by [Cloudflare](https://www.cloudflare.com/ "Cloudflare - Connect, protect and build everywhere").
 
 Check all the documentation, including the User Manual, [here](https://github.com/joonarafael/blast-calc/tree/main/documentation "Project Documentation Folder").
 
@@ -12,4 +12,4 @@ Users may also save their current plan and download it as a local file. Work on 
 
 ## Technical Details
 
-Application built with TypeScript utilizing the React *framework :)*, running on a Node.js server. Application logic is almost completely executed on the client machine to minimize server load.
+Application built with TypeScript utilizing the React _framework :)_, running on a Node.js server. Application logic is almost completely executed on the client machine to minimize server load.

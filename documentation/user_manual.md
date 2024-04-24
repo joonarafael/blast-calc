@@ -1,8 +1,6 @@
 # USER MANUAL
 
-## General
-
-N/A
+This manual details the correct use of the web application running constantly [here](https://blastcalc.pages.dev/ "Blast Calc Web Application"). If you're looking for a guide on how to clone this repository and get your own local server running, please consult [this document](https://github.com/joonarafael/blast-calc/tree/main/documentation/installation_manual.md "Installation Manual").
 
 ## Creating a New Plan
 
