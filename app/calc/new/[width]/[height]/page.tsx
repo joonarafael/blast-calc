@@ -4,6 +4,8 @@ import { fieldSizeValidation } from "@/app/validations/fieldsizevalidation";
 
 import NewPlanClient from "./newplanclient";
 
+export const runtime = "edge";
+
 interface IParams {
 	width?: number;
 	height?: number;
