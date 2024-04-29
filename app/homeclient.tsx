@@ -2,8 +2,8 @@
 
 // Client view for Home Page
 
-import Container from './components/container';
-import { Button } from './components/ui/button';
+import Container from "./components/container";
+import { Button } from "./components/ui/button";
 
 const HomeClient = () => {
 	return (
@@ -12,9 +12,7 @@ const HomeClient = () => {
 				<div className="max-w-screen-md items-center">
 					<div className="w-full flex flex-col gap-4 text-center mt-16">
 						<div className="font-bold text-6xl">BLAST CALC</div>
-						<div className="font-light text-neutral-500">
-							Joona Rafael Kettunen
-						</div>
+						<div className="font-light text-neutral-500">Joona Kettunen</div>
 						<hr />
 						<div className="font-light text-yellow-500 max-w-[500px]">
 							<p>

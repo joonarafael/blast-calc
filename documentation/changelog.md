@@ -6,6 +6,7 @@
 
 | date  | ver   | desc                                   |
 | :---: | :---- | :------------------------------------- |
+| 29.4. | 0.1.7 | full name too cringe on home page      |
 | 24.4. | 0.1.6 | changed to Cloudflare                  |
 | 23.4. | 0.1.5 | updated dependencies                   |
 | 11.4. | 0.1.4 | started work on the analysis algorithm |
