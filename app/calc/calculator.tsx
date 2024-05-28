@@ -23,6 +23,8 @@ import initConnection from "./supports/initconnection";
 import replaceOldEntry from "./supports/replaceoldentry";
 import ToolBar from "./toolbar";
 
+const BREAKPOINT = 1060;
+
 interface CalculatorProps {
 	width: number;
 	height: number;
@@ -38,6 +40,10 @@ const Calculator: React.FC<CalculatorProps> = ({
 	prevFieldValues,
 	prevFieldDelays,
 }) => {
+	window.onbeforeunload = function () {
+		return "Are you sure you want to leave?";
+	};
+
 	const [appView, setAppView] = useState("calc");
 	const [isLinking, setIsLinking] = useState(true);
 	const [zoom, setZoom] = useState(4);
@@ -47,7 +53,26 @@ const Calculator: React.FC<CalculatorProps> = ({
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 	const [analysis, setAnalysis] = useState<any>(null);
 	const [replacingToolView, setReplacingToolView] = useState(false);
-	const breakpoint = 1060;
+
+	document.addEventListener("keydown", function (event) {
+		if (event.key === "+") {
+			event.preventDefault();
+
+			if (zoom < 6) {
+				setZoom(zoom + 1);
+			}
+		}
+	});
+
+	document.addEventListener("keydown", function (event) {
+		if (event.key === "-") {
+			event.preventDefault();
+
+			if (zoom > 1) {
+				setZoom(zoom - 1);
+			}
+		}
+	});
 
 	useEffect(() => {
 		const handleResizeWindow = () => setWindowWidth(window.innerWidth);
@@ -366,7 +391,7 @@ const Calculator: React.FC<CalculatorProps> = ({
 		);
 	}
 
-	if (windowWidth < breakpoint) {
+	if (windowWidth < BREAKPOINT) {
 		return <PageError message={"Window width of 1060px required."} />;
 	}
 

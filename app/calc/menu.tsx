@@ -211,8 +211,12 @@ const Menu: React.FC<MenuProps> = ({
 				<MenubarMenu>
 					<MenubarTrigger>View</MenubarTrigger>
 					<MenubarContent>
-						<MenubarItem onClick={zoomIn}>Zoom In</MenubarItem>
-						<MenubarItem onClick={zoomOut}>Zoom Out</MenubarItem>
+						<MenubarItem onClick={zoomIn}>
+							Zoom In<MenubarShortcut>+</MenubarShortcut>
+						</MenubarItem>
+						<MenubarItem onClick={zoomOut}>
+							Zoom Out<MenubarShortcut>-</MenubarShortcut>
+						</MenubarItem>
 						<MenubarSeparator />
 						<MenubarItem onClick={zoomMin}>Zoom Minimum</MenubarItem>
 						<MenubarItem onClick={zoomMax}>Zoom Maximum</MenubarItem>

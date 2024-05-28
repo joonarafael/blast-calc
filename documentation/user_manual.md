@@ -48,9 +48,9 @@ Biggest part of the screen layout is the actual field plan. It's a grid layout r
 
 ### View
 
-**Zoom In**: Increase the Zoom level by 1.
+**Zoom In**: Increase the Zoom level by 1. You may also just press '+' on your keyboard.
 
-**Zoom Out**: Decrease the Zoom level by 1.
+**Zoom Out**: Decrease the Zoom level by 1. You may also just press '-' on your keyboard.
 
 **Zoom Minimum**: Zoom as far out as possible.
 
