@@ -360,6 +360,8 @@ const Calculator: React.FC<CalculatorProps> = ({
 				setAnalysis(result);
 
 				setAppView("analyze");
+			} else {
+				toast("No entry borehole found!");
 			}
 		} catch (err) {
 			toast("Error analyzing the field.");

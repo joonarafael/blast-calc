@@ -1,5 +1,7 @@
 "use client";
 
+import { checkSequential } from "./checksequential";
+
 export default function analyzeMaster(
 	delayMap: { borehole: number; delay: number }[]
 ) {
@@ -30,6 +32,8 @@ export default function analyzeMaster(
 			count: delayCounts[i],
 		});
 	}
+
+	const sequentialCheckResult = checkSequential(delayGraph);
 
 	return delayGraph;
 }
